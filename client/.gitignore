@@ -1,0 +1,8 @@
+/node_modules
+
+/coverage
+#!coverage.clover.xml
+
+/build
+
+.env
