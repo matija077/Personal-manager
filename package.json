@@ -4,6 +4,10 @@
     "description": "Playground for testing React with both Redux and Context",
     "main": "index.js",
     "scripts": {
+        "client": "cd client && npm start",
+        "server": "nodemon server.js",
+        "dev": "",
+        "build": "cd client && npm run build",
         "start": ""
     },
     "keywords": [
@@ -15,6 +19,10 @@
     ],
     "author": "Matija Prša",
     "license": "ISC",
-    "dependencies": {},
-    "devDependencies": {}
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.6"
+    }
 }

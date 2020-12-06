@@ -1,6 +1,7 @@
 {
     "scripts": {
-        "start": ""
+        "start": "webpack-dev-server -mode development --open --hot",
+        "build": ""
     },
     "dependencies": {
         "react": "^17.0.1",

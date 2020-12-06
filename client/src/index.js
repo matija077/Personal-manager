@@ -2,4 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-console.log("working");
+ReactDOM.render(
+    <main>HEllo there</main>,
+    document.getElementById("root")
+);
