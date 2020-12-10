@@ -16,6 +16,5 @@ var port = process.env.PORT || PORT;
 app.listen(port, function running(error) {
     if (error) {
         console.log(error);
-        throw error;
     }
 })
