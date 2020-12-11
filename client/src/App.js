@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 
 import ErrorBoundary from './components/errorBoundary';
+import HomePage from './pages/home/home.page';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
         <ErrorBoundary>
             <main className="main">
                 Hello There
+                <HomePage></HomePage>
             </main>
         </ErrorBoundary>
     );
