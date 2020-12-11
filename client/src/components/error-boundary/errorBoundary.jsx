@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 
 var errorImportString = `../pages/error.page`;
+import ErrorPage from '../../pages/home/error/error.page';
 
 class ErrorBoundary extends React.Component {
     constructor() {
@@ -30,8 +31,7 @@ class ErrorBoundary extends React.Component {
         var { children } = this.props;
 
         if (error) {
-            var ErrorPage;
-            //ErrorPage = React.lazy(() => import(errorImportString));
+            //var ErrorPage = React.lazy(() => import(errorImportString));
             return (
                 <Suspense
                     fallback={<article>Loading</article>}
