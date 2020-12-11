@@ -11,7 +11,8 @@ var exports = {
         filename: 'index.bundle.js'
     },
     devServer: {
-        open: true
+        open: true,
+        compress: true
     },
     module: {
         rules: [
