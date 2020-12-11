@@ -13,7 +13,7 @@ class ErrorBoundary extends React.Component {
 
     static getDerivedStateFromError(error) {
         console.log(error);
-        console.log(" tu sam");
+        // console.log(" tu sam");
         return {
             error
         };
@@ -22,13 +22,12 @@ class ErrorBoundary extends React.Component {
     componentDidCatch(error, info) {
         console.log(error);
         console.log(info);
-        console.log(" tu sam");
+        // console.log(" tu sam");
     }
 
     render() {
         var { error } = this.state;
         var { children } = this.props;
-        console.log(children);
 
         if (error) {
             var ErrorPage;

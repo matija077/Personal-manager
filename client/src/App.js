@@ -2,12 +2,17 @@ import React from 'react';
 
 import './App.css';
 
+import ErrorBoundary from './components/errorBoundary';
+
 function App() {
+    //throw new Error;
 
     return(
-        <main className="main">
-            Hello There
-        </main>
+        <ErrorBoundary>
+            <main className="main">
+                Hello There
+            </main>
+        </ErrorBoundary>
     );
 }
 
