@@ -12,7 +12,8 @@ var exports = {
     },
     devServer: {
         open: true,
-        compress: true
+        compress: true,
+        hot: true
     },
     module: {
         rules: [
