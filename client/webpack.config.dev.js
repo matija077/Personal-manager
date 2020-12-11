@@ -2,12 +2,16 @@ var HtmlWebPackPlugin = require('html-webpack-plugin');
 var path = require("path");
 
 var exports = {
+    mode: 'development',
     entry: {
         index: './src/index.js'
     },
     output: {
         path: path.resolve(__dirname + "/build"),
         filename: 'index.bundle.js'
+    },
+    devServer: {
+        open: true
     },
     module: {
         rules: [
@@ -25,6 +29,7 @@ var exports = {
             },
         ]
     },
+    devtool: 'inline-source-map',
     plugins: [
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname + '/public/index.html')

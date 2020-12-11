@@ -5,7 +5,6 @@ import './App.css';
 import ErrorBoundary from './components/errorBoundary';
 
 function App() {
-    //throw new Error;
 
     return(
         <ErrorBoundary>

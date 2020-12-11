@@ -1,8 +1,7 @@
 {
     "scripts": {
-        "start": "webpack serve  --open --hot --port 5000",
-        "start2": "webpack-dev-server -mode development --open --hot",
-        "build": "webpack --json=compilation-stats.json --profile --config webpack.config.js"
+        "start": "webpack serve --port 5000 --config webpack.config.dev.js",
+        "build": "webpack --json=compilation-stats.json --profile --config webpack.config.prod.js"
     },
     "dependencies": {
         "react": "^17.0.1",
