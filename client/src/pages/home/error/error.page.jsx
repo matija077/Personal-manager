@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useRef} from 'react';
+
+import { ErrorStyles } from './error.styles';
 
 function ErrorPage({ error }) {
-    console.log(error);
+    var backgroundImageUrl = `url(${window.document.URL}error.png)`;
+
     return (
-        <article
-            className="errorArticle"
-            style={{backgroundImage: "url('../assets/error.png')"}}
-            >
-        </article>
+        <ErrorStyles
+            backgroundImageUrl = {backgroundImageUrl}
+        >
+            {
+                JSON.stringify(error)
+            }
+        </ErrorStyles>
     );
 }
 

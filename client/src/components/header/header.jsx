@@ -4,13 +4,15 @@ import {} from './header.styles';
 
 function Header() {
 
-    return (
+    /*return (
         "header component"
-    );
+    );*/
 
 }
 
 export default Header;
 
 // assets
-// GlboalStyels msut be nclosed btu nto by errorBoudnary
+// assets/type
+// add copyplugin
+//

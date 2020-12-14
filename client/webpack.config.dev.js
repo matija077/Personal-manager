@@ -1,4 +1,5 @@
 var HtmlWebPackPlugin = require('html-webpack-plugin');
+var CopyPlugin = require("copy-webpack-plugin");
 var path = require("path");
 
 var exports = {
@@ -13,7 +14,8 @@ var exports = {
     devServer: {
         open: true,
         compress: true,
-        hot: true
+        hot: true,
+        writeToDisk: true,
     },
     module: {
         rules: [
@@ -29,12 +31,21 @@ var exports = {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader']
             },
+            {
+                test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                type: 'assets/resource'
+            }
         ]
     },
     devtool: 'inline-source-map',
     plugins: [
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname + '/public/index.html')
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: "./src/assets", to: "./" },
+            ]
         })
     ]
 };
