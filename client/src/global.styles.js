@@ -3,10 +3,8 @@ import { createGlobalStyle  } from 'styled-components';
 var GlobalStyle = createGlobalStyle`
     body{
         background-color: brown;
-    }
-
-    .main {
-
+        padding: 0;
+        margin: 0;
     }
 `;
 
