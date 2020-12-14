@@ -4,7 +4,7 @@ var path = require("path");
 var exports = {
     mode: 'development',
     entry: {
-        index: './src/index.js'
+        index: './src/index.tsx'
     },
     output: {
         path: path.resolve(__dirname + "/build"),
@@ -13,31 +13,28 @@ var exports = {
     devServer: {
         open: true,
         compress: true,
-        hot: true
+        hot: true,
     },
     module: {
         rules: [
             {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                use: ['ts-loader']
+            },
+            {
                 test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                use: ['babel-loader'],
-                resolve: {
-                    extensions: ['.js', '.jsx']
-                }
+                use: ['babel-loader']
             },
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.tsx$/,
-                use: ['ts-loader'],
-                exclude: /node_modules/,
-                resolve: {
-                    extensions: ['.tsx', 'ts', 'js']
-                }
             }
         ]
+    },
+    resolve: {
+        extensions: ['.tsx', 'ts', 'js', 'jsx']
     },
     devtool: 'inline-source-map',
     plugins: [
