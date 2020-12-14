@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "webpack serve --port 5000 --config webpack.config.dev.js",
-        "build": "webpack --json=compilation-stats.json --profile --config webpack.config.prod.js"
+        "build": "webpack --json=compilation-stats.json --profile --config webpack.config.dev.js"
     },
     "dependencies": {
         "react": "^17.0.1",
@@ -20,7 +20,7 @@
         "style-loader": "^2.0.0",
         "ts-loader": "^8.0.12",
         "typescript": "^4.1.2",
-        "webpack": "^5.10.0",
+        "webpack": "^5.10.1",
         "webpack-cli": "^4.2.0",
         "webpack-dev-server": "^3.11.0"
     }

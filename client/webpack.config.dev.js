@@ -10,23 +10,20 @@ var exports = {
         path: path.resolve(__dirname + "/build"),
         filename: 'index.bundle.js'
     },
-    devServer: {
+
+    serve: {
         open: true,
         compress: true,
-        hot: true,
+        hot: true
     },
     module: {
         rules: [
             {
                 test: /\.(ts|tsx)$/,
                 exclude: /node_modules/,
-                use: ['ts-loader']
+                use: ['babel-loader','ts-loader'],
             },
-            {
-                test: /\.(js|jsx)$/,
-                exclude: /node_modules/,
-                use: ['babel-loader']
-            },
+
             {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader']
@@ -36,12 +33,26 @@ var exports = {
     resolve: {
         extensions: ['.tsx', 'ts', 'js', 'jsx']
     },
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     plugins: [
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname + '/public/index.html')
         })
     ]
 };
+
+/*
+{
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: ['babel-loader']
+            },
+
+            devServer: {
+        open: true,
+        compress: true,
+        hot: true,
+    },
+            */
 
 Object.assign(module.exports, exports);
