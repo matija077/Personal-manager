@@ -9,7 +9,7 @@ var exports = {
     },
     output: {
         path: path.resolve(__dirname + "/build"),
-        filename: 'index.bundle.js'
+        filename: 'index.bundle.js',
     },
     devServer: {
         open: true,
@@ -32,8 +32,18 @@ var exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
-                test: /\.(png|svg|jpg|jpeg|gif)$/i,
-                type: 'assets/resource'
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                use: [
+                    'file-loader', {
+                        loader: "file-loader",
+                        options: {
+                            outputPath: 'assets',
+                            name: '[name].[ext]'
+                        }
+
+                    },
+                    
+                ]  
             }
         ]
     },
@@ -41,13 +51,15 @@ var exports = {
     plugins: [
         new HtmlWebPackPlugin({
             template: path.resolve(__dirname + '/public/index.html')
-        }),
-        new CopyPlugin({
+        })
+        
+    ]
+};
+
+/*new CopyPlugin({
             patterns: [
                 { from: "./src/assets", to: "./" },
             ]
-        })
-    ]
-};
+        })*/
 
 Object.assign(module.exports, exports);
