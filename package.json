@@ -4,10 +4,10 @@
     "description": "Playground for testing React with both Redux and Context",
     "main": "index.js",
     "scripts": {
-        "client": "cd client && npm start",
+        "client": "cd new_client && npm start",
         "server": "nodemon server.js",
         "dev": "npm-run-all --parallel server client",
-        "build": "cd client && npm run build",
+        "build": "cd new_client && npm run build",
         "start": ""
     },
     "keywords": [
