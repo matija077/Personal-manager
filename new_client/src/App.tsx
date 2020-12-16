@@ -10,14 +10,14 @@ function App() {
 
     return(
         <ErrorBoundary>
-            <div>
+            <React.Fragment>
                 <GlobalStyles />
                 <Header>
 
                 </Header>
                 <HomePage>
                 </HomePage>
-            </div>
+            </React.Fragment>
         </ErrorBoundary>
     );
 }
