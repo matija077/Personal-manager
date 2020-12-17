@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 
-//var errorImportString = `../pages/error.page`;
+// var errorImportString = `../pages/error.page`;
 import ErrorPage from '../../pages/error/error.page';
 
 class ErrorBoundary extends React.Component {
@@ -8,13 +8,11 @@ class ErrorBoundary extends React.Component {
         super();
 
         this.state = {
-            error: null
+            'error': null
         };
-    };
+    }
 
     static getDerivedStateFromError(error) {
-        console.log(error);
-        // console.log(" tu sam");
         return {
             error
         };
@@ -23,7 +21,6 @@ class ErrorBoundary extends React.Component {
     componentDidCatch(error, info) {
         console.log(error);
         console.log(info);
-        // console.log(" tu sam");
     }
 
     render() {
@@ -38,10 +35,9 @@ class ErrorBoundary extends React.Component {
                 >
                     <ErrorPage
                         error={error}
-                    >
-                    </ErrorPage>
+                    / >
                 </Suspense>
-            )
+            );
         } else {
             return (
                 {...children}

@@ -2,11 +2,11 @@ import React from 'react';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
-import Header from './components/header/header';
+import Header from './components/header/RHeader';
 
 import GlobalStyles from './global.styles';
 
-function App() {
+function RApp() {
 
     return(
         <ErrorBoundary>
@@ -22,4 +22,4 @@ function App() {
     );
 }
 
-export default App;
+export default RApp;
