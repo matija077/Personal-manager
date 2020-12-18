@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { Provider } from 'react-redux';
+
+import store from './redux/store';
+
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
 import Header from './components/header/RHeader';
@@ -10,14 +14,16 @@ function RApp() {
 
     return(
         <ErrorBoundary>
-            <React.Fragment>
-                <GlobalStyles />
-                <Header>
+            <Provider store={store}>
+                <React.Fragment>
+                    <GlobalStyles />
+                    <Header>
 
-                </Header>
-                <HomePage>
-                </HomePage>
-            </React.Fragment>
+                    </Header>
+                    <HomePage>
+                    </HomePage>
+                </React.Fragment>
+            </Provider>
         </ErrorBoundary>
     );
 }
