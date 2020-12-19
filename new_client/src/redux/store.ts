@@ -16,4 +16,6 @@ var store = createStore(
     applyMiddleware(...middlewares)
 );
 
+export type DispatchType = typeof store.dispatch;
+
 export default store;

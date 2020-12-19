@@ -1,11 +1,11 @@
-import RootActionTypes, { RootState, RootAction } from './test-reducer.types'
+import RootActionTypes, { TestState, RootAction } from './test-reducer.types'
 
-var initialState: RootState  = {
-    testState: "",
-    useless: null
+var initialState: TestState  = {
+    testState: "TEST",
+    useless: true
 }
 
-function testReducer(state: RootState = initialState, action: RootAction): RootState {
+function testReducer(state: TestState = initialState, action: RootAction): TestState {
     switch (action.type) {
         case RootActionTypes.CHANGE_TEST:
             return {

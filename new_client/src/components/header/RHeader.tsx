@@ -1,17 +1,28 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState } from 'react';
+import { connect, useDispatch, useSelector, useStore } from 'react-redux';
 
 // import {} from './header.styles';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
 import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
-import { RootState } from '../../redux/test-reducer/test-reducer.types';
+import { TestState } from '../../redux/test-reducer/test-reducer.types';
+import { DispatchType } from '../../redux/store';
+import { RootState } from '../../redux/root-reducer';
 
 interface Props {
 
 }
 
-function Header(props: Props) {
+function Header(props: any) {
+    var testState = useSelector(getTestState);
+    var exists = useSelector(getUseless);
+    var dispatch = useDispatch();
+    function changeTest(text: string) {
+        dispatch(changeTest(text));
+    }
+    console.log(testState);
+    console.log(exists);
+
 
     return (
         <div>
@@ -22,7 +33,7 @@ function Header(props: Props) {
                testState
             }
             {
-               exists
+                exists
             }
         </div>
     );
@@ -34,7 +45,7 @@ interface HeaderState {
 }
 
 interface HeaderProps {
-    changeTest: () => {}
+    changeTest: () => void
 }
 
 var mapStateToProps = (state: RootState, ownProps: HeaderProps) => {
@@ -44,10 +55,11 @@ var mapStateToProps = (state: RootState, ownProps: HeaderProps) => {
     }
 };
 
-var mapDispatchToProps = (dispatch: any, ownProps: HeaderProps) => {
+var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderProps) => {
     return {
-        changeTestState: (text: string) => dispatch(changeTest(text))
+        changeTestState: (text: string):any => dispatch(changeTest(text)),
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+//export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default Header;

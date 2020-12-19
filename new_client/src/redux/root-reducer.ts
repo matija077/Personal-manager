@@ -3,7 +3,9 @@ import { combineReducers } from 'redux';
 import testReducer  from './test-reducer/test-reducer';
 
 var rootReducer = combineReducers({
-    testReducer
+    test: testReducer
 });
+
+export type RootState = ReturnType<typeof rootReducer>;
 
 export default rootReducer;
