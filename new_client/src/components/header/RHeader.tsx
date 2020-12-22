@@ -9,7 +9,7 @@ import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 
-interface Props {
+type Props = {
 
 }
 
@@ -40,11 +40,11 @@ function Header(props: any) {
 
 }
 
-interface HeaderState {
+type HeaderState = {
     testState: string
 }
 
-interface HeaderProps {
+type HeaderProps = {
     changeTest: () => void
 }
 

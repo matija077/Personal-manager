@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route
+} from 'react-router-dom';
+
 import { Provider } from 'react-redux';
 
 import store from './redux/store';
@@ -14,16 +20,24 @@ function RApp() {
 
     return(
         <ErrorBoundary>
-            <Provider store={store}>
-                <React.Fragment>
-                    <GlobalStyles />
-                    <Header>
+            <React.StrictMode>
+                <Provider store={store}>
+                    <Router>
+                        <React.Fragment>
+                            <GlobalStyles />
 
-                    </Header>
-                    <HomePage>
-                    </HomePage>
-                </React.Fragment>
-            </Provider>
+                            <Header />
+
+                            <Switch>
+                                <Route exact path="/">
+                                    <HomePage>
+                                    </HomePage>
+                                </Route>
+                            </Switch>
+                        </React.Fragment>
+                    </Router>
+                </Provider>
+            </React.StrictMode>
         </ErrorBoundary>
     );
 }
