@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 
 import {
     BrowserRouter as Router,
@@ -12,10 +12,11 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
-import {default as Summary} from './pages/summary/Rsummary.page';
 import Header from './components/header/RHeader';
 
 import GlobalStyles from './global.styles';
+
+var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 
 function RApp() {
 
@@ -35,8 +36,10 @@ function RApp() {
                                     </HomePage>
                                 </Route>
                                 <Route path="/summary">
-                                    <Summary>
-                                    </Summary>
+                                    <Suspense fallback="Loading">
+                                        <Summary>
+                                        </Summary>
+                                    </Suspense>
                                 </Route>
                             </Switch>
                         </React.Fragment>
