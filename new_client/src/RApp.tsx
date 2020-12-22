@@ -41,6 +41,10 @@ function RApp() {
                                         </Summary>
                                     </Suspense>
                                 </Route>
+                                <Route>
+                                    <HomePage>
+                                    </HomePage>
+                                </Route>
                             </Switch>
                         </React.Fragment>
                     </Router>
