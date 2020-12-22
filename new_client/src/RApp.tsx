@@ -12,6 +12,7 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
+import {default as Summary} from './pages/summary/Rsummary.page';
 import Header from './components/header/RHeader';
 
 import GlobalStyles from './global.styles';
@@ -32,6 +33,10 @@ function RApp() {
                                 <Route exact path="/">
                                     <HomePage>
                                     </HomePage>
+                                </Route>
+                                <Route path="/summary">
+                                    <Summary>
+                                    </Summary>
                                 </Route>
                             </Switch>
                         </React.Fragment>
