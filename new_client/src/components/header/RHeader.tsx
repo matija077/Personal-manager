@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { connect, useDispatch, useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-// import {} from './header.styles';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
 import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
 import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
+import Header from './Header';
 
 type Props = {
 
 }
 
-function Header(props: any) {
+function HeaderContainer(props: any) {
     var testState = useSelector(getTestState);
     var exists = useSelector(getUseless);
     var dispatch = useDispatch();
@@ -25,19 +25,12 @@ function Header(props: any) {
 
 
     return (
-        <div>
-            <div>
-                "header component"
-            </div>
-            {
-               testState
-            }
-            {
-                exists
-            }
-        </div>
+        <Header
+            testState={testState}
+            exist={exists}
+        >
+        </Header>
     );
-
 }
 
 type HeaderState = {
@@ -62,4 +55,4 @@ var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderProps) => {
 };
 
 //export default connect(mapStateToProps, mapDispatchToProps)(Header);
-export default Header;
+export default HeaderContainer;

@@ -12,7 +12,7 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
-import Header from './components/header/RHeader';
+import { default as Header } from './components/header/RHeader';
 
 import GlobalStyles from './global.styles';
 
