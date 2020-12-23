@@ -5,6 +5,7 @@ import {
 
 
 function Header(props: any) {
+    var userName = "";
 
     return(
         <HeaderStyles>
@@ -27,7 +28,9 @@ function Header(props: any) {
                 Chess
             </HeaderItemStyles>
             <HeaderItemStyles to="/Login">
-                Login
+                {
+                    userName ?? "Login"
+                }
             </HeaderItemStyles>
         </HeaderStyles>
     );
