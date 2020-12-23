@@ -11,6 +11,8 @@ var HeaderStyles = styled.main`
 
 var HeaderItemStyles = styled(Link)`
     cursor: pointer;
+    color: inherit;
+    text-decoration: none;
 `;
 
 export {

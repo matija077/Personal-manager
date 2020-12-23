@@ -3,33 +3,30 @@ import {
     HeaderItemStyles
 } from './header.styles';
 
+
 function Header(props: any) {
-    console.log(props);
-    function handler(event: any) {
-        console.log(event);
-    }
 
     return(
         <HeaderStyles>
-            <HeaderItemStyles as="section" to="/">
+            <HeaderItemStyles to="/">
                 Home
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/summary" onClick={handler}>
+            <HeaderItemStyles to="/summary">
                 Summary
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/Resource">
+            <HeaderItemStyles to="/Resource">
                 Resource
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/Clock">
+            <HeaderItemStyles to="/Clock">
                 Clock
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/Tasks">
+            <HeaderItemStyles to="/Tasks">
                 Tasks
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/Chess">
+            <HeaderItemStyles to="/Chess">
                 Chess
             </HeaderItemStyles>
-            <HeaderItemStyles as="section" to="/Login">
+            <HeaderItemStyles to="/Login">
                 Login
             </HeaderItemStyles>
         </HeaderStyles>
