@@ -13,6 +13,7 @@ import store from './redux/store';
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
 import Header from './components/header/RHeader';
+import Spinner from './components/spinner/spinner.component';
 
 import GlobalStyles from './global.styles';
 
@@ -36,9 +37,8 @@ function RApp() {
                                     </HomePage>
                                 </Route>
                                 <Route path="/summary">
-                                    <Suspense fallback="Loading">
-                                        <Summary>
-                                        </Summary>
+                                    <Suspense fallback={<Spinner></Spinner>}>
+                                        <Summary></Summary>
                                     </Suspense>
                                 </Route>
                                 <Route>

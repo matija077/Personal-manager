@@ -1,14 +1,16 @@
-
 import Spinner from './spinner.component';
 
-function withSpinner(component: React.Component) {
+function withSpinnerContainer(Component: React.ElementType): React.ElementType {
+    return function SpinnerContainer({ isLoading, ...otherProps }) {
 
-    return (
-        <Spinner>
+        return (
+            isLoading ?
+                <Spinner />
+            :
+                (<Component {...otherProps}></Component>)
 
-        </Spinner>
-    );
-
+        );
+    }
 }
 
-export default withSpinner;
+export default withSpinnerContainer;
