@@ -1,11 +1,12 @@
 
-import { SpinnerStyles } from './spinner.styles';
+import { SpinnerStyles, SpinnerStylesContainer } from './spinner.styles';
 
 function Spinner(props: any) {
     return (
-    <SpinnerStyles>
-        Loading
-    </SpinnerStyles>
+    <SpinnerStylesContainer>
+        <SpinnerStyles>
+        </SpinnerStyles>
+    </SpinnerStylesContainer>
     );
 }
 

@@ -14,10 +14,13 @@ import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
 import Header from './components/header/RHeader';
 import Spinner from './components/spinner/spinner.component';
+import WithSpinner from './components/spinner/spinnerContainer.component';
 
 import GlobalStyles from './global.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
+
+var WithSpinnerContainer = WithSpinner(Summary);
 
 function RApp() {
 
@@ -38,7 +41,7 @@ function RApp() {
                                 </Route>
                                 <Route path="/summary">
                                     <Suspense fallback={<Spinner></Spinner>}>
-                                        <Summary></Summary>
+                                        <WithSpinnerContainer isLoading="true"></WithSpinnerContainer>
                                     </Suspense>
                                 </Route>
                                 <Route>
