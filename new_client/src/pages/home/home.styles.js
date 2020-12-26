@@ -7,7 +7,7 @@ var MainStyles = styled.main`
     margin: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-between;
 `;
 
 export {

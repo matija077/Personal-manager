@@ -14,7 +14,6 @@ function HomePage(props: Props) {
 
     return(
         <MainStyles>
-            "this is Home Page"
             <QuoteContainer />
             <TodaysTasksContainer />
             <SummaryContainer />
