@@ -5,6 +5,9 @@ var MainStyles = styled.main`
     height: 100vh;
     padding: 20px 10px;
     margin: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 `;
 
 export {
