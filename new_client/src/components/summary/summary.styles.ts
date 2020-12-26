@@ -1,11 +1,12 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { homePageSectionContainerStyles } from '../reusable styles';
 
-var TodaysTasksStyles = styled.section`
+
+var SummaryContainerStyles = styled.section`
     ${homePageSectionContainerStyles}
 `;
 
 export {
-    TodaysTasksStyles
-};
+    SummaryContainerStyles
+}

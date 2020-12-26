@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
+import { homePageSectionContainerStyles } from '../reusable styles';
+
 var QuoteContainerStyles = styled.section`
-    background-color: blue;
-    border: 0.5vw solid;
-    border-radius: 10%;
+    ${homePageSectionContainerStyles}
 `;
 
 var QuoteStyles = styled.blockquote`
