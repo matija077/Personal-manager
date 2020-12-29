@@ -40,5 +40,3 @@ function running(error) {
         console.log(error);
     }
 }
-
-//app.listen(port, running);
