@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -9,6 +9,7 @@ import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
 import { login } from '../../redux/utils';
+import { onAuthStateChanged } from '../../redux/utils.firebase';
 
 type Props = {
 
@@ -26,7 +27,6 @@ var initialUser: userType =  {
     password: "123456"
 }
 
-
 function HeaderContainer(props: any) {
     var testState = useSelector(getTestState);
     var exists = useSelector(getUseless);
@@ -36,15 +36,43 @@ function HeaderContainer(props: any) {
     }
     var [user, setUserObject] = useState<userType>(initialUser);
     let {userName = "", email = "", password = ""} = user;
+    useCallback(
+        setUserObjectHOC,
+        [userName]
+    );
+
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
             console.log("userprofile");
         } else {
-            login(email, password);
+            login(email, password).
+            then(function resolved(result: any) {
+                console.log(result);
+                setUserObjectHOC(result.user.displayName);
+            }).
+            catch(function rejected(error: PromiseRejectedResult) {
+
+            });
         }
     }
 
+    function setUserObjectHOC(userNameFirebase: string) {
+        setUserObject({
+            ...user,
+            userName: userNameFirebase
+        })
+        console.log(userNameFirebase);
+    }
+
+    function onAuthStateChangedCallback(userNameFirebase: string): void {
+        userName = userNameFirebase;
+        setUserObjectHOC(userName);
+    }
+
+    function onAuthStateChanged(onAuthStateChangedCallback: any) {
+
+    };
 
     return (
         <Header

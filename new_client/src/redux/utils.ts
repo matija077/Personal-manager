@@ -1,21 +1,9 @@
-import firebase from 'firebase/app';
+import {auth, googleProvider} from './utils.firebase';
 
-import 'firebase/auth';
-
-const firebaseConfig = {
-    apiKey: "AIzaSyB8bB1HJ2NPOSAKXwzKbruKyAPmK0iTOkY",
-    authDomain: "personalapp-7f303.firebaseapp.com",
-    projectId: "personalapp-7f303",
-    storageBucket: "personalapp-7f303.appspot.com",
-    messagingSenderId: "828360181199",
-    appId: "1:828360181199:web:fb9fbf09dbb843a4a7beba"
+type loginReturnType = {
+    success: Boolean,
+    userName: string
 };
-
-firebase.initializeApp(firebaseConfig);
-
-var auth = firebase.auth();
-var googleProvider = new firebase.auth.GoogleAuthProvider();
-googleProvider.setCustomParameters({ prompt: 'select_account'});
 
 function login(
     email: string,
@@ -23,18 +11,9 @@ function login(
 ): any {
     console.log("login");
 
-    auth.signInWithEmailAndPassword(email, password).
-        then(function resolved(result: any) {
-            console.log(result);
-        }).
-        catch(function rejected(error: PromiseRejectedResult) {
-
-            throw error;
-        })
+    return auth.signInWithEmailAndPassword(email, password)
 }
 
 export {
     login,
-    auth,
-    googleProvider
 };
