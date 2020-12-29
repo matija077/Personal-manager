@@ -14,6 +14,17 @@ type Props = {
 
 }
 
+type userType = {
+    userName: string,
+    email: string,
+    password: string
+};
+
+var initialUser: userType =  {
+    userName: "",
+    email: "matija.prs@gmail.com",
+    password: "123456"
+}
 
 
 function HeaderContainer(props: any) {
@@ -23,13 +34,14 @@ function HeaderContainer(props: any) {
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
-    var [userName, setUserName] = useState("");
+    var [user, setUserObject] = useState<userType>(initialUser);
+    let {userName = "", email = "", password = ""} = user;
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
             console.log("userprofile");
         } else {
-            login();
+            login(email, password);
         }
     }
 
