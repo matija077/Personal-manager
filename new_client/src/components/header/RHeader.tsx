@@ -8,10 +8,13 @@ import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
+import { login } from '../../redux/utils';
 
 type Props = {
 
 }
+
+
 
 function HeaderContainer(props: any) {
     var testState = useSelector(getTestState);
@@ -20,35 +23,44 @@ function HeaderContainer(props: any) {
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
-    console.log(testState);
-    console.log(exists);
+    var [userName, setUserName] = useState("");
+
+    function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
+        if (userName) {
+            console.log("userprofile");
+        } else {
+            login();
+        }
+    }
 
 
     return (
         <Header
             testState={testState}
             exist={exists}
+            userName={userName}
+            userNameLoginHandler={userNameLoginHandler}
         >
         </Header>
     );
 }
 
-type HeaderState = {
+type HeaderContainerState = {
     testState: string
 }
 
-type HeaderProps = {
+type HeaderContainerProps = {
     changeTest: () => void
 }
 
-var mapStateToProps = (state: RootState, ownProps: HeaderProps) => {
+var mapStateToProps = (state: RootState, ownProps: HeaderContainerProps) => {
     return {
         testState: getTestState(state),
         exists: getUseless(state)
     }
 };
 
-var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderProps) => {
+var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderContainerProps) => {
     return {
         changeTestState: (text: string):any => dispatch(changeTest(text)),
     }
