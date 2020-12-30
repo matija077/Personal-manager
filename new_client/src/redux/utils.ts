@@ -1,9 +1,4 @@
-import {auth, googleProvider} from './utils.firebase';
-
-type loginReturnType = {
-    success: Boolean,
-    userName: string
-};
+import { auth } from './utils.firebase';
 
 function login(
     email: string,

@@ -17,22 +17,30 @@ var auth = firebase.auth();
 var googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account'});
 
-auth.currentUser?.updateProfile({
-    displayName: "Matija"
-})
-
-function onAuthStateChanged(callback: Function) {
-    auth.onAuthStateChanged(function(firebaseUser) {
-        if (firebaseUser) {
-            callback(firebaseUser.displayName)
-            console.log("calolback");
-
-        }
+function getCurrentUser(): Promise<firebase.User | null> {
+    return new Promise(function(resolve, reject) {
+        const unsubscribe = auth.onAuthStateChanged(
+            userAuth => {
+                unsubscribe();
+                resolve(userAuth);
+            },
+            reject
+        )
     })
+}
+
+function signOut() {
+    auth.signOut();
+}
+
+function singInWithGoogle() {
+    return auth.signInWithPopup(googleProvider);
 }
 
 export {
     auth,
     googleProvider,
-    onAuthStateChanged
+    signOut,
+    singInWithGoogle,
+    getCurrentUser
 }

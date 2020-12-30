@@ -9,20 +9,20 @@ import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
 import { login } from '../../redux/utils';
-import { onAuthStateChanged } from '../../redux/utils.firebase';
+import { signOut, singInWithGoogle } from '../../redux/utils.firebase';
 
 type Props = {
 
 }
 
 type userType = {
-    userName: string,
+    userName: string | null,
     email: string,
     password: string
 };
 
 var initialUser: userType =  {
-    userName: "",
+    userName: null,
     email: "matija.prs@gmail.com",
     password: "123456"
 }
@@ -36,17 +36,13 @@ function HeaderContainer(props: any) {
     }
     var [user, setUserObject] = useState<userType>(initialUser);
     let {userName = "", email = "", password = ""} = user;
-    useCallback(
-        setUserObjectHOC,
-        [userName]
-    );
-
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
             console.log("userprofile");
         } else {
             login(email, password).
+            //singInWithGoogle().
             then(function resolved(result: any) {
                 console.log(result);
                 setUserObjectHOC(result.user.displayName);
@@ -57,22 +53,12 @@ function HeaderContainer(props: any) {
         }
     }
 
-    function setUserObjectHOC(userNameFirebase: string) {
+    function setUserObjectHOC(userNameFirebase: string | null) {
         setUserObject({
             ...user,
             userName: userNameFirebase
         })
-        console.log(userNameFirebase);
     }
-
-    function onAuthStateChangedCallback(userNameFirebase: string): void {
-        userName = userNameFirebase;
-        setUserObjectHOC(userName);
-    }
-
-    function onAuthStateChanged(onAuthStateChangedCallback: any) {
-
-    };
 
     return (
         <Header
