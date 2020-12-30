@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
 import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
@@ -68,6 +68,7 @@ function HeaderContainer(props: any) {
             setUserObjectHOC(userData);
         }
     }
+
     useEffect(() => {
         console.log("entering");
         getCurrentUser().then(function(resolved) {
@@ -78,7 +79,6 @@ function HeaderContainer(props: any) {
             }
         });
     }, [user])
-
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
@@ -96,6 +96,22 @@ function HeaderContainer(props: any) {
             });
         }
     }
+
+    useEffect(() => {
+        axios.post("/api/verifyToken", {
+            token: user.token,
+            email: user.email
+        }).
+        then(function resolved(result) {
+            console.log(result);
+        }).
+        catch(function rejected(error) {
+            console.log("errow writing to backend");
+            console.log(error);
+        });
+    },
+        [user.token]
+    )
 
     return (
         <Header
