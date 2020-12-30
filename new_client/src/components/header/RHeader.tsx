@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -9,14 +9,14 @@ import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
 import { login } from '../../redux/utils';
-import { signOut, singInWithGoogle } from '../../redux/utils.firebase';
+import { getCurrentUser, signOut, singInWithGoogle } from '../../redux/utils.firebase';
 
 type Props = {
 
 }
 
 type userType = {
-    userName: string | null,
+    userName:  string | null,
     email: string,
     password: string
 };
@@ -37,6 +37,26 @@ function HeaderContainer(props: any) {
     var [user, setUserObject] = useState<userType>(initialUser);
     let {userName = "", email = "", password = ""} = user;
 
+    function setUserObjectMemo(resolved: any) {
+        if (resolved.displayName !== user.userName) {
+            setUserObject({
+                ...user,
+                userName: resolved?.displayName || null
+            })
+        }
+    }
+    useEffect(() => {
+        console.log("entering");
+        getCurrentUser().then(function(resolved) {
+            setUserObjectMemo(resolved)
+            return () => {
+                console.log("leaving");
+                signOut();
+            }
+        });
+    }, [user])
+
+
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
             console.log("userprofile");
@@ -48,7 +68,7 @@ function HeaderContainer(props: any) {
                 setUserObjectHOC(result.user.displayName);
             }).
             catch(function rejected(error: PromiseRejectedResult) {
-
+                console.log("error while login in");
             });
         }
     }
