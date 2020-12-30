@@ -8,8 +8,8 @@ import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
-import { login } from '../../redux/utils';
-import { getCurrentUser, signOut, singInWithGoogle } from '../../redux/utils.firebase';
+import { login, usePersistedStorage } from '../../redux/utils';
+import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 
 type Props = {
 
@@ -18,13 +18,15 @@ type Props = {
 type userType = {
     userName:  string | null,
     email: string,
-    password: string
+    password: string,
+    token: string | null
 };
 
 var initialUser: userType =  {
     userName: null,
     email: "matija.prs@gmail.com",
-    password: "123456"
+    password: "123456",
+    token: null
 }
 
 function HeaderContainer(props: any) {
@@ -34,15 +36,36 @@ function HeaderContainer(props: any) {
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
-    var [user, setUserObject] = useState<userType>(initialUser);
+    var [user, setUserObject] =
+        usePersistedStorage("user", initialUser) as [userType, Function];
     let {userName = "", email = "", password = ""} = user;
 
-    function setUserObjectMemo(resolved: any) {
-        if (resolved.displayName !== user.userName) {
-            setUserObject({
-                ...user,
-                userName: resolved?.displayName || null
-            })
+    function setUserObjectHOC(userData: FirebaseUserType ) {
+        console.log("HOC");
+        console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
+        userData?.getIdToken(true).then(
+            function resolved(result) {
+                user.token = result;
+            },
+            function rejected(error) {
+                console.log("error getting token");
+                console.log(error);
+            }
+        );
+
+        setUserObject({
+            ...user,
+            userName: userData?.displayName,
+            email: userData?.email,
+        })
+    }
+
+    function setUserObjectMemo(userData: FirebaseUserType) {
+        console.log("memo");
+        console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
+        if (userData?.displayName !== user.userName) {
+            console.log("different");
+            setUserObjectHOC(userData);
         }
     }
     useEffect(() => {
@@ -59,25 +82,19 @@ function HeaderContainer(props: any) {
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
-            console.log("userprofile");
+            console.log("user profile");
         } else {
             login(email, password).
             //singInWithGoogle().
             then(function resolved(result: any) {
                 console.log(result);
-                setUserObjectHOC(result.user.displayName);
+                setUserObjectMemo(result.user.displayName);
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
+                console.log(error);
             });
         }
-    }
-
-    function setUserObjectHOC(userNameFirebase: string | null) {
-        setUserObject({
-            ...user,
-            userName: userNameFirebase
-        })
     }
 
     return (

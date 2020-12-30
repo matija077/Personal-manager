@@ -37,6 +37,8 @@ function singInWithGoogle() {
     return auth.signInWithPopup(googleProvider);
 }
 
+export type FirebaseUserType = firebase.User | null;
+
 export {
     auth,
     googleProvider,
