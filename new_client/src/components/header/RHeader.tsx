@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -37,7 +37,7 @@ function HeaderContainer(props: any) {
         dispatch(changeTest(text));
     }
     var [user, setUserObject] =
-        usePersistedStorage("user", initialUser) as [userType, Function];
+        usePersistedStorage<userType>("user", initialUser, [userChanged]) ;
     let {userName = "", email = "", password = ""} = user;
 
     function setUserObjectHOC(userData: FirebaseUserType ) {
@@ -69,7 +69,7 @@ function HeaderContainer(props: any) {
         }
     }
 
-    useEffect(() => {
+    function userChanged() {
         console.log("entering");
         getCurrentUser().then(function(resolved) {
             setUserObjectMemo(resolved)
@@ -78,7 +78,7 @@ function HeaderContainer(props: any) {
                 signOut();
             }
         });
-    }, [user])
+    }
 
     function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
