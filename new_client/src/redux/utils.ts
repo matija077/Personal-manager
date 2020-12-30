@@ -9,11 +9,19 @@ function login(
 
     return auth.signInWithEmailAndPassword(email, password)
 }
-
+/**
+ *
+ * @param key
+ * @param defaultValue
+ * @param callbackFunctionsArray
+ * @param callbackFunctionsCleanUpArray
+ * @returns [T, function]
+ */
 function usePersistedStorage<T>(
     key: string,
     defaultValue: T,
-    callbackFunctionsArray: (Function)[])
+    callbackFunctionsArray: (Function)[],
+    callbackFunctionsCleanUpArray: (Function)[])
 : [T, Function] {
     const [state, setState] = React.useState(() => {
         const persistedState = localStorage.getItem(key);
@@ -27,6 +35,12 @@ function usePersistedStorage<T>(
 
         localStorage.setItem(key, JSON.stringify(state))
         console.log(state);
+
+        return () => {
+            callbackFunctionsCleanUpArray.forEach(function(func) {
+                func();
+            });
+        }
     }, [state, key])
 
     return [state, setState];

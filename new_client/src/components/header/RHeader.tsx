@@ -36,10 +36,23 @@ function HeaderContainer(props: any) {
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
+    /**
+     * we want user to be saved to persistenStorage.
+     * whenever we chaneg osmethgi nto the user object we want
+     * to query firebase user to see if there are some changes there
+     * if name is different then udpate our user.
+     */
     var [user, setUserObject] =
-        usePersistedStorage<userType>("user", initialUser, [userChanged]) ;
+        usePersistedStorage<userType>("user", initialUser, [queryUser], [signOut]) ;
     let {userName = "", email = "", password = ""} = user;
 
+    /**
+     * wrapper for setting new user using useState hooks setState function
+     * also it cheks for new token on each change of the user
+     * becdause promises and hooks dont go very well together
+     * we just change the user.token direclty witthout changing an actual user data.
+     * @param userData<FirebaseUserType>
+     */
     function setUserObjectHOC(userData: FirebaseUserType ) {
         console.log("HOC");
         console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
@@ -60,6 +73,10 @@ function HeaderContainer(props: any) {
         })
     }
 
+    /**
+     * HOF that checks for same user names.
+     * @param userData<FirebaseUserType>
+     */
     function setUserObjectMemo(userData: FirebaseUserType) {
         console.log("memo");
         console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
@@ -69,14 +86,10 @@ function HeaderContainer(props: any) {
         }
     }
 
-    function userChanged() {
+    function queryUser() {
         console.log("entering");
         getCurrentUser().then(function(resolved) {
-            setUserObjectMemo(resolved)
-            return () => {
-                console.log("leaving");
-                signOut();
-            }
+            setUserObjectMemo(resolved);
         });
     }
 
