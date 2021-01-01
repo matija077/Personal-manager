@@ -3,10 +3,21 @@ import {
     HeaderItemStyles
 } from './header.styles';
 
+import { login } from '../../redux/utils';
 
-function Header(props: any) {
-    var userName = "";
+export type HeaderProps = {
+    testState:string,
+    exists: unknown,
+    userName: string,
+    userNameLoginHandler: Function
+};
 
+function Header({
+    testState,
+    exist,
+    userName="",
+    userNameLoginHandler
+}: any) {
     return(
         <HeaderStyles>
             <HeaderItemStyles to="/">
@@ -27,9 +38,9 @@ function Header(props: any) {
             <HeaderItemStyles to="/Chess">
                 Chess
             </HeaderItemStyles>
-            <HeaderItemStyles to="/Login">
+            <HeaderItemStyles to="/Login" onClick={userNameLoginHandler}>
                 {
-                    userName ?? "Login"
+                    userName || "Login"
                 }
             </HeaderItemStyles>
         </HeaderStyles>
