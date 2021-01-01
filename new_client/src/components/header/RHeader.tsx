@@ -43,7 +43,7 @@ function HeaderContainer(props: any) {
      * if name is different then udpate our user.
      */
     var [user, setUserObject] =
-        usePersistedStorage<userType>("user", initialUser, [queryUser], [signOut]) ;
+        usePersistedStorage<userType>("user", initialUser, [queryUser], []) ;
     let {userName = "", email = "", password = ""} = user;
 
     /**
@@ -123,8 +123,17 @@ function HeaderContainer(props: any) {
             console.log(error);
         });
     },
-        [user.token]
+        [user.token, user.email]
     )
+
+    /**
+    * sign out on unmount
+     */
+    useEffect(() => {
+        return function cleanup() {
+            signOut();
+        }
+    })
 
     return (
         <Header
