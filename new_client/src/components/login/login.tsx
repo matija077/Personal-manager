@@ -4,7 +4,11 @@ import {
     LoginPickerButton
 } from './login.style';
 
-function Login(props: any) {
+type LoginPropsType = {
+    clickHandler: Function
+}
+
+function Login({ clickHandler }: any) {
 
     return (
         <LoginStyles>
@@ -12,12 +16,14 @@ function Login(props: any) {
                 Choose login option:
             </LoginPickerLabelStyles>
             <LoginPickerButton
-                data-id="google"         
+                data-id="google"
+                onClick={clickHandler}         
             >
                 Google
             </LoginPickerButton>  
             <LoginPickerButton
-                data-id="standard"  
+                data-id="standard"
+                onClick={clickHandler}    
             >
                 Email and Paswword
             </LoginPickerButton>        
