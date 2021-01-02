@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-var LoginStyles - ``;
+var LoginStyles = styled.div``;
 
 export {
     LoginStyles

@@ -1,11 +1,14 @@
 import {
     LoginStyles
-} from './login.styles';
+} from './login.style';
 
-function Login() {
-    <LoginStyles>
-        Login Page
-    </LoginStyles>
+function Login(props: any) {
+
+    return (
+        <LoginStyles>
+            Login Page
+        </LoginStyles>
+    );
 }
 
 export default Login;
