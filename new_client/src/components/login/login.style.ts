@@ -22,9 +22,7 @@ var loginPlaceholder = css`
 
 
 var LoginPickerLabelStyles = styled.label`
-    ${loginPlaceholder}
-    
-    
+    ${loginPlaceholder}   
 `;
 
 var LoginPickerButton = styled.button`
@@ -34,9 +32,21 @@ var LoginPickerButton = styled.button`
     background-color: yellow;
 `;
 
+type LoginInputStylesPropsType = {
+    type: String
+}
+
+/*
+TODO fix stzles
+*/
+var LoginInputStyles = styled.input<LoginInputStylesPropsType>`
+    ${loginPlaceholder}
+    width: 75%;
+`;
 
 export {
     LoginStyles,
     LoginPickerLabelStyles,
-    LoginPickerButton
+    LoginPickerButton,
+    LoginInputStyles
 };

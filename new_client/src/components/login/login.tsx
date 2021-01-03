@@ -1,14 +1,16 @@
+import { EnumType } from 'typescript';
 import {
     LoginStyles,
     LoginPickerLabelStyles,
-    LoginPickerButton
+    LoginPickerButton,
+    LoginInputStyles
 } from './login.style';
 
 type LoginPropsType = {
     clickHandler: Function
 }
 
-function Login({ clickHandler }: any) {
+function Login({ clickHandler, state }: any) {
 
     return (
         <LoginStyles>
@@ -26,7 +28,7 @@ function Login({ clickHandler }: any) {
                 onClick={clickHandler}    
             >
                 Email and Paswword
-            </LoginPickerButton>        
+            </LoginPickerButton>      
         </LoginStyles>
     );
 }
