@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect, Ref, MutableRefObject } from 'react';
 
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
@@ -18,7 +18,8 @@ type renderType = {
 type stateType = {
     loginState: 0 | 1 | 2,
     email: string,
-    password: string
+    password: string,
+    valid: boolean
 }
 
 type LoginContainerPropsType = {
@@ -34,22 +35,22 @@ function LoginContainer(props: LoginContainerPropsType) {
     var [state, setState] = useState<stateType>({
         loginState: 0,
         email: "",
-        password: ""
+        password: "",
+        valid: true,
     })
-    const { loginState, email, password } = state;
+    const { loginState, email, password, valid } = state;
+
+    var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
 
     function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
-        console.dir(event.target);
         const inputType = event.target.type;
 
         setState({
             ...state,
             [inputType]: event.target.value
         });
-
     }
 
-    // fix type
     var render = {
         0:
             <Login
@@ -63,6 +64,8 @@ function LoginContainer(props: LoginContainerPropsType) {
                 clickHandler={processEmailAndPasswordHandler}
                 value={email}
                 valueChanged={onValueChanged}
+                inputRef={inputRef}
+                valid={valid}
             >
 
             </EmailAndPasswordLogin>,
@@ -72,13 +75,13 @@ function LoginContainer(props: LoginContainerPropsType) {
                 clickHandler={processEmailAndPasswordHandler}
                 value={password}
                 valueChanged={onValueChanged}
+                inputRef={inputRef}
+                valid={valid}
             >
             </EmailAndPasswordLogin>
     } as renderType;
 
     function loginPickerHandler(event: React.SyntheticEvent<HTMLButtonElement>) {
-        console.dir(event.target);
-
         if (event.currentTarget.dataset.id === "google") {
             singInWithGoogle();
         } else {
@@ -91,7 +94,22 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
     }
 
+    // valid pops withotu stzles being applied
+    // return adn setState
     function processEmailAndPasswordHandler() {
+        const validityObject = inputRef.current?.validity || {valid: false};
+        const length = inputRef?.current?.value?.length || 0;
+
+        if (!validityObject?.valid || length === 0) {
+            inputRef?.current?.focus();
+
+            setState({
+                ...state,
+                valid: false
+            })
+            return;
+        }
+
         if (loginState === 1) {
             setState({
                 ...state,

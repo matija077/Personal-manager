@@ -41,11 +41,16 @@ var LoginPickerButton = styled.button`
 
 type LoginInputStylesPropsType = {
     type: String
+    valid: Boolean
 }
 
 var LoginInputStyles = styled.input<LoginInputStylesPropsType>`
     ${loginPlaceholder}
     width: 75%;
+
+    &:invalid {
+        border: ${props => props.valid ? "0.5rem dashed red" : undefined };
+    }
 `;
 
 export {
