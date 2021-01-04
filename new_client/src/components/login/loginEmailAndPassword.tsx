@@ -1,7 +1,8 @@
 import {
     LoginStyles,
     LoginInputStyles,
-    LoginPickerButton
+    LoginPickerButton,
+    LoginEmailAndPasswordLabelStyles
 } from './login.style';
 
 type loginEmailAndPasswordPropsTypes = {
@@ -18,10 +19,22 @@ function loginEmailAndPassword({
 
     return (
         <LoginStyles>
+            <LoginEmailAndPasswordLabelStyles
+                htmlFor="input"
+            >
+                {
+                    inputType==="Email" ? "Write your email" : "Write your password"
+                }
+            </LoginEmailAndPasswordLabelStyles>
             <LoginInputStyles
                 type={inputType}
                 value={value}
                 onChange={valueChanged}
+                id="input"
+                placeholder={inputType==="Email" ? "Email here" : "Password"}
+                autoComplete={inputType==="Email" ? "email" : "current-password"}
+                title={inputType==="Email" ? "your email goes here": "your password goes here"}
+                autoFocus={true}
             >
             </LoginInputStyles>
             <LoginPickerButton

@@ -18,11 +18,17 @@ var LoginStyles = styled.main`
 var loginPlaceholder = css`
     filter: contrast(100%);
     text-align: center;
+    padding: 0.5rem;
 `;
 
 
 var LoginPickerLabelStyles = styled.label`
-    ${loginPlaceholder}   
+    ${loginPlaceholder}
+`;
+
+var LoginEmailAndPasswordLabelStyles = styled.label`
+    ${loginPlaceholder}
+    margin-bottom: 0.5rem;
 `;
 
 var LoginPickerButton = styled.button`
@@ -30,15 +36,13 @@ var LoginPickerButton = styled.button`
     width: 75%;
     margin-top: 0.5rem;
     background-color: yellow;
+    box-sizing: content-box;
 `;
 
 type LoginInputStylesPropsType = {
     type: String
 }
 
-/*
-TODO fix stzles
-*/
 var LoginInputStyles = styled.input<LoginInputStylesPropsType>`
     ${loginPlaceholder}
     width: 75%;
@@ -47,6 +51,7 @@ var LoginInputStyles = styled.input<LoginInputStylesPropsType>`
 export {
     LoginStyles,
     LoginPickerLabelStyles,
+    LoginEmailAndPasswordLabelStyles,
     LoginPickerButton,
     LoginInputStyles
 };
