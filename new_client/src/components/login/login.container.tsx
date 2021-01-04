@@ -1,9 +1,12 @@
+import { useState, useRef } from 'react';
+
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
 import { HTMLEventElement } from '../../utility/typescript.utils';
 
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
-import { useState } from 'react';
+import { login } from '../../redux/utils';
+import { usePersistedStorage, useError } from '../../utility/customHooks.utils';
 
 type renderType = {
     [key1: string]: JSX.Element,

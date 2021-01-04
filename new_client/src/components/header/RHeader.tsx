@@ -8,7 +8,8 @@ import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
-import { login, usePersistedStorage } from '../../redux/utils';
+import { login } from '../../redux/utils';
+import { usePersistedStorage } from '../../utility/customHooks.utils';
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 
 type Props = {
