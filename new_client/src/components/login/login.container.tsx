@@ -15,16 +15,42 @@ type renderType = {
     "2": JSX.Element,
 }
 
-function LoginContainer(props: any) {
-    var [loginState, setLoginState] = useState(0);
-    var [inputValue, setInputValue] = useState("");
+type stateType = {
+    loginState: 0 | 1 | 2,
+    email: string,
+    password: string
+}
+
+type LoginContainerPropsType = {
+    children: []
+};
+
+function LoginContainer(props: LoginContainerPropsType) {
+    var [error, setError] = useError();
+    if (error) {
+        throw error;
+    }
+
+    var [state, setState] = useState<stateType>({
+        loginState: 0,
+        email: "",
+        password: ""
+    })
+    const { loginState, email, password } = state;
 
     function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
-        setInputValue(event?.target?.value);
+        console.dir(event.target);
+        const inputType = event.target.type;
+
+        setState({
+            ...state,
+            [inputType]: event.target.value
+        });
+
     }
 
     // fix type
-    var render: {[key: string]: JSX.Element} = {
+    var render = {
         0:
             <Login
                 clickHandler={loginPickerHandler}
@@ -35,7 +61,7 @@ function LoginContainer(props: any) {
             <EmailAndPasswordLogin
                 inputType={"Email"}
                 clickHandler={processEmailAndPasswordHandler}
-                value={inputValue}
+                value={email}
                 valueChanged={onValueChanged}
             >
 
@@ -44,7 +70,7 @@ function LoginContainer(props: any) {
             <EmailAndPasswordLogin
                 inputType={"password"}
                 clickHandler={processEmailAndPasswordHandler}
-                value={inputValue}
+                value={password}
                 valueChanged={onValueChanged}
             >
             </EmailAndPasswordLogin>
@@ -56,12 +82,36 @@ function LoginContainer(props: any) {
         if (event.currentTarget.dataset.id === "google") {
             singInWithGoogle();
         } else {
-            setLoginState(1);
+            setState(
+                {
+                    ...state,
+                    loginState: 1
+                }
+            );
         }
     }
 
     function processEmailAndPasswordHandler() {
+        if (loginState === 1) {
+            setState({
+                ...state,
+                loginState: 2
+            })
 
+            return;
+        }
+
+        login(email, password).
+            //singInWithGoogle().
+            then(function resolved(result: any) {
+                console.log(result);
+                //setUserObjectMemo(result.user.displayName);
+            }).
+            catch(function rejected(error: PromiseRejectedResult) {
+                console.log("error while login in");
+                console.log(error);
+                setError(error);
+            });
     }
 
     return (
