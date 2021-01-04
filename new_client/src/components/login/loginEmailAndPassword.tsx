@@ -1,7 +1,7 @@
-import { 
+import {
     LoginStyles,
     LoginInputStyles,
-    LoginPickerButton 
+    LoginPickerButton
 } from './login.style';
 
 type loginEmailAndPasswordPropsTypes = {
@@ -11,14 +11,18 @@ type loginEmailAndPasswordPropsTypes = {
 
 function loginEmailAndPassword({
     inputType,
-    clickHandler
+    clickHandler,
+    value,
+    valueChanged
 }: any) {
 
     return (
         <LoginStyles>
-            <LoginInputStyles 
+            <LoginInputStyles
                 type={inputType}
-            >     
+                value={value}
+                onChange={valueChanged}
+            >
             </LoginInputStyles>
             <LoginPickerButton
                 onClick={clickHandler}
