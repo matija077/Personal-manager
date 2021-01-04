@@ -6,7 +6,7 @@ import { HTMLEventElement } from '../../utility/typescript.utils';
 
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 import { login } from '../../redux/utils';
-import { usePersistedStorage, useError } from '../../utility/customHooks.utils';
+import { usePersistedStorage, useError, useLogger } from '../../utility/customHooks.utils';
 
 type renderType = {
     [key1: string]: JSX.Element,

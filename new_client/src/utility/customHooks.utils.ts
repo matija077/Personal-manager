@@ -52,7 +52,14 @@ function useError() {
     return [error, setError];
 }
 
+function useLogger<T>(value: T) {
+    useEffect(() => {
+        console.log(value);
+    }, [value]);
+}
+
 export {
     usePersistedStorage,
-    useError
+    useError,
+    useLogger
 }
