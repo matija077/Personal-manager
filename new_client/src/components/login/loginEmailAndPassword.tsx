@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
     LoginStyles,
     LoginInputStyles,
@@ -16,8 +18,10 @@ function loginEmailAndPassword({
     value,
     valueChanged,
     inputRef,
-    valid
+    valid,
+    pointerLeaveHandler
 }: any) {
+    const TEXT = "text";
 
     return (
         <LoginStyles>
@@ -25,22 +29,22 @@ function loginEmailAndPassword({
                 htmlFor="input"
             >
                 {
-                    inputType==="Email" ? "Write your email" : "Write your password"
+                    inputType===TEXT ? "Write your email" : "Write your password"
                 }
             </LoginEmailAndPasswordLabelStyles>
             <LoginInputStyles
                 ref={inputRef}
                 type={inputType}
+                className={valid ? undefined : "invalid"}
                 value={value}
-                valid={valid}
                 onChange={valueChanged}
                 id="input"
-                placeholder={inputType==="Email" ? "Email here" : "Password"}
-                autoComplete={inputType==="Email" ? "email" : "current-password"}
-                title={inputType==="Email" ? "your email goes here": "your password goes here"}
+                placeholder={inputType===TEXT ? "ana.ana@gmail.com" : "Password"}
+                autoComplete={inputType===TEXT ? "email" : "current-password"}
+                title={inputType===TEXT ? "Please provide correct email": "use more then 4 characters"}
                 autoFocus={true}
-                pattern={inputType==="Email" ? "[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" : undefined}
-                minLength={inputType==="Email" ? undefined : 4}
+                minLength={inputType===TEXT ? undefined : 4}
+                onPointerOut={pointerLeaveHandler}
             >
             </LoginInputStyles>
             <LoginPickerButton
@@ -52,4 +56,4 @@ function loginEmailAndPassword({
     );
 }
 
-export default loginEmailAndPassword;
+export default React.memo(loginEmailAndPassword);

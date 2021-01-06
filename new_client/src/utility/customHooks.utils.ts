@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 /**
  * Custom Hook for using persisted storage in Function components
@@ -52,9 +52,9 @@ function useError() {
     return [error, setError];
 }
 
-function useLogger<T>(value: T) {
+function useLogger<T>(message: string = "", value: T) {
     useEffect(() => {
-        console.log(value);
+        console.log(`logger -> ${message} : ${value}`);
     }, [value]);
 }
 

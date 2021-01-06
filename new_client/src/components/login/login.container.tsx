@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, Ref, MutableRefObject } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect, useCallback, Ref, MutableRefObject } from 'react';
 
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
@@ -17,9 +17,9 @@ type renderType = {
 
 type stateType = {
     loginState: 0 | 1 | 2,
-    email: string,
+    text: string,
     password: string,
-    valid: boolean
+    valid: boolean,
 }
 
 type LoginContainerPropsType = {
@@ -34,13 +34,44 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     var [state, setState] = useState<stateType>({
         loginState: 0,
-        email: "",
+        text: "",
         password: "",
         valid: true,
     })
-    const { loginState, email, password, valid } = state;
+    var { loginState, text: email, password, valid } = state;
 
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
+    var timerId: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
+    useLogger("valid state ", state.valid);
+
+    function checkAndToggleValidity(): void {
+        const isValid = checkValidity();
+        console.log("checker method");
+
+        if (isValid !== valid) {
+            setState((state) => ({
+                ...state,
+                valid: !state.valid
+            }));
+        }
+    }
+
+    const checkAndToggleValidityMemo = useCallback(
+        checkAndToggleValidity,
+        [valid],
+    )
+
+    useEffect(() => {
+        timerId.current = setTimeout(() => {
+            console.log("runing");
+            checkAndToggleValidity();
+        }, 1500);
+
+        return () => {
+           timerId && clearTimeout(timerId.current as NodeJS.Timeout);
+        }
+    }, [state.text, state.password, checkAndToggleValidity])
+
 
     function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
         const inputType = event.target.type;
@@ -60,12 +91,13 @@ function LoginContainer(props: LoginContainerPropsType) {
             </ Login>,
         1:
             <EmailAndPasswordLogin
-                inputType={"Email"}
+                inputType={"text"}
                 clickHandler={processEmailAndPasswordHandler}
                 value={email}
                 valueChanged={onValueChanged}
                 inputRef={inputRef}
                 valid={valid}
+                pointerLeaveHandler={pointerLeaveHandler}
             >
 
             </EmailAndPasswordLogin>,
@@ -77,6 +109,7 @@ function LoginContainer(props: LoginContainerPropsType) {
                 valueChanged={onValueChanged}
                 inputRef={inputRef}
                 valid={valid}
+                pointerLeaveHandler={pointerLeaveHandler}
             >
             </EmailAndPasswordLogin>
     } as renderType;
@@ -94,13 +127,40 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
     }
 
+    function checkValidity(useLength: boolean = false): boolean {
+        const regex = RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+        const validityObject = inputRef.current?.validity || {valid: false};
+        const length = inputRef?.current?.value?.length || 0;
+        const value = inputRef?.current?.value as string;
+        console.log(validityObject);
+        var valid = true;
+        console.log(regex.test(value));
+
+        if (useLength && length === 0) {
+            valid = false;
+        }
+
+        /*if (!validityObject?.valid) {
+            valid = false;
+        }*/
+        if (value !== undefined && !regex.test(value)) {
+            valid = false;
+        }
+
+        return valid;
+    }
+
+    function pointerLeaveHandler(event: React.SyntheticEvent<HTMLInputElement>) {
+        timerId.current && clearTimeout(timerId.current);
+        console.log("wroking");
+        //checkAndToggleValidityMemo();
+
+    }
+
     // valid pops withotu stzles being applied
     // return adn setState
     function processEmailAndPasswordHandler() {
-        const validityObject = inputRef.current?.validity || {valid: false};
-        const length = inputRef?.current?.value?.length || 0;
-
-        if (!validityObject?.valid || length === 0) {
+        if (!checkValidity(true)) {
             inputRef?.current?.focus();
 
             setState({
