@@ -123,9 +123,14 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     // intially we either choose googleSingIn or we move to Email and Password. for this
     // we hjave to change the loginStatr to 1 meaning email
+    // error catching kidna does nto work
     function loginPickerHandler(event: React.SyntheticEvent<HTMLButtonElement>) {
         if (event.currentTarget.dataset.id === "google") {
-            singInWithGoogle();
+            try {
+                singInWithGoogle();
+            } catch (error) {
+                setError(error);
+            }
         } else {
             setState(
                 {
@@ -196,10 +201,8 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
 
         login(email, password).
-            //singInWithGoogle().
             then(function resolved(result: any) {
                 console.log(result);
-                //setUserObjectMemo(result.user.displayName);
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");

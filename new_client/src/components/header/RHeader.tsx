@@ -98,7 +98,7 @@ function HeaderContainer(props: any) {
         if (userName) {
             console.log("user profile");
         } else {
-            login(email, password).
+            /*login(email, password).
             //singInWithGoogle().
             then(function resolved(result: any) {
                 console.log(result);
@@ -107,7 +107,7 @@ function HeaderContainer(props: any) {
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
                 console.log(error);
-            });
+            });*/
         }
     }
 
