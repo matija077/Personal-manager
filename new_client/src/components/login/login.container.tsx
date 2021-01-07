@@ -41,7 +41,27 @@ function LoginContainer(props: LoginContainerPropsType) {
     var { loginState, text: email, password, valid } = state;
 
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
-    useLogger("valid state ", state.valid);
+
+    useEffect(() => {
+        setState((state) => {
+            return {
+                ...state,
+                email: "",
+                password: "",
+                valid: true
+            }
+        })
+    }, [state.loginState])
+
+    function disableInvalidOnInvalid() {
+        console.log("usao sam");
+        if (!valid) {
+            setState((state) => ({
+                ...state,
+                valid: true
+            }));
+        }
+    }
 
     function checkAndToggleValidity(): boolean {
         const isValid = checkValidity();
@@ -56,28 +76,6 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
 
         return true;
-    }
-
-    useEffect(() => {
-        console.log("updatign statr");
-        setState((state) => {
-            return {
-                ...state,
-                email: "",
-                password: "",
-                valid: true
-            }
-        })
-    }, [state.loginState])
-
-    function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
-        const inputType = event.target.type;
-        disableInvalidOnInvalid();
-
-        setState((state) => { return{
-            ...state,
-            [inputType]: event.target.value
-        }});    
     }
 
     var render = {
@@ -112,6 +110,16 @@ function LoginContainer(props: LoginContainerPropsType) {
             </EmailAndPasswordLogin>
     } as renderType;
 
+    function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
+        const inputType = event.target.type;
+        disableInvalidOnInvalid();
+
+        setState((state) => { return{
+            ...state,
+            [inputType]: event.target.value
+        }});    
+    }
+
     function loginPickerHandler(event: React.SyntheticEvent<HTMLButtonElement>) {
         if (event.currentTarget.dataset.id === "google") {
             singInWithGoogle();
@@ -126,38 +134,44 @@ function LoginContainer(props: LoginContainerPropsType) {
     }
 
     function checkValidity(useLength: boolean = false): boolean {
-        const regex = RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
-        const validityObject = inputRef.current?.validity || {valid: false};
+        var valid = true;
         const length = inputRef?.current?.value?.length || 0;
         const value = inputRef?.current?.value as string;
-        console.log(validityObject);
-        var valid = true;
-        console.log(regex.test(value));
 
-        if (length === 0) {
-            if (useLength) {
+        function checkEmailAndPassword() {
+            const regex = RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
+            
+            if (length === 0) {
+                if (useLength) {
+                    valid = false;
+                } else {
+                    valid = true;
+                    return valid;
+                }
+            }
+            
+            if (value !== undefined && !regex.test(value)) {
                 valid = false;
-            } else {
-                valid = true;
-                return valid;
+            }
+
+            return valid;
+        }
+
+        function checkPassword() {
+            if (length < 4 && length > 0) {
+                valid = false;
             }
         }
-        
-        if (value !== undefined && !regex.test(value)) {
+
+        if (loginState === 1) {
+            return  checkEmailAndPassword();
+        } else if (loginState === 2) {
+            checkPassword()
+        } else {
             valid = false;
         }
 
         return valid;
-    }
-
-    function disableInvalidOnInvalid() {
-        console.log("usao sam");
-        if (!valid) {
-            setState((state) => ({
-                ...state,
-                valid: true
-            }));
-        }
     }
 
     function onPointerEnterHandler(event: any) {
