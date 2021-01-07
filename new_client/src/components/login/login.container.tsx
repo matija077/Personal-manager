@@ -42,6 +42,7 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
 
+    // if we switch to passwrod we want to reset the state
     useEffect(() => {
         setState((state) => {
             return {
@@ -53,8 +54,8 @@ function LoginContainer(props: LoginContainerPropsType) {
         })
     }, [state.loginState])
 
+    // idea is to turn valid to valid on each new value or pointer focusing our input field
     function disableInvalidOnInvalid() {
-        console.log("usao sam");
         if (!valid) {
             setState((state) => ({
                 ...state,
@@ -120,6 +121,8 @@ function LoginContainer(props: LoginContainerPropsType) {
         }});    
     }
 
+    // intially we either choose googleSingIn or we move to Email and Password. for this
+    // we hjave to change the loginStatr to 1 meaning email
     function loginPickerHandler(event: React.SyntheticEvent<HTMLButtonElement>) {
         if (event.currentTarget.dataset.id === "google") {
             singInWithGoogle();
@@ -133,22 +136,16 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
     }
 
-    function checkValidity(useLength: boolean = false): boolean {
+    /*
+    * if email do email check otherwise do password check. 1 and 2 loginStates
+    */
+    function checkValidity(): boolean {
         var valid = true;
         const length = inputRef?.current?.value?.length || 0;
         const value = inputRef?.current?.value as string;
 
-        function checkEmailAndPassword() {
+        function checkEmail() {
             const regex = RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
-            
-            if (length === 0) {
-                if (useLength) {
-                    valid = false;
-                } else {
-                    valid = true;
-                    return valid;
-                }
-            }
             
             if (value !== undefined && !regex.test(value)) {
                 valid = false;
@@ -158,13 +155,13 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
 
         function checkPassword() {
-            if (length < 4 && length > 0) {
+            if (length < 4 && length >= 0) {
                 valid = false;
             }
         }
 
         if (loginState === 1) {
-            return  checkEmailAndPassword();
+            checkEmail();
         } else if (loginState === 2) {
             checkPassword()
         } else {
@@ -178,16 +175,14 @@ function LoginContainer(props: LoginContainerPropsType) {
         disableInvalidOnInvalid();
     }
 
-    // valid pops withotu stzles being applied
-    // return adn setState
+    /* 
+    * if not valid make input focus and return. if semail then move to password
+    * if passwrod then move to login
+    */
     function processEmailAndPasswordHandler() {
         if (!checkAndToggleValidity()) {
             inputRef?.current?.focus();
 
-            /*setState({
-                ...state,
-                valid: false
-            })*/
             return;
         }
 
