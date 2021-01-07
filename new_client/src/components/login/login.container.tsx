@@ -41,45 +41,43 @@ function LoginContainer(props: LoginContainerPropsType) {
     var { loginState, text: email, password, valid } = state;
 
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
-    var timerId: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
     useLogger("valid state ", state.valid);
 
-    function checkAndToggleValidity(): void {
+    function checkAndToggleValidity(): boolean {
         const isValid = checkValidity();
-        console.log("checker method");
 
         if (isValid !== valid) {
             setState((state) => ({
                 ...state,
                 valid: !state.valid
             }));
+
+            return false;
         }
+
+        return true;
     }
 
-    const checkAndToggleValidityMemo = useCallback(
-        checkAndToggleValidity,
-        [valid],
-    )
-
     useEffect(() => {
-        timerId.current = setTimeout(() => {
-            console.log("runing");
-            checkAndToggleValidity();
-        }, 1500);
-
-        return () => {
-           timerId && clearTimeout(timerId.current as NodeJS.Timeout);
-        }
-    }, [state.text, state.password, checkAndToggleValidity])
-
+        console.log("updatign statr");
+        setState((state) => {
+            return {
+                ...state,
+                email: "",
+                password: "",
+                valid: true
+            }
+        })
+    }, [state.loginState])
 
     function onValueChanged(event: HTMLEventElement<HTMLInputElement>) {
         const inputType = event.target.type;
+        disableInvalidOnInvalid();
 
-        setState({
+        setState((state) => { return{
             ...state,
             [inputType]: event.target.value
-        });
+        }});    
     }
 
     var render = {
@@ -97,7 +95,7 @@ function LoginContainer(props: LoginContainerPropsType) {
                 valueChanged={onValueChanged}
                 inputRef={inputRef}
                 valid={valid}
-                pointerLeaveHandler={pointerLeaveHandler}
+                onPointerEnterHandler={onPointerEnterHandler}
             >
 
             </EmailAndPasswordLogin>,
@@ -109,7 +107,7 @@ function LoginContainer(props: LoginContainerPropsType) {
                 valueChanged={onValueChanged}
                 inputRef={inputRef}
                 valid={valid}
-                pointerLeaveHandler={pointerLeaveHandler}
+                onPointerEnterHandler={onPointerEnterHandler}
             >
             </EmailAndPasswordLogin>
     } as renderType;
@@ -136,13 +134,15 @@ function LoginContainer(props: LoginContainerPropsType) {
         var valid = true;
         console.log(regex.test(value));
 
-        if (useLength && length === 0) {
-            valid = false;
+        if (length === 0) {
+            if (useLength) {
+                valid = false;
+            } else {
+                valid = true;
+                return valid;
+            }
         }
-
-        /*if (!validityObject?.valid) {
-            valid = false;
-        }*/
+        
         if (value !== undefined && !regex.test(value)) {
             valid = false;
         }
@@ -150,23 +150,30 @@ function LoginContainer(props: LoginContainerPropsType) {
         return valid;
     }
 
-    function pointerLeaveHandler(event: React.SyntheticEvent<HTMLInputElement>) {
-        timerId.current && clearTimeout(timerId.current);
-        console.log("wroking");
-        //checkAndToggleValidityMemo();
+    function disableInvalidOnInvalid() {
+        console.log("usao sam");
+        if (!valid) {
+            setState((state) => ({
+                ...state,
+                valid: true
+            }));
+        }
+    }
 
+    function onPointerEnterHandler(event: any) {
+        disableInvalidOnInvalid();
     }
 
     // valid pops withotu stzles being applied
     // return adn setState
     function processEmailAndPasswordHandler() {
-        if (!checkValidity(true)) {
+        if (!checkAndToggleValidity()) {
             inputRef?.current?.focus();
 
-            setState({
+            /*setState({
                 ...state,
                 valid: false
-            })
+            })*/
             return;
         }
 

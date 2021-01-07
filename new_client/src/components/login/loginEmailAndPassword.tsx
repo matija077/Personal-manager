@@ -19,7 +19,7 @@ function loginEmailAndPassword({
     valueChanged,
     inputRef,
     valid,
-    pointerLeaveHandler
+    onPointerEnterHandler
 }: any) {
     const TEXT = "text";
 
@@ -44,11 +44,11 @@ function loginEmailAndPassword({
                 title={inputType===TEXT ? "Please provide correct email": "use more then 4 characters"}
                 autoFocus={true}
                 minLength={inputType===TEXT ? undefined : 4}
-                onPointerOut={pointerLeaveHandler}
+                onPointerEnter={onPointerEnterHandler}
             >
             </LoginInputStyles>
             <LoginPickerButton
-                onClick={clickHandler}
+                onClick={clickHandler}         
             >
                 Proceed
             </LoginPickerButton>
