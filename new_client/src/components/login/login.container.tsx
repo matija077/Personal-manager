@@ -66,17 +66,16 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     function checkAndToggleValidity(): boolean {
         const isValid = checkValidity();
+        console.log("check:" + isValid + "current:" + valid);
 
         if (isValid !== valid) {
             setState((state) => ({
                 ...state,
                 valid: !state.valid
             }));
-
-            return false;
         }
 
-        return true;
+        return isValid;
     }
 
     var render = {
