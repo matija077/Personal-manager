@@ -2,6 +2,9 @@ import { css } from 'styled-components';
 
 var homePageSectionContainerStyles = css`
     background-color: hsl(250, 48%, 85%, 0.5);
+    flex: 1 0 0;
+    margin: 1vh 0;
+    overflow: hidden;
 `;
 
 var mainPlaceholderStyles = css`
