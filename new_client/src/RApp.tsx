@@ -17,6 +17,7 @@ import { default as Header } from './components/header/RHeader';
 import GlobalStyles from './global.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
+var Login = React.lazy(() => import('./components/login/login.container'));
 
 function RApp() {
 
@@ -39,6 +40,12 @@ function RApp() {
                                     <Suspense fallback="Loading">
                                         <Summary>
                                         </Summary>
+                                    </Suspense>
+                                </Route>
+                                <Route path="/login">
+                                    <Suspense fallback="Loading">
+                                        <Login>
+                                        </Login>
                                     </Suspense>
                                 </Route>
                                 <Route>

@@ -8,7 +8,8 @@ import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
 import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
-import { login, usePersistedStorage } from '../../redux/utils';
+import { login } from '../../redux/utils';
+import { usePersistedStorage } from '../../utility/customHooks.utils';
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 
 type Props = {
@@ -97,7 +98,7 @@ function HeaderContainer(props: any) {
         if (userName) {
             console.log("user profile");
         } else {
-            login(email, password).
+            /*login(email, password).
             //singInWithGoogle().
             then(function resolved(result: any) {
                 console.log(result);
@@ -106,7 +107,7 @@ function HeaderContainer(props: any) {
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
                 console.log(error);
-            });
+            });*/
         }
     }
 
