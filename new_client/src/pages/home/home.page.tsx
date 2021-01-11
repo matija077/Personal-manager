@@ -6,7 +6,7 @@ import Quote from '../../components/quote/Quote.component';
 import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
 import Summary from '../../components/summary/summary.component';
 import Popup from '../../components/popup/popup';
-import { MapLike } from 'typescript';
+import HomePageSection from '../../components/homePageSection/homePageSection';
 
 type HomeContainerPropsType = {
     children?: []
@@ -15,7 +15,7 @@ type HomeContainerPropsType = {
 export type popupsComponentPropsType = {
     onClickHandler: (event: any) => void,
     component?: 0 | 1 | 2,
-    children: never[]
+    children: JSX.Element
 }
 
 enum components {
@@ -39,7 +39,8 @@ function HomePage(props: HomeContainerPropsType) {
     var PopupComponentChild: ((props: any) => JSX.Element) | null = null;
 
     function onClickHandler(event: any): void {
-        console.log(event.currentTarget.dataset);
+        console.log("c;ikekd");
+        console.log(typeof event.currentTarget.dataset);
 
         setPopup(event?.currentTarget?.dataset.id || null);
     }
@@ -52,21 +53,31 @@ function HomePage(props: HomeContainerPropsType) {
 
     return (
         <MainStyles>
-            <Quote
-                onClickHandler={onClickHandler}
-                component={components.Quote}
-            >
-            </Quote>
-            <TodaysTasks
-                onClickHandler={onClickHandler}
-                component={components.TodaysTasks}
-            >
-            </TodaysTasks>
-            <Summary
+            <HomePageSection
                 onClickHandler={onClickHandler}
                 component={components.Summary}
             >
-            </Summary>
+                <Quote
+                >
+                </Quote>
+            </HomePageSection>
+            <HomePageSection
+                onClickHandler={onClickHandler}
+                component={components.TodaysTasks}
+            >
+                <TodaysTasks
+
+                >
+                </TodaysTasks>
+            </HomePageSection>
+            <HomePageSection
+                onClickHandler={onClickHandler}
+                component={components.Summary}
+            >
+                <Summary
+                >
+                </Summary>
+            </HomePageSection>
             {popup && PopupComponentChild ?
                 <Popup>
                     <PopupComponentChild

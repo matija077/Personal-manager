@@ -1,9 +1,7 @@
 import styled from 'styled-components';
 
-import { homePageSectionContainerStyles } from '../reusable styles';
 
 var QuoteContainerStyles = styled.section`
-    ${homePageSectionContainerStyles}
 `;
 
 var QuoteStyles = styled.blockquote`

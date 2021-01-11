@@ -2,19 +2,20 @@ import { Component } from 'react';
 import {
     QuoteStyles,
     QuoteAuthorStyles,
-    QuoteContainerStyles } from './Quote.styles';
+    QuoteContainerStyles
+} from './Quote.styles';
 
-import { popupsComponentPropsType } from '../../pages/home/home.page';
+type QuotePropsType = {
+    children: never[];
+}
 
 
-function Quote({ onClickHandler, component }: popupsComponentPropsType) {
+function Quote({ }: QuotePropsType) {
     var quote = "Do or do not. There is no try.";
     var author = "Yoda";
 
     return(
         <QuoteContainerStyles
-            onClick={onClickHandler}
-            data-id={component}
         >
             <QuoteStyles>
                 {quote}

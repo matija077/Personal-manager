@@ -1,23 +1,5 @@
 import { css } from 'styled-components';
 
-var homePageSectionContainerStyles = css`
-    background-color: hsl(250, 48%, 85%, 0.5);
-    flex: 1 0 0;
-    margin: 1vh 0;
-    overflow: hidden;
-    padding: 5px;
-
-    &:hover{
-        box-shadow: 10px 10px 5px gray;
-    }
-
-    @media all and (max-width: 400px) {
-        &:hover{
-            box-shadow: 5px 5px 2.5px gray;
-        }
-    }
-`;
-
 var mainPlaceholderStyles = css`
     box-sizing: border-box;
     flex: 0 1 96vh;
@@ -40,7 +22,6 @@ var headerStyles = css`
 `;
 
 export {
-    homePageSectionContainerStyles,
     mainPlaceholderStyles,
     headerStyles
 };

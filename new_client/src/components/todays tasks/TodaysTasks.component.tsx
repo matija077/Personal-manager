@@ -10,12 +10,9 @@ type TodayTasksProps = {
     children: never[];
 }
 
-function TodaysTasks({ onClickHandler, component }: TodayTasksProps & popupsComponentPropsType) {
-
+function TodaysTasks({ }: TodayTasksProps) {
     return (
         <TodaysTasksStyles
-            onClick={onClickHandler}
-            data-id={component}
         >
             TODAYS TASKS
         </TodaysTasksStyles>
