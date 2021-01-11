@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
-import HomePage from './pages/home/homeContainer.page';
+import HomePage from './pages/home/home.page';
 import { default as Header } from './components/header/RHeader';
 
 import GlobalStyles from './global.styles';

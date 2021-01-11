@@ -2,13 +2,18 @@ import {
     SummaryContainerStyles
 } from './summary.styles';
 
-type SummaryProps = {
-    children: never[]
-};
+import { popupsComponentPropsType } from '../../pages/home/home.page';
 
-function Summary(props: SummaryProps) {
+type SummaryProps = {
+    children: never[];
+}
+
+function Summary({ onClickHandler, component }: SummaryProps & popupsComponentPropsType) {
     return(
-        <SummaryContainerStyles>
+        <SummaryContainerStyles
+            onClick={onClickHandler}
+            data-id={component}
+        >
             SUMMARY COMPONENT
         </SummaryContainerStyles>
     );

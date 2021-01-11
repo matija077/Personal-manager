@@ -11,6 +11,15 @@ var MainStyles = styled.main`
     justify-content: space-between;
 `;
 
+var PopupContainerStyles = styled.article`
+    position: fixed;
+    top: 10vh;
+    bottom: 10vh;
+    left: 10vw;
+    right: 10vw;
+`;
+
 export {
-    MainStyles
+    MainStyles,
+    PopupContainerStyles
 };

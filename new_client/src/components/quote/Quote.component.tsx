@@ -1,22 +1,26 @@
+import { Component } from 'react';
 import {
     QuoteStyles,
     QuoteAuthorStyles,
     QuoteContainerStyles } from './Quote.styles';
 
-type QuoteProps = {
-    quote: string,
-    author: string,
-    children: never[]
-};
+import { popupsComponentPropsType } from '../../pages/home/home.page';
 
-function Quote(props: QuoteProps) {
+
+function Quote({ onClickHandler, component }: popupsComponentPropsType) {
+    var quote = "Do or do not. There is no try.";
+    var author = "Yoda";
+
     return(
-        <QuoteContainerStyles>
+        <QuoteContainerStyles
+            onClick={onClickHandler}
+            data-id={component}
+        >
             <QuoteStyles>
-                {props.quote}
+                {quote}
             </QuoteStyles>
             <QuoteAuthorStyles>
-                {props.author}
+                {author}
             </QuoteAuthorStyles>
         </QuoteContainerStyles>
     );

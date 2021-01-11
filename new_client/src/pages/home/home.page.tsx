@@ -1,22 +1,83 @@
-import React from 'react';
+import { useState } from 'react';
 
-import { MainStyles } from './home.styles.js';
+import { MainStyles, PopupContainerStyles } from './home.styles.js';
 
-import QuoteContainer from '../../components/quote/QuoteContainer.component';
-import TodaysTasksContainer from '../../components/todays tasks/TodaysTasksContainer.component';
-import SummaryContainer from '../../components/summary/summaryContainer.component';
+import Quote from '../../components/quote/Quote.component';
+import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
+import Summary from '../../components/summary/summary.component';
+import Popup from '../../components/popup/popup';
+import { MapLike } from 'typescript';
 
-interface Props {
+type HomeContainerPropsType = {
+    children?: []
+};
 
+export type popupsComponentPropsType = {
+    onClickHandler: (event: any) => void,
+    component?: 0 | 1 | 2,
+    children: never[]
 }
 
-function HomePage(props: Props) {
+enum components {
+    "Quote",
+    "TodaysTasks",
+    "Summary"
+}
 
-    return(
+console.log(components.Quote);
+
+var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
+    [components.TodaysTasks, TodaysTasks],
+    [components.Quote, Quote],
+    [components.Summary, Summary]
+]);
+
+
+function HomePage(props: HomeContainerPropsType) {
+    //var popupRender = (popupNumber && componentMap.get(popupNumber)) || null;
+    var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
+    var PopupComponentChild: ((props: any) => JSX.Element) | null = null;
+
+    function onClickHandler(event: any): void {
+        console.log(event.currentTarget.dataset);
+
+        setPopup(event?.currentTarget?.dataset.id || null);
+    }
+
+    //console.log(typeof +popup)
+
+    if (popup) {
+        PopupComponentChild = componentMap.get(+popup) || null;
+    }
+
+    return (
         <MainStyles>
-            <QuoteContainer />
-            <TodaysTasksContainer />
-            <SummaryContainer />
+            <Quote
+                onClickHandler={onClickHandler}
+                component={components.Quote}
+            >
+            </Quote>
+            <TodaysTasks
+                onClickHandler={onClickHandler}
+                component={components.TodaysTasks}
+            >
+            </TodaysTasks>
+            <Summary
+                onClickHandler={onClickHandler}
+                component={components.Summary}
+            >
+            </Summary>
+            {popup && PopupComponentChild ?
+                <Popup>
+                    <PopupComponentChild
+                        onClickHandler={onClickHandler}
+                    >
+
+                    </PopupComponentChild>
+                </Popup>
+            :
+                null
+            }
         </MainStyles>
     );
 }
