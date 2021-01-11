@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useLayoutEffect, useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
@@ -36,34 +36,56 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 function HomePage(props: HomeContainerPropsType) {
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
-    var PopupComponentChild: ((props: any) => JSX.Element) | null = null;
+
+    var closePopupIfOpenMemo = useCallback(
+        closePopupIfOpen,
+        [popup]
+    )
+
+    useLayoutEffect(() => {
+        popup && window.addEventListener("keyup", onEscPressedMainStyles);
+
+        function onEscPressedMainStyles(event: any): void {
+            if (event.code === "Escape") {
+                closePopupIfOpenMemo();
+            }
+        }
+
+        return () => {
+            window.removeEventListener("keyup", onEscPressedMainStyles);
+        }
+    }, [popup, closePopupIfOpenMemo])
+
+
+    function closePopupIfOpen(){
+        if (popup) {
+            setPopup(null);
+        }
+    }
+
 
     function onClickHandlerHomePageSection(event: any): void {
-        console.log("c;ikekd");
-
         if (!popup)  {
             setPopup(event?.currentTarget?.dataset.id || null);
         }
     }
 
     function onClickHandlerMainStyles(event: any): void {
-        console.log("c;ikekd 2");
-        if (popup) {
-            setPopup(null);
-        }
+        closePopupIfOpen();
     }
 
     function onClickHandlerPopup(event: any): void {
-        console.log("c;ikekd 3");
         event.stopPropagation();
     }
 
+
+    let PopupComponentChild: ((props: any) => JSX.Element) | null = null;
+    const mainComponentId = "Main Component"
+
+    // for some reason state fro msetState hook is an object. need to cast ti to number
     if (popup) {
-        console.log(popup);
         PopupComponentChild = componentMap.get(+popup) || null;
     }
-
-    const mainComponentId = "Main Component"
 
     return (
         <MainStyles
