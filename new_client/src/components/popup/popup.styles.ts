@@ -6,8 +6,8 @@ var PopupStyles = styled.article`
     bottom: 10vh;
     left: 10vw;
     right: 10vw;
-    background-color: red;
     background-clip: content-box;
+    background-color: red;
 `;
 
 export {

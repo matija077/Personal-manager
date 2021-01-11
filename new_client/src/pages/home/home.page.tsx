@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import ReactDOM from 'react-dom';
 
-import { MainStyles, PopupContainerStyles } from './home.styles.js';
+import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
 import Quote from '../../components/quote/Quote.component';
 import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
@@ -52,45 +53,65 @@ function HomePage(props: HomeContainerPropsType) {
     }
 
     return (
-        <MainStyles>
-            <HomePageSection
-                onClickHandler={onClickHandler}
-                component={components.Summary}
+        <MainStyles
+        >
+            <MainContainerStyles
+                popup={popup}
             >
-                <Quote
+                <HomePageSection
+                    onClickHandler={onClickHandler}
+                    component={components.Summary}
                 >
-                </Quote>
-            </HomePageSection>
-            <HomePageSection
-                onClickHandler={onClickHandler}
-                component={components.TodaysTasks}
-            >
-                <TodaysTasks
+                    <Quote
+                    >
+                    </Quote>
+                </HomePageSection>
+                <HomePageSection
+                    onClickHandler={onClickHandler}
+                    component={components.TodaysTasks}
+                >
+                    <TodaysTasks
 
+                    >
+                    </TodaysTasks>
+                </HomePageSection>
+                <HomePageSection
+                    onClickHandler={onClickHandler}
+                    component={components.Summary}
                 >
-                </TodaysTasks>
-            </HomePageSection>
-            <HomePageSection
-                onClickHandler={onClickHandler}
-                component={components.Summary}
-            >
-                <Summary
-                >
-                </Summary>
-            </HomePageSection>
+                    <Summary
+                    >
+                    </Summary>
+                </HomePageSection>
+            </MainContainerStyles>
             {popup && PopupComponentChild ?
                 <Popup>
                     <PopupComponentChild
                         onClickHandler={onClickHandler}
                     >
-
                     </PopupComponentChild>
                 </Popup>
-            :
-                null
+                :
+                    null
             }
         </MainStyles>
     );
 }
 
 export default HomePage;
+
+
+
+/*
+{popup && PopupComponentChild ?
+                ReactDOM.createPortal(<Popup>
+                    <PopupComponentChild
+                        onClickHandler={onClickHandler}
+                    >
+
+                    </PopupComponentChild>
+                </Popup>, element)
+            :
+                null
+            }
+            */
