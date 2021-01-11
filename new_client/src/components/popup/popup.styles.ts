@@ -8,6 +8,7 @@ var PopupStyles = styled.article`
     right: 10vw;
     background-clip: content-box;
     background-color: red;
+    display: grid;
 `;
 
 export {

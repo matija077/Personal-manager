@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
@@ -35,31 +35,46 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 
 function HomePage(props: HomeContainerPropsType) {
-    //var popupRender = (popupNumber && componentMap.get(popupNumber)) || null;
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
     var PopupComponentChild: ((props: any) => JSX.Element) | null = null;
 
-    function onClickHandler(event: any): void {
+    function onClickHandlerHomePageSection(event: any): void {
         console.log("c;ikekd");
-        console.log(typeof event.currentTarget.dataset);
 
-        setPopup(event?.currentTarget?.dataset.id || null);
+        if (!popup)  {
+            setPopup(event?.currentTarget?.dataset.id || null);
+        }
     }
 
-    //console.log(typeof +popup)
+    function onClickHandlerMainStyles(event: any): void {
+        console.log("c;ikekd 2");
+        if (popup) {
+            setPopup(null);
+        }
+    }
+
+    function onClickHandlerPopup(event: any): void {
+        console.log("c;ikekd 3");
+        event.stopPropagation();
+    }
 
     if (popup) {
+        console.log(popup);
         PopupComponentChild = componentMap.get(+popup) || null;
     }
 
+    const mainComponentId = "Main Component"
+
     return (
         <MainStyles
+            id={mainComponentId}
+            onClick={onClickHandlerMainStyles}
         >
             <MainContainerStyles
                 popup={popup}
             >
                 <HomePageSection
-                    onClickHandler={onClickHandler}
+                    onClickHandler={onClickHandlerHomePageSection}
                     component={components.Summary}
                 >
                     <Quote
@@ -67,7 +82,7 @@ function HomePage(props: HomeContainerPropsType) {
                     </Quote>
                 </HomePageSection>
                 <HomePageSection
-                    onClickHandler={onClickHandler}
+                    onClickHandler={onClickHandlerHomePageSection}
                     component={components.TodaysTasks}
                 >
                     <TodaysTasks
@@ -76,7 +91,7 @@ function HomePage(props: HomeContainerPropsType) {
                     </TodaysTasks>
                 </HomePageSection>
                 <HomePageSection
-                    onClickHandler={onClickHandler}
+                    onClickHandler={onClickHandlerHomePageSection}
                     component={components.Summary}
                 >
                     <Summary
@@ -85,9 +100,10 @@ function HomePage(props: HomeContainerPropsType) {
                 </HomePageSection>
             </MainContainerStyles>
             {popup && PopupComponentChild ?
-                <Popup>
+                <Popup
+                    onClickHandler={onClickHandlerPopup}
+                >
                     <PopupComponentChild
-                        onClickHandler={onClickHandler}
                     >
                     </PopupComponentChild>
                 </Popup>
