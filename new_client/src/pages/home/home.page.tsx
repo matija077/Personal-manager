@@ -83,6 +83,10 @@ function HomePage(props: HomeContainerPropsType) {
 
     let PopupComponentChild: ((props: any) => JSX.Element) | null = null;
     const mainComponentId = "Main Component"
+    const closePosition = {
+        right: "1rem",
+        top: "1rem",
+    }
 
     // for some reason state fro msetState hook is an object. need to cast ti to number
     if (popup) {
@@ -130,6 +134,7 @@ function HomePage(props: HomeContainerPropsType) {
                     <>
                         <Close
                             onClickHandler={onClickHandlerPopupClose}
+                            position={closePosition}
                         >
                         </Close>
                         <PopupComponentChild

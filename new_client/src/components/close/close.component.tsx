@@ -1,17 +1,20 @@
+import { CloseStyles, PositionType } from './close.styles';
+
 type ClosePropsType = {
     onClickHandler: (event: any) => void,
+    position?: PositionType
     children: never[]
 }
 
-function Close({ onClickHandler }: ClosePropsType) {
+function Close({ onClickHandler, position }: ClosePropsType) {
 
     return (
-        <p
+        <CloseStyles
             onClick={onClickHandler}
-            style={{ border: `2px black` }}
+            position={position}
         >
             CLOSE
-        </p>
+        </CloseStyles>
     );
 }
 
