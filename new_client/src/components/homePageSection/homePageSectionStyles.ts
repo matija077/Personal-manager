@@ -7,11 +7,13 @@ var HomePageSectionContainerStyles = styled.section`
     overflow: hidden;
     padding: 5px;
 
-    &:hover{
-        box-shadow: 10px 10px 5px gray;
+    @media (any-hover: hover){
+        &:hover{
+            box-shadow: 10px 10px 5px gray;
+        }
     }
 
-    @media all and (max-width: 400px) {
+    @media (any-hover: hover) and (max-width: 400px) {
         &:hover{
             box-shadow: 5px 5px 2.5px gray;
         }

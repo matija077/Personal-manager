@@ -1,5 +1,4 @@
 import { useState, useLayoutEffect, useCallback } from 'react';
-import ReactDOM from 'react-dom';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
@@ -43,26 +42,24 @@ function HomePage(props: HomeContainerPropsType) {
     )
 
     useLayoutEffect(() => {
-        popup && window.addEventListener("keyup", onEscPressedMainStyles);
-
         function onEscPressedMainStyles(event: any): void {
             if (event.code === "Escape") {
                 closePopupIfOpenMemo();
             }
         }
 
+        popup && window.addEventListener("keyup", onEscPressedMainStyles);
+
         return () => {
             window.removeEventListener("keyup", onEscPressedMainStyles);
         }
     }, [popup, closePopupIfOpenMemo])
-
 
     function closePopupIfOpen(){
         if (popup) {
             setPopup(null);
         }
     }
-
 
     function onClickHandlerHomePageSection(event: any): void {
         if (!popup)  {
