@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
 const PORT = 5010;
 const returnCodes = {
@@ -19,6 +20,11 @@ app.get("*", function(req, res) {
     res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
 })*/
 console.log(path.resolve(__dirname, "src", "api", "routes.route.ts"));
+
+app.use('/graphql', function(req, res, next) {
+    console.log("tu sam");
+    console.log(graphServer);
+})
 
 require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
 app.listen(port, running);
