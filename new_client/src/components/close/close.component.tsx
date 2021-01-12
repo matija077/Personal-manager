@@ -13,7 +13,6 @@ function Close({ onClickHandler, position }: ClosePropsType) {
             onClick={onClickHandler}
             position={position}
         >
-            CLOSE
         </CloseStyles>
     );
 }

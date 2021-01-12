@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import cancelSvg from '../../assets/cancel.svg';
+
 type CloseStylesPropsType = {
     position?: PositionType
 }
@@ -22,11 +24,16 @@ var CloseStyles = styled.aside.attrs<CloseStylesPropsType>(({position}) => ({
     top: ${({position}) => position?.top};
     left: ${({position}) => position?.left};
     bottom: ${({position}) => position?.bottom};
-    border: 2px solid black;
-    width: 5vw;
+    border: 20% solid black;
+    width: 2vw;
     height: 5vh;
     overflow: hidden;
     cursor: pointer;
+    background-image: url(${cancelSvg});
+    background-origin: border-box;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 `;
 
 export {

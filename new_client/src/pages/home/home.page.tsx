@@ -90,6 +90,8 @@ function HomePage(props: HomeContainerPropsType) {
 
     // for some reason state fro msetState hook is an object. need to cast ti to number
     if (popup) {
+        console.log(popup);
+        console.log(componentMap.get(+popup));
         PopupComponentChild = componentMap.get(+popup) || null;
     }
 
@@ -103,7 +105,7 @@ function HomePage(props: HomeContainerPropsType) {
             >
                 <HomePageSection
                     onClickHandler={onClickHandlerHomePageSection}
-                    component={components.Summary}
+                    component={components.Quote}
                 >
                     <Quote
                     >
