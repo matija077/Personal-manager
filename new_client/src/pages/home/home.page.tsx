@@ -7,6 +7,7 @@ import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
 import Summary from '../../components/summary/summary.component';
 import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
+import Close from '../../components/close/close.component';
 
 type HomeContainerPropsType = {
     children?: []
@@ -71,6 +72,10 @@ function HomePage(props: HomeContainerPropsType) {
         closePopupIfOpen();
     }
 
+    function onClickHandlerPopupClose(event: any): void {
+        closePopupIfOpen();
+    }
+
     function onClickHandlerPopup(event: any): void {
         event.stopPropagation();
     }
@@ -122,9 +127,15 @@ function HomePage(props: HomeContainerPropsType) {
                 <Popup
                     onClickHandler={onClickHandlerPopup}
                 >
-                    <PopupComponentChild
-                    >
-                    </PopupComponentChild>
+                    <>
+                        <Close
+                            onClickHandler={onClickHandlerPopupClose}
+                        >
+                        </Close>
+                        <PopupComponentChild
+                        >
+                        </PopupComponentChild>
+                    </>
                 </Popup>
                 :
                     null
