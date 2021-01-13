@@ -2,14 +2,18 @@ import {
     TodaysTasksStyles
 } from './TodaysTasks.styles';
 
+
+import { popupsComponentPropsType } from '../../pages/home/home.page';
+
+
 type TodayTasksProps = {
     children: never[];
 }
 
-function TodaysTasks(props: TodayTasksProps) {
-
+function TodaysTasks({ }: TodayTasksProps) {
     return (
-        <TodaysTasksStyles>
+        <TodaysTasksStyles
+        >
             TODAYS TASKS
         </TodaysTasksStyles>
     );

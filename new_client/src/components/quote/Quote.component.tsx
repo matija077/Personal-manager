@@ -1,22 +1,27 @@
+import { Component } from 'react';
 import {
     QuoteStyles,
     QuoteAuthorStyles,
-    QuoteContainerStyles } from './Quote.styles';
+    QuoteContainerStyles
+} from './Quote.styles';
 
-type QuoteProps = {
-    quote: string,
-    author: string,
-    children: never[]
-};
+type QuotePropsType = {
+    children: never[];
+}
 
-function Quote(props: QuoteProps) {
+
+function Quote({ }: QuotePropsType) {
+    var quote = "Do or do not. There is no try.";
+    var author = "Yoda";
+
     return(
-        <QuoteContainerStyles>
+        <QuoteContainerStyles
+        >
             <QuoteStyles>
-                {props.quote}
+                {quote}
             </QuoteStyles>
             <QuoteAuthorStyles>
-                {props.author}
+                {author}
             </QuoteAuthorStyles>
         </QuoteContainerStyles>
     );

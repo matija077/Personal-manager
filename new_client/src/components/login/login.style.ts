@@ -1,10 +1,12 @@
 import styled, { css } from 'styled-components';
 
+import { mainPlaceholderStyles } from '../../components/reusable styles';
+
 var LoginStyles = styled.main`
     position: relative;
     width: 30vw;
     height: 50vh;
-    
+
     top: 25vh;
     left: 35vw;
     filter: contrast(300%);
@@ -31,7 +33,7 @@ var loginLabelPlaceholder = css`
 
 var LoginPickerLabelStyles = styled.label`
     ${loginPlaceholder}
-    ${loginLabelPlaceholder}   
+    ${loginLabelPlaceholder}
 `;
 
 var LoginEmailAndPasswordLabelStyles = styled.label`

@@ -3,12 +3,14 @@ import {
 } from './summary.styles';
 
 type SummaryProps = {
-    children: never[]
-};
+    children: never[];
+}
 
-function Summary(props: SummaryProps) {
+function Summary({ }: SummaryProps) {
+
     return(
-        <SummaryContainerStyles>
+        <SummaryContainerStyles
+        >
             SUMMARY COMPONENT
         </SummaryContainerStyles>
     );

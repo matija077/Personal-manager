@@ -7,6 +7,11 @@ var GlobalStyle = createGlobalStyle`
         padding: 0;
         margin: 0;
     }
+
+    #root{
+        display: flex;
+        flex-direction: column;
+    }
 `;
 
 export default GlobalStyle;
