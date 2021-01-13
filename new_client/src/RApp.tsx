@@ -15,11 +15,19 @@ import HomePage from './pages/home/home.page';
 import { default as Header } from './components/header/RHeader';
 
 import { client } from '../src/graphQL/graphQL'
+import { queriesAndMutations } from '../src/graphQL/resolvers';
 
 import GlobalStyles from './global.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
+
+client.query({
+    query: queriesAndMutations.queries.GET_QUOTES
+    
+}).then(function resolved(result) {
+    console.log(result);
+})
 
 function RApp() {
 
