@@ -1,4 +1,4 @@
-var { ApolloServer, gql }= require("apollo-server");
+var { ApolloServer, gql }= require("apollo-server-express");
 
 /*type QuotesType = {
     author?: String,
@@ -41,12 +41,11 @@ const resolvers = {
 }
 
 const server = new ApolloServer({ typeDefs, resolvers });
-server.listen(5013);
+/*server.listen({
+    path: "http://localhost:5013/graphql",
+    host: "localhost"
+});*/
 // fordebugginf 5013 ports is graphql
-console.log(server);
-
-
-function apollo() {}
 
 module.exports = {
     resolvers,

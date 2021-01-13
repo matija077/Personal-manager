@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
 const PORT = 5010;
@@ -21,10 +22,11 @@ app.get("*", function(req, res) {
 })*/
 console.log(path.resolve(__dirname, "src", "api", "routes.route.ts"));
 
-app.use('/graphql', function(req, res, next) {
+/*app.use('/graphql', function(req, res, next) {
     console.log("tu sam");
     console.log(graphServer);
-})
+})*/
+graphServer.applyMiddleware({app, path: "/graphql"})
 
 require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
 app.listen(port, running);
