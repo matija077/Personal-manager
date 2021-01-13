@@ -1,4 +1,6 @@
-import { useState, useLayoutEffect, useCallback } from 'react';
+import { useState, useLayoutEffect, useCallback, useMemo, useEffect, useRef } from 'react';
+
+import { useQuery } from '@apollo/client';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
@@ -8,6 +10,8 @@ import Summary from '../../components/summary/summary.component';
 import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
+
+import { queries } from '../../graphQL/resolvers';
 
 type HomeContainerPropsType = {
     children?: []
@@ -36,7 +40,19 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 function HomePage(props: HomeContainerPropsType) {
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
+    
+    var skipRef  = useRef(false);
+    var { loading, error, data } = useQuery(queries.GET_QUOTES, {skip: skipRef.current || false});
 
+    if (loading) {
+        console.log(loading);
+    } else {
+        console.log(data);
+    }
+
+   
+
+    
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
         [popup]
