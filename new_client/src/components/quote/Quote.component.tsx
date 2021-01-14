@@ -6,22 +6,26 @@ import {
 } from './Quote.styles';
 
 type QuotePropsType = {
+    quote: {
+        author: string,
+        text: string
+    }
     children: never[];
 }
 
 
-function Quote({ }: QuotePropsType) {
-    var quote = "Do or do not. There is no try.";
-    var author = "Yoda";
+function Quote({ quote }: QuotePropsType) {
+    /*var quote = "Do or do not. There is no try.";
+    var author = "Yoda";*/
 
     return(
         <QuoteContainerStyles
         >
             <QuoteStyles>
-                {quote}
+                {quote?.text || null}
             </QuoteStyles>
             <QuoteAuthorStyles>
-                {author}
+                {quote?.author || null}
             </QuoteAuthorStyles>
         </QuoteContainerStyles>
     );

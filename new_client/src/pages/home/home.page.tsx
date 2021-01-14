@@ -12,6 +12,7 @@ import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
 import { queries } from '../../graphQL/resolvers';
+import { useUseQueryHook, useError } from '../../utility/customHooks.utils';
 
 type HomeContainerPropsType = {
     children?: []
@@ -40,19 +41,12 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 function HomePage(props: HomeContainerPropsType) {
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
-    
+    var [error, setError] = useError();
+
     var skipRef  = useRef(false);
-    var { loading, error, data } = useQuery(queries.GET_QUOTES, {skip: skipRef.current || false});
+    var { loading, error, data } : 
+    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES, {skip: skipRef.current || false});
 
-    if (loading) {
-        console.log(loading);
-    } else {
-        console.log(data);
-    }
-
-   
-
-    
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
         [popup]
@@ -72,11 +66,22 @@ function HomePage(props: HomeContainerPropsType) {
         }
     }, [popup, closePopupIfOpenMemo])
 
+    useUseQueryHook({loading, data, ref: skipRef});
+
+    if (loading) {
+        console.log(loading);
+    } else if (error) {
+        setError(error);
+    } else {
+        console.log(data);
+    }
+
     function closePopupIfOpen(){
         if (popup) {
             setPopup(null);
         }
     }
+
 
     function onClickHandlerHomePageSection(event: any): void {
         if (!popup)  {
@@ -124,6 +129,7 @@ function HomePage(props: HomeContainerPropsType) {
                     component={components.Quote}
                 >
                     <Quote
+                        quote={data?.getQuotes[0]}
                     >
                     </Quote>
                 </HomePageSection>

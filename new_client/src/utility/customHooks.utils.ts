@@ -47,7 +47,7 @@ function usePersistedStorage<T>(
 }
 
 function useError() {
-    var [error, setError] = useState<any>(null);
+    var [error, setError] = useState<any>(undefined);
 
     return [error, setError];
 }
@@ -58,8 +58,18 @@ function useLogger<T>(message: string = "", value: T) {
     }, [value]);
 }
 
+function useUseQueryHook({loading, data, ref}: 
+    {loading: boolean, data: any, ref: React.MutableRefObject<boolean>}) {
+    useEffect(() => {
+        if (!loading && data) {
+            ref.current = true;
+        }
+    }, [data, loading])
+}
+
 export {
     usePersistedStorage,
     useError,
-    useLogger
+    useLogger,
+    useUseQueryHook
 }
