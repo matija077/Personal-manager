@@ -70,9 +70,24 @@ function useUseQueryHook({loading, data, ref}:
     }, [data, loading])
 }
 
+function useConsoleLogQueries(
+    loading: boolean, error: any, data: any, name: string) {
+    useEffect(() => {
+        if (loading) {
+            console.log(`${name} loading`);
+        } else if (error) {
+            console.error(error);
+        } else {
+            console.log(`${name}`);
+            console.log(data);
+        }
+    }, [loading, data, error, name])
+}
+
 export {
     usePersistedStorage,
     useError,
     useLogger,
-    useUseQueryHook
+    useUseQueryHook,
+    useConsoleLogQueries
 }

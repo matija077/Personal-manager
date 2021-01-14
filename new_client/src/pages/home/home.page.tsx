@@ -12,7 +12,7 @@ import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
 import { queries } from '../../graphQL/resolvers';
-import { useUseQueryHook, useError } from '../../utility/customHooks.utils';
+import { useConsoleLogQueries, useError } from '../../utility/customHooks.utils';
 
 type HomeContainerPropsType = {
     children?: []
@@ -49,6 +49,8 @@ function HomePage(props: HomeContainerPropsType) {
     var { loading: loadingTasks, error: errorTasks, data: tasks } : 
     {loading: boolean, error?: any, data: any} = useQuery(queries.GET_TASKS);
 
+    useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
+    useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
 
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
@@ -68,27 +70,6 @@ function HomePage(props: HomeContainerPropsType) {
             window.removeEventListener("keyup", onEscPressedMainStyles);
         }
     }, [popup, closePopupIfOpenMemo])
-
-    /*
-    * useUseQueryHook({loading: loadingQuotes, data: quotes, ref: skipRef});
-    * useUseQueryHook({loading: loadingTasks, data: tasks, ref: skipRef});
-    */
-
-    if (loadingTasks) {
-        console.log("loading tasks");
-    } else if (errorTasks) {
-        setError(errorQuotes);
-    } else {
-        console.log(tasks);
-    }
-
-    if (loadingQuotes) {
-        console.log("loading quotes");
-    } else if (errorQuotes) {
-        setError(errorQuotes);
-    } else {
-        console.log(quotes);
-    }
 
     function closePopupIfOpen(){
         if (popup) {
