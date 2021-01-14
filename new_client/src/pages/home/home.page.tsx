@@ -44,8 +44,11 @@ function HomePage(props: HomeContainerPropsType) {
     var [error, setError] = useError();
 
     var skipRef  = useRef(false);
-    var { loading, error, data } : 
-    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES, {skip: skipRef.current || false});
+    var { loading: loadingQuotes, error: errorQuotes, data: quotes } : 
+    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES);
+    var { loading: loadingTasks, error: errorTasks, data: tasks } : 
+    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_TASKS);
+
 
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
@@ -66,14 +69,17 @@ function HomePage(props: HomeContainerPropsType) {
         }
     }, [popup, closePopupIfOpenMemo])
 
-    useUseQueryHook({loading, data, ref: skipRef});
+    /*
+    * useUseQueryHook({loading: loadingQuotes, data: quotes, ref: skipRef});
+    * useUseQueryHook({loading: loadingTasks, data: tasks, ref: skipRef});
+    */
 
-    if (loading) {
-        console.log(loading);
-    } else if (error) {
+    if (loadingTasks) {
+        console.log("loading tasks");
+    } else if (errorTasks) {
         setError(error);
     } else {
-        console.log(data);
+        console.log(tasks);
     }
 
     function closePopupIfOpen(){
@@ -129,7 +135,7 @@ function HomePage(props: HomeContainerPropsType) {
                     component={components.Quote}
                 >
                     <Quote
-                        quote={data?.getQuotes[0]}
+                        quote={quotes?.getQuotes[0]}
                     >
                     </Quote>
                 </HomePageSection>
@@ -162,6 +168,7 @@ function HomePage(props: HomeContainerPropsType) {
                         >
                         </Close>
                         <PopupComponentChild
+
                         >
                         </PopupComponentChild>
                     </>

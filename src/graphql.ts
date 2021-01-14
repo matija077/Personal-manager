@@ -23,20 +23,55 @@ const quotes  = [
     }
 ];
 
+const taskCategories = {
+    "c++": "c++",
+    "plesanje": "plesanje",
+    "nista": "nista"
+};
+
+const tasks  = [
+    {
+        name: "Organizacija doma",
+        location: "Kucica",
+        category: taskCategories.nista,
+        description: "",
+    },
+    {
+        name: "Plesanje",
+        location: "Kucica 2",
+        category: taskCategories.plesanje,
+        description: "",
+    },
+    {
+        name: "Gledanej serija",
+        location: "Kucica",
+        category: taskCategories.nista,
+        description: "",
+    }
+];
+
 const typeDefs = gql`
     type Quote {
         author: String
         text: String!
     }
+    type Task {
+        name: String,
+        location: String!,
+        category: String,
+        description: String!
+    }
 
     type Query {
         getQuotes: [Quote]
+        getTasks: [Task]
     }
 `;
 
 const resolvers = {
     Query: {
-        getQuotes: () => quotes
+        getQuotes: () => quotes,
+        getTasks: () => tasks
     }
 }
 

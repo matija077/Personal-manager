@@ -58,6 +58,9 @@ function useLogger<T>(message: string = "", value: T) {
     }, [value]);
 }
 
+/*
+* for skipping queries if we want lo load it only once
+*/
 function useUseQueryHook({loading, data, ref}: 
     {loading: boolean, data: any, ref: React.MutableRefObject<boolean>}) {
     useEffect(() => {

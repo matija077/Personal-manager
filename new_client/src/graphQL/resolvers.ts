@@ -11,8 +11,17 @@ const GET_QUOTES = gql`
     }
 `;
 
+const GET_TASKS = gql`
+    query getTasks {
+        getTasks {
+            name
+        }
+    }
+`;
+
 const queries = {
-    GET_QUOTES 
+    GET_QUOTES,
+    GET_TASKS 
 }
 
 const mutations = {

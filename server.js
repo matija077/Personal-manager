@@ -20,12 +20,6 @@ var port = process.env.PORT || PORT;
 app.get("*", function(req, res) {
     res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
 })*/
-console.log(path.resolve(__dirname, "src", "api", "routes.route.ts"));
-
-/*app.use('/graphql', function(req, res, next) {
-    console.log("tu sam");
-    console.log(graphServer);
-})*/
 graphServer.applyMiddleware({app, path: "/graphql"})
 
 require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
