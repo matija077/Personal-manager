@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect, useCallback, useMemo, useEffect, useRef } from 'react';
 
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
@@ -11,7 +11,7 @@ import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
-import { queries } from '../../graphQL/resolvers';
+import { queries, mutations } from '../../graphQL/resolvers';
 import { useConsoleLogQueries, useError } from '../../utility/customHooks.utils';
 
 type HomeContainerPropsType = {
@@ -46,9 +46,26 @@ function HomePage(props: HomeContainerPropsType) {
     {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES);
     var { loading: loadingTasks, error: errorTasks, data: tasks } : 
     {loading: boolean, error?: any, data: any} = useQuery(queries.GET_TASKS);
-
+    var [ saveTask, {data, loading, error} ] = useMutation(mutations.SAVE_TASK) as  
+    [(object: any) => {}, {data: any, loading: boolean, error?: any}];
     useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
     useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
+    
+    var task = {
+        category: "olaaaaaa",
+        name: "testic",
+        location: "",
+        description: ""
+    };
+    useEffect(() => {
+        console.log(saveTask);
+        saveTask({
+            variables: {
+               task
+            }
+        });
+    }, [saveTask])
+    /**/
 
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,

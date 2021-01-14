@@ -22,12 +22,19 @@ const GET_TASKS = gql`
     }
 `;
 
+const SAVE_TASK = gql`
+    mutation saveTask($task: Task) {
+        createTask(task: $task)
+    }
+`;
+
 const queries = {
     GET_QUOTES,
     GET_TASKS 
 }
 
 const mutations = {
+    SAVE_TASK
 }
 
 const queriesAndMutations = {

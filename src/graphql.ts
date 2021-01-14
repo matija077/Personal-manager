@@ -62,9 +62,20 @@ const typeDefs = gql`
         description: String!
     }
 
+    input TaskInput {
+        name: String,
+        location: String!,
+        category: String,
+        description: String!
+    }
+
     type Query {
         Quotes: [Quote]
         Tasks: [Task]
+    }
+
+    type Mutation {
+        createTask(task: TaskInput): Task 
     }
 `;
 
@@ -72,6 +83,14 @@ const resolvers = {
     Query: {
         Quotes: () => quotes,
         Tasks: () => tasks
+    },
+    Mutation: {
+        createTask: (parent, args, context, info) => {
+            console.log(args);
+            tasks.push(args.task);
+
+            return args.task;
+        }
     }
 }
 
