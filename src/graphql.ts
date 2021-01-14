@@ -63,15 +63,15 @@ const typeDefs = gql`
     }
 
     type Query {
-        getQuotes: [Quote]
-        getTasks: [Task]
+        Quotes: [Quote]
+        Tasks: [Task]
     }
 `;
 
 const resolvers = {
     Query: {
-        getQuotes: () => quotes,
-        getTasks: () => tasks
+        Quotes: () => quotes,
+        Tasks: () => tasks
     }
 }
 

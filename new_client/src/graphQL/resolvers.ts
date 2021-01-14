@@ -4,7 +4,7 @@ var typeDefs = gql`{name}`;
 
 const GET_QUOTES = gql`
     query getQuotes {
-        getQuotes {
+        quotes: Quotes {
             author
             text
         }
@@ -13,8 +13,11 @@ const GET_QUOTES = gql`
 
 const GET_TASKS = gql`
     query getTasks {
-        getTasks {
+        tasks: Tasks {
             name
+            description
+            category
+            location
         }
     }
 `;

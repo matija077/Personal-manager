@@ -77,9 +77,17 @@ function HomePage(props: HomeContainerPropsType) {
     if (loadingTasks) {
         console.log("loading tasks");
     } else if (errorTasks) {
-        setError(error);
+        setError(errorQuotes);
     } else {
         console.log(tasks);
+    }
+
+    if (loadingQuotes) {
+        console.log("loading quotes");
+    } else if (errorQuotes) {
+        setError(errorQuotes);
+    } else {
+        console.log(quotes);
     }
 
     function closePopupIfOpen(){
@@ -135,7 +143,7 @@ function HomePage(props: HomeContainerPropsType) {
                     component={components.Quote}
                 >
                     <Quote
-                        quote={quotes?.getQuotes[0]}
+                        quote={quotes?.quotes[0]}
                     >
                     </Quote>
                 </HomePageSection>
