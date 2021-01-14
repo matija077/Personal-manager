@@ -30,8 +30,6 @@ enum components {
     "Summary"
 }
 
-console.log(components.Quote);
-
 var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
     [components.TodaysTasks, TodaysTasks],
     [components.Quote, Quote],

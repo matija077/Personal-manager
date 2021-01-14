@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -79,8 +79,8 @@ function HeaderContainer(props: any) {
      * @param userData<FirebaseUserType>
      */
     function setUserObjectMemo(userData: FirebaseUserType) {
-        console.log("memo");
-        console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
+        //console.log("memo");
+        //console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
         if (userData?.displayName !== user.userName) {
             console.log("different");
             setUserObjectHOC(userData);
@@ -88,7 +88,7 @@ function HeaderContainer(props: any) {
     }
 
     function queryUser() {
-        console.log("entering");
+        // console.log("entering");
         getCurrentUser().then(function(resolved) {
             setUserObjectMemo(resolved);
         });
@@ -147,7 +147,7 @@ function HeaderContainer(props: any) {
     );
 }
 
-type HeaderContainerState = {
+/*type HeaderContainerState = {
     testState: string
 }
 
@@ -166,7 +166,7 @@ var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderContainerProps
     return {
         changeTestState: (text: string):any => dispatch(changeTest(text)),
     }
-};
+};*/
 
 //export default connect(mapStateToProps, mapDispatchToProps)(Header);
 export default HeaderContainer;
