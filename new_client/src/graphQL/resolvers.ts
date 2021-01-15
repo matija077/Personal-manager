@@ -23,14 +23,16 @@ const GET_TASKS = gql`
 `;
 
 const SAVE_TASK = gql`
-    mutation saveTask($task: Task) {
-        createTask(task: $task)
+    mutation saveTask($task: TaskInput) {
+        createTask(task: $task) {
+            name
+        }
     }
 `;
 
 const CREATE_TEST_TASk = gql`
     mutation createTestTask($test: TestInput) {
-        createTestTask(test: $test)
+        createTest(test: $test)
     }
 `;
 

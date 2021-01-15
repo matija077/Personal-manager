@@ -93,6 +93,7 @@ const resolvers = {
         createTask: (parent, args, context, info) => {
             console.log(args);
             tasks.push(args.task);
+            console.log(tasks);
 
             return args.task;
         },

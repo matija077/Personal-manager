@@ -46,10 +46,11 @@ function HomePage(props: HomeContainerPropsType) {
     {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES);
     var { loading: loadingTasks, error: errorTasks, data: tasks } :
     {loading: boolean, error?: any, data: any} = useQuery(queries.GET_TASKS);
-    var [ saveTask, {data, loading, error} ] = useMutation(mutations.CREATE_TEST_TASk) as
+    var [ saveTask, {data, loading, error} ] = useMutation(mutations.SAVE_TASK) as
     [(object: any) => {}, {data: any, loading: boolean, error?: any}];
     useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
     useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
+    useConsoleLogQueries(loading, error, data, "mutation");
 
     var task = {
         category: "olaaaaaa",
@@ -57,17 +58,19 @@ function HomePage(props: HomeContainerPropsType) {
         location: "",
         description: ""
     };
-    var testTask = {
-        name: "chicita"
-    }
+
+    var testTask = useRef({
+        name: "chiquita"
+    });
+
     useEffect(() => {
         console.log(saveTask);
         saveTask({
             variables: {
-                testTask
+                task
             }
         });
-    }, [testTask])
+    }, [saveTask])
     /**/
 
     var closePopupIfOpenMemo = useCallback(
