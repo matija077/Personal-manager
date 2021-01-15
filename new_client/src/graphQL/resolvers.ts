@@ -28,13 +28,20 @@ const SAVE_TASK = gql`
     }
 `;
 
+const CREATE_TEST_TASk = gql`
+    mutation createTestTask($test: TestInput) {
+        createTestTask(test: $test)
+    }
+`;
+
 const queries = {
     GET_QUOTES,
-    GET_TASKS 
+    GET_TASKS
 }
 
 const mutations = {
-    SAVE_TASK
+    SAVE_TASK,
+    CREATE_TEST_TASk
 }
 
 const queriesAndMutations = {

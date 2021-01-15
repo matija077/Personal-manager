@@ -69,13 +69,18 @@ const typeDefs = gql`
         description: String!
     }
 
+    input TestInput {
+        name: String
+    }
+
     type Query {
         Quotes: [Quote]
         Tasks: [Task]
     }
 
     type Mutation {
-        createTask(task: TaskInput): Task 
+        createTask(task: TaskInput): Task
+        createTest(test: TestInput): String
     }
 `;
 
@@ -90,6 +95,11 @@ const resolvers = {
             tasks.push(args.task);
 
             return args.task;
+        },
+        createTest:  (parent, args, context, info) => {
+            console.log(info);
+
+            return "Succesfu lmtuation";
         }
     }
 }
