@@ -4,6 +4,8 @@ import { useMutation, useQuery } from '@apollo/client';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
+import withHomePage from '../../containers/home.container';
+
 import Quote from '../../components/quote/Quote.component';
 import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
 import Summary from '../../components/summary/summary.component';
@@ -190,7 +192,7 @@ function HomePage(props: HomeContainerPropsType) {
     );
 }
 
-export default HomePage;
+export default withHomePage<HomeContainerPropsType>(HomePage);
 
 
 

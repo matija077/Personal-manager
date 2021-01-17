@@ -1,16 +1,28 @@
 import React from 'react';
 
-type HomeContainerPropsType = {
-    WrappedComponent: React.FunctionComponent,
-    children: never[]
+import { useSelector } from 'react-redux';
+import { getTasks } from '../redux/task-reducer/task-reducer.selectors';
+
+type withHomePagePropsType = {
+    //currentProp: String
 }
 
-function withHomePage<T>({ WrappedComponent }: HomeContainerPropsType ) {
-    return function WithHomePage(props: Array<T>) {
+
+
+type withHomePageIntersectionTPropsType<T> = withHomePagePropsType & T;
+
+function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
+    return function WithHomePage(props: withHomePageIntersectionTPropsType<T>) {
+        const tasks = useSelector(getTasks);
+        console.log(tasks);
+
+        //var {currentProp, ...rest} = props;
+        var {...rest} = props;
 
         return (
-            <WrappedComponent>
-                {...props}
+            <WrappedComponent
+                {...rest as unknown as T}
+            >
             </WrappedComponent>
         )
     }
