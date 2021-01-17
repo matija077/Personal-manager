@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import React, { useEffect, useRef, useMemo, useState, useContext, createContext } from 'react';
+import { QueryResult, useMutation, useQuery } from '@apollo/client';
 
 import { useSelector } from 'react-redux';
 import { getTasks } from '../redux/task-reducer/task-reducer.selectors';
@@ -12,6 +12,25 @@ type withHomePagePropsType = {
 }
 
 type withHomePageIntersectionTPropsType<T> = withHomePagePropsType & T;
+
+type contextType = {
+    loading: boolean,
+    error: any
+}
+
+type quotesContextType = contextType & {quotes: []};
+type taskContextType = contextType & {tasks: []};
+
+
+const taskContext = createContext<taskContextType | null>(null);
+export function useTaskContext() {
+    return useContext(taskContext);
+}
+
+const quotesContext = createContext<quotesContextType | null>(null);
+export function useQuotesContext() {
+    return useContext(quotesContext);
+}
 
 function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
     return function WithHomePage(props: withHomePageIntersectionTPropsType<T>) {
@@ -49,13 +68,32 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
             });
         }, [saveTask, task])*/
 
-        var {...rest} = props;
+        var {...rest}: any = props
+        const taskProviderValue = useMemo(() => ({
+            tasks: tasks,
+            loading: loadingTasks,
+            error: errorTasks
+        }), [tasks, loadingTasks, errorTasks])
+        const quotesProviderValue: quotesContextType = useMemo(() => ({
+            quotes: quotes,
+            loading: loadingQuotes,
+            error: errorQuotes
+        }), [quotes, loadingQuotes, errorQuotes])
+        /*const quotesProviderValue: quotesContextType = {
+            quotes: quotes,
+            loading: loadingQuotes,
+            error: errorQuotes
+        }*/
 
         return (
-            <WrappedComponent
-            {...rest as unknown as T}
-            >
-            </WrappedComponent>
+            <taskContext.Provider value={taskProviderValue}>
+                <quotesContext.Provider value={quotesProviderValue}>
+                    <WrappedComponent
+                    {...rest as unknown as T}
+                    >
+                    </WrappedComponent>
+                </quotesContext.Provider>
+            </taskContext.Provider>
         )
     }
 }

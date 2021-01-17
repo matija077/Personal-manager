@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { useState } from 'react';
+import { useQuotesContext } from '../../containers/home.container';
 import {
     QuoteStyles,
     QuoteAuthorStyles,
@@ -17,6 +18,9 @@ type QuotePropsType = {
 function Quote({ quote = undefined }: QuotePropsType) {
     /*var quote = "Do or do not. There is no try.";
     var author = "Yoda";*/
+
+    var quotes = useQuotesContext();
+    console.log(quotes);
 
     return(
         <QuoteContainerStyles
