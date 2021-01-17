@@ -61,7 +61,7 @@ function useLogger<T>(message: string = "", value: T) {
 /*
 * for skipping queries if we want lo load it only once
 */
-function useUseQueryHook({loading, data, ref}: 
+function useUseQueryHook({loading, data, ref}:
     {loading: boolean, data: any, ref: React.MutableRefObject<boolean>}) {
     useEffect(() => {
         if (!loading && data) {
@@ -78,7 +78,7 @@ function useConsoleLogQueries(
         } else if (error) {
             console.error(error);
         } else {
-            console.log(`${name}`);
+            console.log(`${name} --->`);
             console.log(data);
         }
     }, [loading, data, error, name])

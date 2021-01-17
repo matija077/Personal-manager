@@ -6,7 +6,7 @@ import {
 } from './Quote.styles';
 
 type QuotePropsType = {
-    quote: {
+    quote?: {
         author: string,
         text: string
     }
@@ -14,7 +14,7 @@ type QuotePropsType = {
 }
 
 
-function Quote({ quote }: QuotePropsType) {
+function Quote({ quote = undefined }: QuotePropsType) {
     /*var quote = "Do or do not. There is no try.";
     var author = "Yoda";*/
 

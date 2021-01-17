@@ -1,6 +1,4 @@
-import { useState, useLayoutEffect, useCallback, useMemo, useEffect, useRef } from 'react';
-
-import { useMutation, useQuery } from '@apollo/client';
+import { useState, useLayoutEffect, useCallback, memo } from 'react';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
@@ -13,8 +11,7 @@ import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
-import { queries, mutations } from '../../graphQL/resolvers';
-import { useConsoleLogQueries, useError } from '../../utility/customHooks.utils';
+import { useError } from '../../utility/customHooks.utils';
 
 type HomeContainerPropsType = {
     children?: []
@@ -42,38 +39,6 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 function HomePage(props: HomeContainerPropsType) {
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
     var [error, setError] = useError();
-
-    var skipRef  = useRef(false);
-    var { loading: loadingQuotes, error: errorQuotes, data: quotes } :
-    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_QUOTES);
-    var { loading: loadingTasks, error: errorTasks, data: tasks } :
-    {loading: boolean, error?: any, data: any} = useQuery(queries.GET_TASKS);
-    var [ saveTask, {data, loading, error} ] = useMutation(mutations.SAVE_TASK) as
-    [(object: any) => {}, {data: any, loading: boolean, error?: any}];
-    useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
-    useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
-    useConsoleLogQueries(loading, error, data, "mutation");
-
-    var task = {
-        category: "olaaaaaa",
-        name: "testic",
-        location: "",
-        description: ""
-    };
-
-    var testTask = useRef({
-        name: "chiquita"
-    });
-
-    useEffect(() => {
-        console.log(saveTask);
-        saveTask({
-            variables: {
-                task
-            }
-        });
-    }, [saveTask])
-    /**/
 
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
@@ -146,9 +111,7 @@ function HomePage(props: HomeContainerPropsType) {
                     onClickHandler={onClickHandlerHomePageSection}
                     component={components.Quote}
                 >
-                    <Quote
-                        quote={quotes?.quotes[0]}
-                    >
+                    <Quote>
                     </Quote>
                 </HomePageSection>
                 <HomePageSection
@@ -192,7 +155,15 @@ function HomePage(props: HomeContainerPropsType) {
     );
 }
 
-export default withHomePage<HomeContainerPropsType>(HomePage);
+export default withHomePage<HomeContainerPropsType>(memo(HomePage));
+
+/*
+function eqal(prevProps, nextProps) {
+    console.log(prevProps);
+    console.log(nextProps);
+    return true;
+})
+*/
 
 
 
