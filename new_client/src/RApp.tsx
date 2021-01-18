@@ -12,6 +12,7 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
+
 import { default as Header } from './components/header/RHeader';
 
 import { client } from '../src/graphQL/graphQL'
@@ -21,6 +22,8 @@ import GlobalStyles from './global.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
+
+var WithSpinnerContainer = WithSpinner(Summary);
 
 function RApp() {
 
