@@ -13,8 +13,17 @@ export type contextPresentationType = {
     error: any,
 }
 
+
 export type quoteType = {
     author?: String
     text: String
 }
 export type quotesType = Array<quoteType>;
+
+export type taskType = {
+    name: String,
+    category: String,
+    description?: String,
+    location?: String
+}
+export type tasksType = Array<taskType>;

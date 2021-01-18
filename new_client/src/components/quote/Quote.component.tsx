@@ -12,13 +12,13 @@ type QuotePropsType = {
     children: never[];
 }
 
-const initialQuote: quoteType = {
+const INITIAL_QUOTE: quoteType = {
     author: undefined,
     text: ""
 }
 
 function Quote(props: QuotePropsType) {
-    var quote: quoteType = initialQuote;
+    var quote: quoteType = INITIAL_QUOTE;
     var quotesObject: contextType<quotesType> = useQuotesContext();
 
     if (quotesObject?.data !== undefined) {
