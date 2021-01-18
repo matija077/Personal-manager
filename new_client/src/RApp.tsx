@@ -23,8 +23,6 @@ import GlobalStyles from './global.styles';
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
 
-var WithSpinnerContainer = WithSpinner(Summary);
-
 function RApp() {
 
     return(
