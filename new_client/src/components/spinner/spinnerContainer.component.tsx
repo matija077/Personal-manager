@@ -5,7 +5,10 @@ function withSpinnerContainer(Component: React.ElementType): React.ElementType {
 
         return (
             isLoading ?
-                <Spinner />
+                <Spinner
+                    positionFixed={true}
+                >
+                </Spinner>
             :
                 (<Component {...otherProps}></Component>)
 

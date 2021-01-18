@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useQuotesContext } from '../../containers/home.container';
 import { quoteType, contextType, quotesType } from '../../graphQL/types';
 
+import Spinner from '../spinner/spinner.component';
+
 import {
     QuoteStyles,
     QuoteAuthorStyles,
@@ -28,8 +30,11 @@ function Quote(props: QuotePropsType) {
     }
 
     return(
-        quotesObject?.loading ?
-            <span>Loading</span>
+        !quotesObject?.loading ?
+            <Spinner
+                positionFixed={false}
+            >
+            </Spinner>
         :
         <QuoteContainerStyles
         >

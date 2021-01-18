@@ -1,9 +1,16 @@
 
 import { SpinnerStyles, SpinnerStylesContainer } from './spinner.styles';
 
-function Spinner(props: any) {
+type SpinnerPropsType = {
+    children: never[],
+    positionFixed: boolean
+}
+
+function Spinner({ positionFixed }: SpinnerPropsType) {
     return (
-    <SpinnerStylesContainer>
+    <SpinnerStylesContainer
+        positionFixed={positionFixed}
+    >
         <SpinnerStyles>
         </SpinnerStyles>
     </SpinnerStylesContainer>

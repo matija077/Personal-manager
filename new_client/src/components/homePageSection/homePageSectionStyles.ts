@@ -6,6 +6,7 @@ var HomePageSectionContainerStyles = styled.section`
     margin: 1vh 0;
     overflow: hidden;
     padding: 5px;
+    position: relative;
 
     @media (any-hover: hover){
         &:hover{
