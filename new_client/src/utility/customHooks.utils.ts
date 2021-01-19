@@ -49,6 +49,10 @@ function usePersistedStorage<T>(
 function useError() {
     var [error, setError] = useState<any>(undefined);
 
+    if (error) {
+        throw error;
+    }
+
     return [error, setError];
 }
 
