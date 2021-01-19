@@ -1,3 +1,5 @@
+const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } =  require("graphql");
+
 var { ApolloServer, gql }= require("apollo-server-express");
 
 /*type QuotesType = {
@@ -105,6 +107,58 @@ const resolvers = {
     }
 }
 
+var QuoteType = new GraphQLObjectType({
+    name: "Quote",
+    description: "a single Quote",
+    fields: function() {
+        return {
+            name: {
+                type: GraphQLNonNull(GraphQLString),
+            },
+            author: {
+                type: GraphQLString,
+            }
+        }
+    }
+});
+
+var RootQueryType = new GraphQLObjectType({
+    name: "query",
+    description: "Root query",
+    fields: function() {
+        return {
+            quotes: {
+                type: new GraphQLList(QuoteType),
+                description: "list of all quotes",
+                resolve: function() {
+                    return quotes;
+                }
+            }
+        }
+    }
+});
+
+var RootMutationType = new GraphQLObjectType({
+    name: "Mutation",
+    description: "Root mutation",
+    fields: function() {
+        return {
+            createTask: {
+                type: GraphQLString,
+                resolve: function() {
+                    console.log("success");
+                }
+            }
+        }
+    }
+});
+
+var schema = new GraphQLSchema({
+    query: RootQueryType,
+    mutation: RootMutationType
+})
+
+//const server = new ApolloServer({ schema });
 const server = new ApolloServer({ typeDefs, resolvers });
 /*server.listen({
     path: "http://localhost:5013/graphql",
