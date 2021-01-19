@@ -1,5 +1,11 @@
 import styled, { css}  from 'styled-components';
 
+var SpinnerStylesOutsideContainer = styled.div`
+    position: relative;
+    width: 100%;
+    height: 100%;
+`;
+
 type SpinnerStylesContainerPropsType = {
     positionFixed: boolean
 }
@@ -30,10 +36,10 @@ var SpinnerStylesContainer = styled.article.attrs<SpinnerStylesContainerPropsTyp
 
 var SpinnerStyles = styled.figure`
     position: relative;
+    top: calc(50% - 1.25em);
     margin: auto;
-    width: 2.28571429rem;
-    height: 2.28571429rem;
-    padding: 0;
+    width: 2.5em;
+    height: 2.5em;
     animation: spin 0.6s linear infinite;
     border: 0.2em solid rgba(0, 0, 0, 0.1);
     border-top: 0.2em solid #767676;
@@ -48,5 +54,6 @@ var SpinnerStyles = styled.figure`
 
 export {
     SpinnerStyles,
-    SpinnerStylesContainer
+    SpinnerStylesContainer,
+    SpinnerStylesOutsideContainer
 };

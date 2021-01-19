@@ -1,5 +1,5 @@
 
-import { SpinnerStyles, SpinnerStylesContainer } from './spinner.styles';
+import { SpinnerStyles, SpinnerStylesContainer, SpinnerStylesOutsideContainer } from './spinner.styles';
 
 type SpinnerPropsType = {
     children: never[],
@@ -8,12 +8,14 @@ type SpinnerPropsType = {
 
 function Spinner({ positionFixed }: SpinnerPropsType) {
     return (
-    <SpinnerStylesContainer
-        positionFixed={positionFixed}
-    >
-        <SpinnerStyles>
-        </SpinnerStyles>
-    </SpinnerStylesContainer>
+    <SpinnerStylesOutsideContainer>
+        <SpinnerStylesContainer
+            positionFixed={positionFixed}
+        >
+            <SpinnerStyles>
+            </SpinnerStyles>
+        </SpinnerStylesContainer>
+    </SpinnerStylesOutsideContainer>
     );
 }
 
