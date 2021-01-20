@@ -19,7 +19,7 @@ type UseContextContainerPropsType = {
 }
 
 function useContextContainer(Component: JSX.Element) {
-    return function UseContextContainer({
+    /*return function UseContextContainer({
         context,
         timeBeforeLoading,
         errorTime,
@@ -60,7 +60,7 @@ function useContextContainer(Component: JSX.Element) {
                 }
             </>
         );
-    }
+    }*/
 }
 
 export default useContextContainer;
