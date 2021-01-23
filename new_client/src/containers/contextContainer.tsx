@@ -11,20 +11,27 @@ enum PossibleStates  {
     "error"
 }
 
-type UseContextContainerPropsType = {
+type ContextContainerPropsType = {
     context: any,
     timeBeforeLoading: number,
     errorTime: number,
     positionFixed: boolean
 }
 
-function useContextContainer(Component: JSX.Element) {
-    /*return function UseContextContainer({
+type ContextContainerPassingPropsType = {
+    data: any
+}
+
+function contextContainer<T>(
+    Component: React.ComponentType<typeof componentsProps & ContextContainerPassingPropsType>,
+    componentsProps: any)
+{
+    return function ContextContainer({
         context,
         timeBeforeLoading,
         errorTime,
         positionFixed
-    }: UseContextContainerPropsType) {
+    }: ContextContainerPropsType) {
         var contextReturnObject: contextType<unknown> = useContext(context);
         var [possibleStates, setPossibleStates]: [PossibleStates, Function] = useState<PossibleStates>(PossibleStates.begining);
         var [error, setError] = useError();
@@ -55,16 +62,17 @@ function useContextContainer(Component: JSX.Element) {
                     :
                         <Component
                             data={contextReturnObject?.data}
+                            {...componentsProps}
                         >
                         </Component>
                 }
             </>
         );
-    }*/
+    }
 }
 
-export default useContextContainer;
+export default contextContainer;
 
-// home page - render(component)
+// home page - render(component, props)
 
-// container - render(component) => { UseContextCOntainer(compoent)(context)}
+// container - render(component, props) => { UseContextCOntainer(compoent)(context)}
