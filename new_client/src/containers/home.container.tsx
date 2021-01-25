@@ -8,7 +8,7 @@ import { queries, mutations } from '../graphQL/resolvers';
 import { contextDataType, contextType, quotesType } from '../graphQL/types';
 import { useConsoleLogQueries, useError } from '../utility/customHooks.utils';
 
-import contextContainer from './contextContainer';
+//import contextContainer from './contextContainer';
 
 type withHomePagePropsType = {
     //currentProp: String
@@ -101,19 +101,6 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
             <taskContext.Provider value={taskProviderValue}>
                 <quotesContext.Provider value={quotesProviderValue}>
                     <WrappedComponent
-                        render={({
-                            Component,
-                            componentsProps,
-                            context
-                        }: renderFunctionType) =>
-                            contextContainer<unknown>(Component, componentsProps)
-                            ({
-                                context: context,
-                                timeBeforeLoading: 200,
-                                errorTime: 2500,
-                                positionFixed: true
-                            })}
-                        contexts={contexts}
                     {...rest as unknown as T}
                     >
                     </WrappedComponent>
@@ -124,3 +111,20 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
 }
 
 export default withHomePage;
+
+/*
+*  * COMPLICATION
+render={({
+    Component,
+    componentsProps,
+    context
+}: renderFunctionType) =>
+    contextContainer<unknown>(Component, componentsProps)
+    ({
+        context: context,
+        timeBeforeLoading: 200,
+        errorTime: 2500,
+        positionFixed: true
+    })}
+contexts={contexts}
+*/

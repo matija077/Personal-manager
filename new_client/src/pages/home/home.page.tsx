@@ -17,8 +17,8 @@ import { contextsType, renderFunctionType } from '../../containers/home.containe
 import { contextType } from '../../graphQL/types';
 
 type HomeContainerPropsType = {
-    render: (props: renderFunctionType) => React.ComponentType,
-    contexts: contextsType,
+    //render: (props: renderFunctionType) => React.ComponentType,
+    //contexts: contextsType,
     children?: []
 };
 
@@ -116,8 +116,9 @@ function HomePage(props: HomeContainerPropsType) {
                     onClickHandler={onClickHandlerHomePageSection}
                     component={components.Quote}
                 >
-                    {props.render(Quote, undefined, props.contexts.quotesContext)}
+                    <Quote>
 
+                    </Quote>
                 </HomePageSection>
                 <HomePageSection
                     onClickHandler={onClickHandlerHomePageSection}
@@ -185,3 +186,8 @@ function eqal(prevProps, nextProps) {
                 null
             }
             */
+
+/**
+ * COMPLICATION
+ * {props.render(Quote, undefined, props.contexts.quotesContext)}
+ */
