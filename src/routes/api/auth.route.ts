@@ -8,7 +8,8 @@ function authRoute(app, params) {
 }
 
 function verifyToken(req, res) {
-    console.log("upsjeh");
+    console.warn("req arrived");
+    console.log(req.body);
 
 };
 

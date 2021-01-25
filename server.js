@@ -1,5 +1,6 @@
 var express = require('express');
 var path = require('path');
+var bodyParser = require('body-parser');
 var auth = require('./src/routes/api/auth.route.ts');
 
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
@@ -21,6 +22,7 @@ var port = process.env.PORT || PORT;
 app.get("*", function(req, res) {
     res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
 })*/
+
 app.use('/api*', function cors(req, res, next) {
     console.log(req.get('origin'));
     const origin = req.get('origin');
@@ -38,6 +40,8 @@ app.use('/api*', function cors(req, res, next) {
 
     next();
 });
+app.use(bodyParser.json());
+
 app.post('/api/verifyToken', auth.verifyToken);
 graphServer.applyMiddleware({app, path: "/graphql"})
 
