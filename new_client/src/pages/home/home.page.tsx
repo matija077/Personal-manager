@@ -13,7 +13,12 @@ import Close from '../../components/close/close.component';
 
 import { useError } from '../../utility/customHooks.utils';
 
+import { contextsType, renderFunctionType } from '../../containers/home.container';
+import { contextType } from '../../graphQL/types';
+
 type HomeContainerPropsType = {
+    render: (props: renderFunctionType) => React.ComponentType,
+    contexts: contextsType,
     children?: []
 };
 
@@ -111,8 +116,8 @@ function HomePage(props: HomeContainerPropsType) {
                     onClickHandler={onClickHandlerHomePageSection}
                     component={components.Quote}
                 >
-                    <Quote>
-                    </Quote>
+                    {props.render(Quote, undefined, props.contexts.quotesContext)}
+
                 </HomePageSection>
                 <HomePageSection
                     onClickHandler={onClickHandlerHomePageSection}
