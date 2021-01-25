@@ -10,7 +10,7 @@ import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
 import { login } from '../../redux/utils';
 import { usePersistedStorage } from '../../utility/customHooks.utils';
-import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
+import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {
 
@@ -59,6 +59,7 @@ function HeaderContainer(props: any) {
         console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
         userData?.getIdToken(true).then(
             function resolved(result) {
+                console.log(result);
                 user.token = result;
             },
             function rejected(error) {
@@ -90,6 +91,7 @@ function HeaderContainer(props: any) {
     function queryUser() {
         // console.log("entering");
         getCurrentUser().then(function(resolved) {
+            getToken((result) => {console.log(result)});
             setUserObjectMemo(resolved);
         });
     }
@@ -112,6 +114,10 @@ function HeaderContainer(props: any) {
     }
 
     useEffect(() => {
+        if (!user.token) {
+            return;
+        }
+
         axios.post("http://localhost:5012/api/verifyToken", {
             token: user.token,
             email: user.email

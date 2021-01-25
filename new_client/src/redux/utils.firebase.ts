@@ -38,6 +38,7 @@ function singInWithGoogle() {
 }
 
 function getToken(sendTokenToBackEnd: (result: string) => void) {
+    console.log(auth.currentUser);
     auth.currentUser?.getIdToken(true)
         .then(function resolved(result) {
             sendTokenToBackEnd(result);
