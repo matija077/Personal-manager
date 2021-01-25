@@ -37,6 +37,8 @@ app.listen(port, running);
     }
 );*/
 
+//console.log(app._router.stack);
+
 function running(error) {
     if (error) {
         console.log(error);
