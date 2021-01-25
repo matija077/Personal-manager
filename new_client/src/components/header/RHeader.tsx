@@ -112,7 +112,7 @@ function HeaderContainer(props: any) {
     }
 
     useEffect(() => {
-        axios.post("/api/verifyToken", {
+        axios.post("http://localhost:5012/api/verifyToken", {
             token: user.token,
             email: user.email
         }).

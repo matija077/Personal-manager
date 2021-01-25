@@ -1,6 +1,4 @@
 function authRoute(app, params) {
-    //console.log("wokring");
-    console.log(app._router.stack);
     app.post('api/verifyToken', function(req, res) {
         console.log(req);
     })
@@ -9,4 +7,12 @@ function authRoute(app, params) {
     })
 }
 
-module.exports = authRoute;
+function verifyToken(req, res) {
+    console.log("upsjeh");
+
+};
+
+module.exports = Object.assign(module.exports, {
+    authRoute,
+    verifyToken
+})
