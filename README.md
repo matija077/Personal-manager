@@ -1,2 +1,2 @@
-# React playground app
-## Used to further expand my knowledge of JS, React, Redux, Context API, SEO, accessibility, CSS, Design patterns, TypeScript
+# Full stack playground app
+## Used to learn and expand my knowledge of JS, React, Redux, Context API, SEO, accessibility, CSS, Design patterns, TypeScript, Nodejs, Progressive Web apps, databases, CI/CD
