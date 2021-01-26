@@ -37,6 +37,19 @@ function singInWithGoogle() {
     return auth.signInWithPopup(googleProvider);
 }
 
+function getToken(sendTokenToBackEnd: (result: string) => void) {
+    console.log(auth.currentUser);
+    auth.currentUser?.getIdToken(true)
+        .then(function resolved(result) {
+            sendTokenToBackEnd(result);
+        })
+        .catch(function rejected(error) {
+            console.log("error fetchign token");
+            console.log(error);
+        });
+
+}
+
 export type FirebaseUserType = firebase.User | null;
 
 export {
@@ -44,5 +57,6 @@ export {
     googleProvider,
     signOut,
     singInWithGoogle,
-    getCurrentUser
+    getCurrentUser,
+    getToken
 }

@@ -1,6 +1,8 @@
-import { useState, useLayoutEffect, useCallback } from 'react';
+import { useState, useLayoutEffect, useCallback, memo } from 'react';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
+
+import withHomePage from '../../containers/home.container';
 
 import Quote from '../../components/quote/Quote.component';
 import TodaysTasks from '../../components/todays tasks/TodaysTasks.component';
@@ -9,7 +11,14 @@ import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
+import { useError } from '../../utility/customHooks.utils';
+
+import { contextsType, renderFunctionType } from '../../containers/home.container';
+import { contextType } from '../../graphQL/types';
+
 type HomeContainerPropsType = {
+    //render: (props: renderFunctionType) => React.ComponentType,
+    //contexts: contextsType,
     children?: []
 };
 
@@ -25,8 +34,6 @@ enum components {
     "Summary"
 }
 
-console.log(components.Quote);
-
 var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
     [components.TodaysTasks, TodaysTasks],
     [components.Quote, Quote],
@@ -36,6 +43,7 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 function HomePage(props: HomeContainerPropsType) {
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
+    var [error, setError] = useError();
 
     var closePopupIfOpenMemo = useCallback(
         closePopupIfOpen,
@@ -61,6 +69,7 @@ function HomePage(props: HomeContainerPropsType) {
             setPopup(null);
         }
     }
+
 
     function onClickHandlerHomePageSection(event: any): void {
         if (!popup)  {
@@ -107,8 +116,8 @@ function HomePage(props: HomeContainerPropsType) {
                     onClickHandler={onClickHandlerHomePageSection}
                     component={components.Quote}
                 >
-                    <Quote
-                    >
+                    <Quote>
+
                     </Quote>
                 </HomePageSection>
                 <HomePageSection
@@ -140,6 +149,7 @@ function HomePage(props: HomeContainerPropsType) {
                         >
                         </Close>
                         <PopupComponentChild
+
                         >
                         </PopupComponentChild>
                     </>
@@ -151,7 +161,15 @@ function HomePage(props: HomeContainerPropsType) {
     );
 }
 
-export default HomePage;
+export default withHomePage<HomeContainerPropsType>(memo(HomePage));
+
+/*
+function eqal(prevProps, nextProps) {
+    console.log(prevProps);
+    console.log(nextProps);
+    return true;
+})
+*/
 
 
 
@@ -168,3 +186,8 @@ export default HomePage;
                 null
             }
             */
+
+/**
+ * COMPLICATION
+ * {props.render(Quote, undefined, props.contexts.quotesContext)}
+ */

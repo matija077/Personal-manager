@@ -1,6 +1,7 @@
-import RootActionTypes, { RootAction } from './test-reducer.types';
+import RootActionTypes from './test-reducer.types';
+import { ActionType } from '../root-reducer';
 
-export function changeTest(text: string): RootAction  {
+export function changeTest(text: string): ActionType  {
     return {
         type: RootActionTypes.CHANGE_TEST,
         payload: text
