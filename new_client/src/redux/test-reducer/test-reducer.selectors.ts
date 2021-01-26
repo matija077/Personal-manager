@@ -1,4 +1,3 @@
-import rootReducer from '../root-reducer';
 import { TestState } from './test-reducer.types'
 import { RootState } from '../root-reducer';
 

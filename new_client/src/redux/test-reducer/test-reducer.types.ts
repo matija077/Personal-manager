@@ -3,13 +3,8 @@ export interface TestState {
     useless: any
 }
 
-export interface RootAction {
-    type: string,
-    payload: any
-}
-
-var RootActionTypes = {
+var TestActionTypes = {
     CHANGE_TEST: "CHANGE_TEST"
 }
 
-export default RootActionTypes;
+export default TestActionTypes;

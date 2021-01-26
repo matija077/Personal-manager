@@ -19,11 +19,8 @@ var MainContainerStyles = styled.div<MainContainerStylesPropsType>`
     flex-direction: column;
     justify-content: space-between;
     ${(props) => {
-        console.log(props);
         if (props.popup) {
             return css`filter: blur(2px)`
-        } else {
-            return null
         }
     }}
 `;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
 import { login } from '../../redux/utils';
 import { usePersistedStorage } from '../../utility/customHooks.utils';
-import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
+import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {
 
@@ -59,6 +59,7 @@ function HeaderContainer(props: any) {
         console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
         userData?.getIdToken(true).then(
             function resolved(result) {
+                console.log(result);
                 user.token = result;
             },
             function rejected(error) {
@@ -79,8 +80,8 @@ function HeaderContainer(props: any) {
      * @param userData<FirebaseUserType>
      */
     function setUserObjectMemo(userData: FirebaseUserType) {
-        console.log("memo");
-        console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
+        //console.log("memo");
+        //console.log(`dsiaplyBNamne ${userData?.displayName} = userNmae ${user.userName}`);
         if (userData?.displayName !== user.userName) {
             console.log("different");
             setUserObjectHOC(userData);
@@ -88,8 +89,9 @@ function HeaderContainer(props: any) {
     }
 
     function queryUser() {
-        console.log("entering");
+        // console.log("entering");
         getCurrentUser().then(function(resolved) {
+            getToken((result) => {console.log(result)});
             setUserObjectMemo(resolved);
         });
     }
@@ -112,7 +114,11 @@ function HeaderContainer(props: any) {
     }
 
     useEffect(() => {
-        axios.post("/api/verifyToken", {
+        if (!user.token) {
+            return;
+        }
+
+        axios.post("http://localhost:5012/api/verifyToken", {
             token: user.token,
             email: user.email
         }).
@@ -147,7 +153,7 @@ function HeaderContainer(props: any) {
     );
 }
 
-type HeaderContainerState = {
+/*type HeaderContainerState = {
     testState: string
 }
 
@@ -166,7 +172,7 @@ var mapDispatchToProps = (dispatch: DispatchType, ownProps: HeaderContainerProps
     return {
         changeTestState: (text: string):any => dispatch(changeTest(text)),
     }
-};
+};*/
 
 //export default connect(mapStateToProps, mapDispatchToProps)(Header);
 export default HeaderContainer;
