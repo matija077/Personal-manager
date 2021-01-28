@@ -4,11 +4,10 @@ var { configServerMiddlewares } = require('./src/config/serverConfig.ts');
 var { PORT } = require('./src/config/utils.ts');
 
 var auth = require('./src/routes/api/auth.route.ts');
-
+var { users } = require("./src/routes/api/users.ts");
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
 var port = process.env.PORT || PORT;
-console.log(port);
 
 require("./src/db/initialize.ts");
 
@@ -26,7 +25,9 @@ graphServer.applyMiddleware({app, path: "/graphql"})
 
 app.use("/api*", cors);
 
-//routes
+app.use("/api/users", users);
+
+//routes TODO - move
 app.post('/api/verifyToken', auth.verifyToken);
 
 

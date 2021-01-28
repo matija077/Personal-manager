@@ -8,12 +8,14 @@ function configServerMiddlewares(app) {
     app.use(express.json());
 }
 
+/**
+ * should be run before any environment calls
+ */
 function config() {
     if (process.env.NODE_ENV !== 'production') {
         require('dotenv').config();
     }
 }
-
 config();
 
 Object.assign(module.exports, {configServerMiddlewares});
