@@ -3,7 +3,7 @@ import cors from './src/middlewares/customCORS';
 import configServerMiddlewares from './src/config/serverConfig';
 import { PORT } from './src/config/utils';
 
-import { authRoute, verifyToken } from './src/routes/api/auth.route';
+import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
@@ -28,7 +28,7 @@ app.use("/api*", cors);
 app.use("/api/users", users);
 
 //routes TODO - move
-app.post('/api/verifyToken', verifyToken);
+app.use('/api/auth', auth);
 
 
 //require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
