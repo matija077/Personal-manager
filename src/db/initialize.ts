@@ -9,12 +9,22 @@ const client = new Client({
     port: process.env.PGPORT
 });
 
-function connect() {
-    return async () => {
-        await client
-    }
+client.connect()
+    .then(() => console.log("connected"))
+    .catch((error) => console.log(error));
 
+function connect() {
+    client.query('SELECT * from user',)
+        .then(function resolved(result) {
+            console.log(result);
+        }).catch(function rejected(error) {
+            console.log(error);
+        }).finally(function after() {
+            console.log("after");
+        })
 }
+
+connect();
 
 //module.exports.connect = connect;
 
