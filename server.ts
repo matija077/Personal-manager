@@ -1,15 +1,15 @@
 var express = require('express');
-var { cors } = require('./src/middlewares/customCORS.ts');
-var { configServerMiddlewares } = require('./src/config/serverConfig.ts');
-var { PORT } = require('./src/config/utils.ts');
+import cors from './src/middlewares/customCORS';
+import configServerMiddlewares from './src/config/serverConfig';
+import { PORT } from './src/config/utils';
 
-var auth = require('./src/routes/api/auth.route.ts');
-var { users } = require("./src/routes/api/users.ts");
+import { authRoute, verifyToken } from './src/routes/api/auth.route';
+import users from './src/routes/api/users';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
 var port = process.env.PORT || PORT;
 
-require("./src/db/initialize.ts");
+var client = require("./src/db/initialize.ts");
 
 var app = express();
 
@@ -28,17 +28,21 @@ app.use("/api*", cors);
 app.use("/api/users", users);
 
 //routes TODO - move
-app.post('/api/verifyToken', auth.verifyToken);
+app.post('/api/verifyToken', verifyToken);
 
 
 //require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
 
-function running(error) {
+function running(error: any) {
     if (error) {
         console.log(error);
     }
 }
 app.listen(port, running);
+
+setTimeout(() => {
+    console.log(client);
+}, 4000);
 
 
 /*

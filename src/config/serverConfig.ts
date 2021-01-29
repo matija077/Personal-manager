@@ -1,8 +1,7 @@
 var helmet = require('helmet');
-var express = require('express');
+import express from 'express';
 
-
-function configServerMiddlewares(app) {
+function configServerMiddlewares(app: express.Application) {
     app.use(helmet());
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
@@ -18,4 +17,4 @@ function config() {
 }
 config();
 
-Object.assign(module.exports, {configServerMiddlewares});
+export default configServerMiddlewares;

@@ -86,20 +86,27 @@ const typeDefs = gql`
     }
 `;
 
+type mutationArgsType = {
+    parent: any,
+    args: any,
+    context: any,
+    info: any
+};
+
 const resolvers = {
     Query: {
         Quotes: () => quotes,
         Tasks: () => tasks
     },
     Mutation: {
-        createTask: (parent, args, context, info) => {
+        createTask: (parent:any, args: any, context: any, info: any) => {
             console.log(args);
             tasks.push(args.task);
             console.log(tasks);
 
             return args.task;
         },
-        createTest:  (parent, args, context, info) => {
+        createTest:  (parent:any, args: any, context: any, info: any) => {
             console.log(info);
 
             return "Succesfu lmtuation";

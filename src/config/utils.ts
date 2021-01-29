@@ -6,4 +6,4 @@ const returnCodes = {
     'noContent': 204
 };
 
-Object.assign(module.exports, {PORT, returnCodes});
+export { PORT, returnCodes };

@@ -1,6 +1,7 @@
-var { returnCodes } = require("../config/utils.ts");
+import { returnCodes } from "../config/utils";
+import express from 'express';
 
-function cors(req, res, next) {
+function cors(req: express.Request, res: express.Response, next: express.NextFunction) {
     if (req.method === "OPTIONS") {
         console.log("olaaaa");
         const headers = {
@@ -16,5 +17,4 @@ function cors(req, res, next) {
 
     next();
 }
-
-module.exports.cors = cors;
+export default cors;

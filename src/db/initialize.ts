@@ -10,21 +10,16 @@ const client = new Client({
 });
 
 client.connect()
-    .then(() => console.log("connected"))
-    .catch((error) => console.log(error));
+    .then(() => clientWrapper.connected = true)
+    .catch((error: any) => console.log(error));
 
-function connect() {
-    client.query('SELECT * from user',)
-        .then(function resolved(result) {
-            console.log(result);
-        }).catch(function rejected(error) {
-            console.log(error);
-        }).finally(function after() {
-            console.log("after");
-        })
-}
+var clientWrapper : {
+    connected: boolean,
+    client:  typeof Client
+} = {
+    connected: false,
+    client
+} 
 
-connect();
-
-//module.exports.connect = connect;
+Object.assign(module.exports, clientWrapper);
 

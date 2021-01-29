@@ -15,4 +15,4 @@ router
         console.log("uspjeh2");
     });
 
-module.exports.users = router;
+export default router;
