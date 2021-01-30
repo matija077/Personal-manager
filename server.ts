@@ -40,11 +40,6 @@ function running(error: any) {
 }
 app.listen(port, running);
 
-setTimeout(() => {
-    console.log(client);
-}, 4000);
-
-
 /*
 * servies
 * db

@@ -1,3 +1,5 @@
+import { connected } from "process";
+
 const pg = require("pg");
 const { Client } = pg;
 
@@ -21,5 +23,5 @@ var clientWrapper : {
     client
 } 
 
-Object.assign(module.exports, clientWrapper);
+export default clientWrapper;
 
