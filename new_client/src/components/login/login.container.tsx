@@ -3,6 +3,9 @@ import { useState, useRef, useEffect, useLayoutEffect, useCallback, Ref, Mutable
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
 import { HTMLEventElement } from '../../utility/typescript.utils';
+import Spinner from '../spinner/spinner.component';
+
+import { useHistory } from 'react-router';
 
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 import { login } from '../../redux/utils';
@@ -20,6 +23,7 @@ type stateType = {
     text: string,
     password: string,
     valid: boolean,
+    loading: boolean
 }
 
 type LoginContainerPropsType = {
@@ -32,13 +36,16 @@ function LoginContainer(props: LoginContainerPropsType) {
         throw error;
     }
 
+    const history = useHistory();
+
     var [state, setState] = useState<stateType>({
         loginState: 0,
         text: "",
         password: "",
         valid: true,
+        loading: false
     })
-    var { loginState, text: email, password, valid } = state;
+    var { loginState, text: email, password, valid, loading } = state;
 
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
 
@@ -202,16 +209,23 @@ function LoginContainer(props: LoginContainerPropsType) {
         login(email, password).
             then(function resolved(result: any) {
                 console.log(result);
+                history.push("/");
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
                 console.log(error);
                 setError(error);
             });
+
+        setState((state) => {return {...state, loading: true}})
     }
 
     return (
-        render[loginState.toString()]
+        <>
+            {render[loginState.toString()]}
+            {loading && <Spinner positionFixed={true}>
+            </Spinner>}
+        </> 
     );
 
 }

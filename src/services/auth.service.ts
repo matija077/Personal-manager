@@ -29,10 +29,10 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
             text,
             values
         );
-        const hashedPassord = result.rows[0].password;
+        const hashedPassword = result.rows[0].password;
             
         const passwordsMatch = await new Promise(function(resolve, reject) {
-            bcrypt.compare(password, hashedPassord, function(error, result) {
+            bcrypt.compare(password, hashedPassword, function(error, result) {
                 if (error) {
                     reject(error);
                 }

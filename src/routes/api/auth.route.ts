@@ -4,15 +4,16 @@ import { authenticate } from '../../services/auth.service';
 
 router
     .post("/authenticate", async (req: express.Request, res: express.Response) => {
-        console.log(req.params);
-        const isAuthenticated = await authenticate({id: "1", password: "1234"});
+        console.log(req.body);
+        const {id, password}: {id: string, password: string} = req.body;
+        const isAuthenticated = await authenticate({id, password});
 
         console.log(isAuthenticated);
 
         const origin = req.get('origin');
-        const headers = {
+        /*const headers = {
             'Access-Control-Allow-Origin' : `${origin}`
-        }
+        }*/
 
         //origin && res.setHeader('Access-Control-Allow-Origin',  origin);
         res.send(isAuthenticated);
