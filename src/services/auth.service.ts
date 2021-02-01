@@ -6,7 +6,10 @@ type authetnicateParamsType = {
     password: string
 }
 
-type authenticateReturnType = boolean | null;
+type authenticateReturnType = {
+    isMatched: boolean | null,
+    nickname: string | null,
+}
 
 /**
  *
@@ -17,7 +20,10 @@ type authenticateReturnType = boolean | null;
  */
 async function authenticate({ email, password }: authetnicateParamsType): Promise<authenticateReturnType> {
     console.log("here");
-    var returnType: authenticateReturnType = null;
+    var returnType: authenticateReturnType = {
+        isMatched: null,
+        nickname: null
+    };
 
     try {
         // insert into part
@@ -55,10 +61,11 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
         });
 
         if (passwordsMatch) {
-            returnType = true;
+            returnType.isMatched = true;
         } else {
-            returnType = false;
+            returnType.isMatched = false;
         }
+        returnType.nickname = result.rows[0].nickname;
 
     } catch(error: any) {
         console.log(error);
