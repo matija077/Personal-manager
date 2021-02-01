@@ -1,13 +1,24 @@
 import client from '../db/initialize';
 import bcrypt from 'bcrypt';
 
-type authetnicateType = {
-    id: string,
+type authetnicateParamsType = {
+    email: string,
     password: string
 }
 
-async function authenticate({ id, password }: authetnicateType): Promise<boolean> {
+type authenticateReturnType = boolean | null;
+
+/**
+ *
+ * @param {authetnicateParamsType} email, password
+ * @returns {authenticateReturnType} false - no authentication
+ * true - successfull authentication
+ * null - something  went wrong
+ */
+async function authenticate({ email, password }: authetnicateParamsType): Promise<authenticateReturnType> {
     console.log("here");
+    var returnType: authenticateReturnType = null;
+
     try {
         // insert into part
         /*const saltRounds = 10;
@@ -24,12 +35,13 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
         console.log("before");
         const text = 'INSERT INTO "user" (surname, name, password, email) values ($1, $2, $3, $4)';
         const values = ['prsa', 'matija', hashedPassword, 'matija.prs@gmail.com'];*/
-        const text = 'SELECT password FROM "user" WHERE id = $1';
-        const values = [id];
+        const text = 'SELECT password, nickname FROM "user" WHERE email = $1';
+        const values = [email];
         var result =  await client.client.query(
             text,
             values
         );
+        console.log(email);
         const hashedPassword = result.rows[0].password;
 
         const passwordsMatch = await new Promise(function(resolve, reject) {
@@ -43,16 +55,16 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
         });
 
         if (passwordsMatch) {
-            return true;
+            returnType = true;
         } else {
-            return false;
+            returnType = false;
         }
 
     } catch(error: any) {
         console.log(error);
     }
 
-    return false;
+    return returnType;
 }
 
 export {
