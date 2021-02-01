@@ -5,23 +5,13 @@ import { returnCodes } from '../../config/utils';
 
 router
     .post("/authenticate", async (req: express.Request, res: express.Response) => {
-        console.log(req.body);
         const {email, password}: {email: string, password: string} = req.body;
-        const { isMatched: isAuthenticated, nickname } = await authenticate({email, password});
+        const { isMatched: isAuthenticated, error } = await authenticate({email, password});
 
-        console.log(isAuthenticated);
-
-        const origin = req.get('origin');
-        /*const headers = {
-            'Access-Control-Allow-Origin' : `${origin}`
-        }*/
-
-        //origin && res.setHeader('Access-Control-Allow-Origin',  origin);
-
-        if (isAuthenticated === null) {
-            res.status(returnCodes.error).send();
+        if (error) {
+            res.status(returnCodes.error).send("something went wrong");
         } else {
-            res.send({isAuthenticated, nickname});
+            res.send({isAuthenticated});
         }
     })
 
