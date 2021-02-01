@@ -1,15 +1,18 @@
 import { useState, useRef, useEffect, useLayoutEffect, useCallback, Ref, MutableRefObject } from 'react';
+import ReactDOM from 'react-dom';
 
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
 import { HTMLEventElement } from '../../utility/typescript.utils';
 import Spinner from '../spinner/spinner.component';
+import LoginPopupComponent from '../successful-login-popup/login-popup.component';
 
-import { useHistory } from 'react-router';
+import { useHistory, useRouteMatch, Route } from 'react-router';
 
 import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
 import { login } from '../../redux/utils';
 import { usePersistedStorage, useError, useLogger } from '../../utility/customHooks.utils';
+import { AxiosPromise, AxiosResponse } from 'axios';
 
 type renderType = {
     [key1: string]: JSX.Element,
@@ -18,12 +21,17 @@ type renderType = {
     "2": JSX.Element,
 }
 
+type authResultType = {
+    isAuthenticated: boolean
+}
+
 type stateType = {
     loginState: 0 | 1 | 2,
     text: string,
     password: string,
     valid: boolean,
-    loading: boolean
+    loading: boolean,
+    showPopup: boolean,
 }
 
 type LoginContainerPropsType = {
@@ -31,6 +39,7 @@ type LoginContainerPropsType = {
 };
 
 function LoginContainer(props: LoginContainerPropsType) {
+    console.log("re rednered");
     var [error, setError] = useError();
     if (error) {
         throw error;
@@ -43,11 +52,13 @@ function LoginContainer(props: LoginContainerPropsType) {
         text: "",
         password: "",
         valid: true,
-        loading: false
+        loading: false,
+        showPopup: false,
     })
-    var { loginState, text: email, password, valid, loading } = state;
-
+    var { loginState, text: email, password, valid, loading, showPopup } = state;
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
+    const { url} = useRouteMatch();
+    var [popupState, setPopupState] = useState<boolean>(false);
 
     // if we switch to passwrod we want to reset the state
     useEffect(() => {
@@ -73,7 +84,7 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     function checkAndToggleValidity(): boolean {
         const isValid = checkValidity();
-        console.log("check:" + isValid + "current:" + valid);
+        //console.log("check:" + isValid + "current:" + valid);
 
         if (isValid !== valid) {
             setState((state) => ({
@@ -124,7 +135,7 @@ function LoginContainer(props: LoginContainerPropsType) {
         setState((state) => { return{
             ...state,
             [inputType]: event.target.value
-        }});    
+        }});
     }
 
     // intially we either choose googleSingIn or we move to Email and Password. for this
@@ -157,7 +168,7 @@ function LoginContainer(props: LoginContainerPropsType) {
 
         function checkEmail() {
             const regex = RegExp("[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$");
-            
+
             if (value !== undefined && !regex.test(value)) {
                 valid = false;
             }
@@ -186,7 +197,7 @@ function LoginContainer(props: LoginContainerPropsType) {
         disableInvalidOnInvalid();
     }
 
-    /* 
+    /*
     * if not valid make input focus and return. if semail then move to password
     * if passwrod then move to login
     */
@@ -207,9 +218,19 @@ function LoginContainer(props: LoginContainerPropsType) {
         }
 
         login(email, password).
-            then(function resolved(result: any) {
+            then(function resolved(result: AxiosResponse<authResultType>) {
                 console.log(result);
-                history.push("/");
+                ReactDOM.unstable_batchedUpdates(() => {
+                    setState((state) => {
+                        return {
+                            ...state,
+                            loading: false,
+                            showPopup: true,
+                        };
+                    })
+                    setPopupState(result.data.isAuthenticated)
+                 })
+
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
@@ -225,9 +246,33 @@ function LoginContainer(props: LoginContainerPropsType) {
             {render[loginState.toString()]}
             {loading && <Spinner positionFixed={true}>
             </Spinner>}
-        </> 
+            {showPopup ?
+                <LoginPopupComponent
+                    successfull={popupState}
+                    nextLocation=""
+                />
+
+
+            :
+                null}
+
+        </>
     );
 
 }
 
 export default LoginContainer;
+
+/*<Route
+                path={path + "/afterAuth/:isAuth"}
+                children={({ match }) => {
+                    console.log("tu sam u auth successu");
+                    console.log(match?.params);
+                    if (!match) {
+                        return null;
+                    } else {
+                        return match.params.isAuth;
+                    }
+                }}
+            />
+            */

@@ -1,11 +1,11 @@
 type SuccessfullLoginPopupType = {
-    
+
 };
 
 function SuccessfullLoginPopup(props: SuccessfullLoginPopupType) {
 
     return (
-        null
+        <div>"successfull"</div>
     );
 
 }

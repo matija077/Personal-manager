@@ -2,12 +2,13 @@ import { useEffect } from "react";
 import { createPortal } from "react-dom";
 
 type PortalpropsType = {
-    children: []
+    children: any
 }
 
 const Portal = ({children}: PortalpropsType) => {
   const mount = document.getElementById("portal-root");
   const el = document.createElement("article");
+  console.log(children);
 
   useEffect(() => {
     if (!mount) {
