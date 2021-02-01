@@ -16,7 +16,7 @@ const Portal = ({children}: PortalpropsType) => {
 
     mount.appendChild(el);
 
-    return () => mount.removeChild(el);
+    return () => { mount.removeChild(el) };
   }, [el, mount]);
 
   return createPortal(children, el)
