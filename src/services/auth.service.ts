@@ -7,6 +7,7 @@ type authetnicateType = {
 }
 
 async function authenticate({ id, password }: authetnicateType): Promise<boolean> {
+    console.log("here");
     try {
         // insert into part
         /*const saltRounds = 10;
@@ -20,9 +21,9 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
             });
         });
 
-        /*console.log("before");
-        const text = 'INSERT INTO "user" (Surname, Name, password)';
-        const values = [];*/
+        console.log("before");
+        const text = 'INSERT INTO "user" (surname, name, password, email) values ($1, $2, $3, $4)';
+        const values = ['prsa', 'matija', hashedPassword, 'matija.prs@gmail.com'];*/
         const text = 'SELECT password FROM "user" WHERE id = $1';
         const values = [id];
         var result =  await client.client.query(
@@ -30,7 +31,7 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
             values
         );
         const hashedPassword = result.rows[0].password;
-            
+
         const passwordsMatch = await new Promise(function(resolve, reject) {
             bcrypt.compare(password, hashedPassword, function(error, result) {
                 if (error) {
@@ -46,7 +47,7 @@ async function authenticate({ id, password }: authetnicateType): Promise<boolean
         } else {
             return false;
         }
-        
+
     } catch(error: any) {
         console.log(error);
     }
