@@ -1,13 +1,13 @@
-type SuccessfullLoginPopupType = {
+type SuccessfulLoginPopupType = {
 
 };
 
-function SuccessfullLoginPopup(props: SuccessfullLoginPopupType) {
+function SuccessfulLoginPopup(props: SuccessfulLoginPopupType) {
 
     return (
-        <div>"successfull"</div>
+        <div>"successful"</div>
     );
 
 }
 
-export default SuccessfullLoginPopup;
+export default SuccessfulLoginPopup;

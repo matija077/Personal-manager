@@ -1,8 +1,8 @@
-type NonSuccessfullLoginPopupType = {
+type NonSuccessfulLoginPopupType = {
 
 };
 
-function NonSuccessfullLoginPopup(props: NonSuccessfullLoginPopupType) {
+function NonSuccessfulLoginPopup(props: NonSuccessfulLoginPopupType) {
 
     return (
        <div>"No nsuccessful"</div>
@@ -10,4 +10,4 @@ function NonSuccessfullLoginPopup(props: NonSuccessfullLoginPopupType) {
 
 }
 
-export default NonSuccessfullLoginPopup;
+export default NonSuccessfulLoginPopup;

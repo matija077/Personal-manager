@@ -248,7 +248,7 @@ function LoginContainer(props: LoginContainerPropsType) {
             </Spinner>}
             {showPopup ?
                 <LoginPopupComponent
-                    successfull={popupState}
+                    successful={popupState}
                     nextLocation=""
                 />
 

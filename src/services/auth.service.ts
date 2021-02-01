@@ -16,7 +16,7 @@ type authenticateReturnType = {
  * @param {authetnicateParamsType} email, password
  * @returns {authenticateReturnType}
  * false - no authentication
- * true - successfull authentication
+ * true - successful authentication
  */
 async function authenticate({ email, password }: authetnicateParamsType): Promise<authenticateReturnType> {
     console.log("here");
