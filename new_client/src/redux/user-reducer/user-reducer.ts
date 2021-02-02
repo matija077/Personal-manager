@@ -13,7 +13,7 @@ type userPayloadActionTypeLoginType = {
 
 function isUserPayloadActionTypeLogin(unknownPayload: unknown) {
     const payload = unknownPayload as userPayloadActionTypeLoginType;
-    return (payload.nickname !== undefined && payload.email !== undefined) ? payload;
+    return (payload.nickname !== undefined && payload.email !== undefined);
 }
 
 const initialState = {
@@ -25,9 +25,11 @@ const initialState = {
 
 const userReducerActionMap : userReducerActionMapType = {
     [userActionTypes.LOGIN]: function(state, unknownPayload) {
+        console.log(unknownPayload);
         if (!isUserPayloadActionTypeLogin(unknownPayload)) {
             return state;
         }
+        console.log("working");
 
         const payload = unknownPayload as userPayloadActionTypeLoginType;
 

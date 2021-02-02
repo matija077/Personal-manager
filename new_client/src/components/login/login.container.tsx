@@ -13,6 +13,8 @@ import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../
 import { login } from '../../redux/utils';
 import { usePersistedStorage, useError, useLogger } from '../../utility/customHooks.utils';
 import { AxiosPromise, AxiosResponse } from 'axios';
+import { useDispatch } from 'react-redux';
+import { login as loginDispatch } from '../../redux/user-reducer/user.actions';
 
 type renderType = {
     [key1: string]: JSX.Element,
@@ -59,6 +61,7 @@ function LoginContainer(props: LoginContainerPropsType) {
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
     const { url} = useRouteMatch();
     var [popupState, setPopupState] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     // if we switch to passwrod we want to reset the state
     useEffect(() => {
@@ -207,6 +210,7 @@ function LoginContainer(props: LoginContainerPropsType) {
                 };
             })
         } else {
+            dispatch(loginDispatch({email: "matija", nickname: "matija"}));
             history.replace("/");
         }
     }
