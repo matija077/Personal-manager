@@ -5,7 +5,7 @@ import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
 import { HTMLEventElement } from '../../utility/typescript.utils';
 import Spinner from '../spinner/spinner.component';
-import LoginPopupComponent from '../successful-login-popup/login-popup.component';
+import FailedAuthPopup from '../successful-login-popup/non-successfull-login-popup.component';
 
 import { useHistory, useRouteMatch, Route } from 'react-router';
 
@@ -197,6 +197,20 @@ function LoginContainer(props: LoginContainerPropsType) {
         disableInvalidOnInvalid();
     }
 
+    function loginHandler(isAuthenticated: boolean) {
+        if (!isAuthenticated) {
+            setState((state) => {
+                return {
+                    ...state,
+                    loading: false,
+                    showPopup: true,
+                };
+            })
+        } else {
+            history.replace("/");
+        }
+    }
+
     /*
     * if not valid make input focus and return. if semail then move to password
     * if passwrod then move to login
@@ -219,18 +233,7 @@ function LoginContainer(props: LoginContainerPropsType) {
 
         login(email, password).
             then(function resolved(result: AxiosResponse<authResultType>) {
-                console.log(result);
-                ReactDOM.unstable_batchedUpdates(() => {
-                    setState((state) => {
-                        return {
-                            ...state,
-                            loading: false,
-                            showPopup: true,
-                        };
-                    })
-                    setPopupState(result.data.isAuthenticated)
-                 })
-
+                loginHandler(result.data.isAuthenticated);
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
@@ -247,14 +250,10 @@ function LoginContainer(props: LoginContainerPropsType) {
             {loading && <Spinner positionFixed={true}>
             </Spinner>}
             {showPopup ?
-                <LoginPopupComponent
-                    successful={popupState}
-                    nextLocation=""
-                />
-
-
+                <FailedAuthPopup />
             :
-                null}
+                null
+            }
 
         </>
     );

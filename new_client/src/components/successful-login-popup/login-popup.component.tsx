@@ -1,6 +1,6 @@
 import PortalFactory from '../portalFactory/portalFactory';
 import SuccessfulLoginPopup from './succesful-login-popup.component';
-import NonSuccessfulLoginPopup from './non-successful-login-popup.component';
+//import NonSuccessfulLoginPopup from './non-successful-login-popup.component';
 
 type LoginPoputType = {
     successful: boolean,
@@ -9,7 +9,8 @@ type LoginPoputType = {
 
 function LoginPopup({ successful }: LoginPoputType) {
     console.log(successful);
-    const Render = successful ? SuccessfulLoginPopup : NonSuccessfulLoginPopup;
+    //const Render = successful ? SuccessfulLoginPopup : NonSuccessfulLoginPopup;
+    const Render = SuccessfulLoginPopup;
 
     return (
         <PortalFactory>
