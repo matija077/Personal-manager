@@ -1,6 +1,8 @@
 import {
     HeaderStyles,
-    HeaderItemStyles
+    HeaderItemStyles,
+    HeaderItemContainerStyles,
+    HeaderContainerItemStyles
 } from './header.styles';
 
 import { login } from '../../redux/utils';
@@ -9,14 +11,16 @@ export type HeaderProps = {
     testState:string,
     exists: unknown,
     userName: string,
-    userNameLoginHandler: Function
+    userNameOnClickHandler: Function,
+    logout: Function
 };
 
 function Header({
     testState,
     exist,
     userName="",
-    userNameLoginHandler
+    userNameOnClickHandler,
+    logout
 }: any) {
     return(
         <HeaderStyles>
@@ -38,11 +42,25 @@ function Header({
             <HeaderItemStyles to="/Chess">
                 Chess
             </HeaderItemStyles>
-            <HeaderItemStyles to="/Login" onClick={userNameLoginHandler}>
-                {
-                    userName || "Login"
-                }
-            </HeaderItemStyles>
+            {userName ?
+                <HeaderItemContainerStyles>
+                    <HeaderContainerItemStyles to="#" onClick={userNameOnClickHandler}>
+                        {
+                            userName
+                        }
+                    </HeaderContainerItemStyles>
+                    /
+                    <HeaderContainerItemStyles to="/" onClick={logout}>
+                        Sign out
+                    </HeaderContainerItemStyles>
+                </HeaderItemContainerStyles>
+            :
+                <HeaderItemStyles to="/Login">
+                    {
+                        "Login"
+                    }
+                </HeaderItemStyles>
+            }
         </HeaderStyles>
     );
 }
