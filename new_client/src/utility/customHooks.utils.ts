@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+type storageType = typeof localStorage | typeof sessionStorage;
+
 /**
  * Custom Hook for using persisted storage in Function components
  * it uses useState for data storage and useEffect for side effects
@@ -21,10 +23,11 @@ function usePersistedStorage<T>(
     key: string,
     defaultValue: T,
     callbackFunctionsArray: (Function)[],
-    callbackFunctionsCleanUpArray: (Function)[])
+    callbackFunctionsCleanUpArray: (Function)[],
+    storageType: storageType)
 : [T, Function] {
     const [state, setState] = React.useState(() => {
-        const persistedState = localStorage.getItem(key);
+        const persistedState = storageType.getItem(key);
         return persistedState ? JSON.parse(persistedState) : defaultValue;
     });
 
@@ -33,7 +36,7 @@ function usePersistedStorage<T>(
             func();
         })
 
-        localStorage.setItem(key, JSON.stringify(state))
+        storageType.setItem(key, JSON.stringify(state))
 
         return () => {
             callbackFunctionsCleanUpArray.forEach(function(func) {
