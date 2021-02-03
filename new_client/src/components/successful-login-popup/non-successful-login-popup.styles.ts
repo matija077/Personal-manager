@@ -8,7 +8,7 @@ const NonSuccessfulLoginPopupStyles = styles.article`
     bottom: 25%;
     background-color: red;
     box-shadow:  0 0 1rem 5rem blue;
-    animation: fade 2s linear 1s;
+    animation: fade 1s linear 1s;
     @keyframes fade {
         0% {
             opacity: 0.8;

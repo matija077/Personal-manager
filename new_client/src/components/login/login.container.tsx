@@ -42,6 +42,15 @@ type LoginContainerPropsType = {
     children: []
 };
 
+const initalState: stateType = {
+    loginState: 0,
+    text: "",
+    password: "",
+    valid: true,
+    loading: false,
+    showPopup: false,
+}
+
 function LoginContainer(props: LoginContainerPropsType) {
     //console.log("re rednered");
     var [error, setError] = useError();
@@ -51,17 +60,9 @@ function LoginContainer(props: LoginContainerPropsType) {
 
     const history = useHistory();
 
-    var [state, setState] = useState<stateType>({
-        loginState: 0,
-        text: "",
-        password: "",
-        valid: true,
-        loading: false,
-        showPopup: false,
-    })
+    var [state, setState] = useState<stateType>(initalState);
     var { loginState, text: email, password, valid, loading, showPopup } = state;
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
-    var popupRef: MutableRefObject<any> = useRef();
     const { url} = useRouteMatch();
     var [popupState, setPopupState] = useState<boolean>(false);
     const dispatch = useDispatch();
@@ -213,26 +214,11 @@ function LoginContainer(props: LoginContainerPropsType) {
         })
     }
 
-    useEffect(() => {
-        console.log(popupRef);
-        if (popupRef.current) {
-            popupRef.current.onTransition = function onTransitionHandler(event: any) {
-                console.log("ref working");
-            }
-            popupRef.current.onClick = function onClickHandler(event: any) {
-                console.log("ref working on click");
-            }
-        }
-    }, [showPopup])
-
-    // sdaasda
-
     function loginHandler({isAuthenticated, nickname, email}: authResultType) {
         if (!isAuthenticated) {
             setState((state) => {
                 return {
-                    ...state,
-                    loading: false,
+                    ...initalState,
                     showPopup: true,
                 };
             })
@@ -271,8 +257,6 @@ function LoginContainer(props: LoginContainerPropsType) {
                 });
             }).
             catch(function rejected(error: PromiseRejectedResult) {
-                console.log("error while login in");
-                console.log(error);
                 setError(error);
             });
 
@@ -287,7 +271,6 @@ function LoginContainer(props: LoginContainerPropsType) {
             {showPopup ?
                 <FailedAuthPopup
                     onTransitionedHandler={onTransitionedHandler}
-                    popupRef={popupRef}
                 >
                 </FailedAuthPopup>
             :
