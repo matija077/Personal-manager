@@ -16,7 +16,7 @@ function cors(req: express.Request, res: express.Response, next: express.NextFun
         return;
     }
 
-    res.header('Access-Control-Allow-Origin', origin || "");
+    res.set('Access-Control-Allow-Origin', origin || "");
 
     next();
 }
