@@ -19,16 +19,16 @@ function Login({ clickHandler, state }: any) {
             </LoginPickerLabelStyles>
             <LoginPickerButton
                 data-id="google"
-                onClick={clickHandler}         
+                onClick={clickHandler}
             >
                 Google
-            </LoginPickerButton>  
+            </LoginPickerButton>
             <LoginPickerButton
                 data-id="standard"
-                onClick={clickHandler}    
+                onClick={clickHandler}
             >
                 Email and Paswword
-            </LoginPickerButton>      
+            </LoginPickerButton>
         </LoginStyles>
     );
 }

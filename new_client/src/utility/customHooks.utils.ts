@@ -34,7 +34,6 @@ function usePersistedStorage<T>(
         })
 
         localStorage.setItem(key, JSON.stringify(state))
-        console.log(state);
 
         return () => {
             callbackFunctionsCleanUpArray.forEach(function(func) {

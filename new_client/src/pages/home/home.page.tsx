@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useCallback, memo } from 'react';
+import { useState, useLayoutEffect, useCallback, memo, useEffect } from 'react';
 
 import { MainStyles, PopupContainerStyles, MainContainerStyles } from './home.styles';
 
@@ -42,6 +42,7 @@ var componentMap:Map<components, (props: any) => JSX.Element> = new Map([
 
 
 function HomePage(props: HomeContainerPropsType) {
+    console.log("hoem page rendered");
     var [popup, setPopup] : [0 | 1 | 2 | null, Function] = useState(null);
     var [error, setError] = useError();
 

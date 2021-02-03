@@ -9,7 +9,7 @@ function login(
     console.log("login");
 
     return axios.post("http://localhost:5012/api/auth/authenticate", {
-        id: 1,
+        email: email,
         password
     })
     //return auth.signInWithEmailAndPassword(email, password)
