@@ -1,13 +1,31 @@
-type NonSuccessfulLoginPopupType = {
+import React,  { MutableRefObject, useEffect } from 'react';
+import { NonSuccessfulLoginPopupStyles, NonSuccessfulLoginPopupTextStyles } from './non-successful-login-popup.styles';
 
+type NonSuccessfulLoginPopupType = {
+    onTransitionedHandler: (event: any) => void,
+    popupRef: MutableRefObject<any>
+    children: []
 };
 
-function NonSuccessfulLoginPopup(props: NonSuccessfulLoginPopupType) {
+function NonSuccessfulLoginPopup({ onTransitionedHandler, popupRef: ref }: NonSuccessfulLoginPopupType) {
+    useEffect(() => {
+        console.log("mounter popup");
+
+    }, [])
+    console.log("code parsed popup");
 
     return (
-       <div>"No nsuccessful"</div>
+       <NonSuccessfulLoginPopupStyles
+            onTransitionEndCapture={onTransitionedHandler}
+            ref={ref}
+            onClick={(event) => {console.log("working")}}
+       >
+           <NonSuccessfulLoginPopupTextStyles>
+                PASSWORD OR EMAIL IS WRONG
+           </NonSuccessfulLoginPopupTextStyles>
+        </NonSuccessfulLoginPopupStyles>
     );
 
 }
 
-export default NonSuccessfulLoginPopup;
+export default React.forwardRef(NonSuccessfulLoginPopup);

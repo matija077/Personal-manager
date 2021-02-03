@@ -24,7 +24,9 @@ type renderType = {
 }
 
 type authResultType = {
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    nickname: string | null,
+    email: string
 }
 
 type stateType = {
@@ -41,7 +43,7 @@ type LoginContainerPropsType = {
 };
 
 function LoginContainer(props: LoginContainerPropsType) {
-    console.log("re rednered");
+    //console.log("re rednered");
     var [error, setError] = useError();
     if (error) {
         throw error;
@@ -59,6 +61,7 @@ function LoginContainer(props: LoginContainerPropsType) {
     })
     var { loginState, text: email, password, valid, loading, showPopup } = state;
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
+    var popupRef: MutableRefObject<any> = useRef();
     const { url} = useRouteMatch();
     var [popupState, setPopupState] = useState<boolean>(false);
     const dispatch = useDispatch();
@@ -200,7 +203,31 @@ function LoginContainer(props: LoginContainerPropsType) {
         disableInvalidOnInvalid();
     }
 
-    function loginHandler(isAuthenticated: boolean) {
+    function onTransitionedHandler(event: any) {
+        console.log("wroking");
+        setState((state) => {
+            return {
+                ...state,
+                showPopup: false
+            };
+        })
+    }
+
+    useEffect(() => {
+        console.log(popupRef);
+        if (popupRef.current) {
+            popupRef.current.onTransition = function onTransitionHandler(event: any) {
+                console.log("ref working");
+            }
+            popupRef.current.onClick = function onClickHandler(event: any) {
+                console.log("ref working on click");
+            }
+        }
+    }, [showPopup])
+
+    // sdaasda
+
+    function loginHandler({isAuthenticated, nickname, email}: authResultType) {
         if (!isAuthenticated) {
             setState((state) => {
                 return {
@@ -210,7 +237,8 @@ function LoginContainer(props: LoginContainerPropsType) {
                 };
             })
         } else {
-            dispatch(loginDispatch({email: "matija", nickname: "matija"}));
+            nickname = nickname as string;
+            dispatch(loginDispatch({email, nickname}));
             history.replace("/");
         }
     }
@@ -237,7 +265,10 @@ function LoginContainer(props: LoginContainerPropsType) {
 
         login(email, password).
             then(function resolved(result: AxiosResponse<authResultType>) {
-                loginHandler(result.data.isAuthenticated);
+                loginHandler({
+                     ...result.data,
+                     email
+                });
             }).
             catch(function rejected(error: PromiseRejectedResult) {
                 console.log("error while login in");
@@ -254,7 +285,11 @@ function LoginContainer(props: LoginContainerPropsType) {
             {loading && <Spinner positionFixed={true}>
             </Spinner>}
             {showPopup ?
-                <FailedAuthPopup />
+                <FailedAuthPopup
+                    onTransitionedHandler={onTransitionedHandler}
+                    popupRef={popupRef}
+                >
+                </FailedAuthPopup>
             :
                 null
             }
