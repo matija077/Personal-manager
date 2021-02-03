@@ -22,7 +22,7 @@ const initialState = {
 }
 
 const userReducerActionMap : userReducerActionMapType = {
-    [userActionTypes.LOGIN]: function(state, unknownPayload) {
+    [userActionTypes.LOGIN]: function reducerLogin(state, unknownPayload) {
         if (!isUserPayloadOfActionType(unknownPayload)) {
             return state;
         }
@@ -34,6 +34,9 @@ const userReducerActionMap : userReducerActionMapType = {
             email: payload.email,
             nickname: payload.nickname
         };
+    },
+    [userActionTypes.LOGOUT]: function reducerLogout() {
+        return initialState;
     }
 }
 

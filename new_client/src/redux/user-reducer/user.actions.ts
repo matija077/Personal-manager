@@ -6,3 +6,10 @@ export function login({nickname, email}: {nickname: string, email: string}) {
         payload: {nickname, email}
     }
 }
+
+export function logout() {
+    return {
+        type: userActionTypes.LOGOUT,
+        payload: undefined
+    }
+}

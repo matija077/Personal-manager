@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
 import { getUser } from '../../redux/user-reducer/user.selectors';
+import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
 import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
@@ -109,7 +110,7 @@ function HeaderContainer(props: any) {
         });
     }
 
-    function userNameLoginHandler(event: React.SyntheticEvent<typeof Header>) {
+    function userNameOnClickHandler(event: React.SyntheticEvent<typeof Header>) {
         if (userName) {
             console.log("user profile");
         } else {
@@ -124,6 +125,10 @@ function HeaderContainer(props: any) {
                 console.log(error);
             });*/
         }
+    }
+
+    function logout(event: React.SyntheticEvent<typeof Header>) {
+        dispatch(logoutRedux());
     }
 
     useEffect(() => {
@@ -160,7 +165,8 @@ function HeaderContainer(props: any) {
             testState={testState}
             exist={exists}
             userName={userName}
-            userNameLoginHandler={userNameLoginHandler}
+            userNameOnClickHandler={userNameOnClickHandler}
+            logout={logout}
         >
         </Header>
     );

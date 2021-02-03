@@ -5,7 +5,8 @@ export type userStateType = {
 
 
 const userActionTypes = {
-    "LOGIN": "LOGIN"
+    "LOGIN": "LOGIN",
+    "LOGOUT": "LOGOUT"
 }
 
 export default userActionTypes;
