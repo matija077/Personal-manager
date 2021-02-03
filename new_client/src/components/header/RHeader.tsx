@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
+import { getUser } from '../../redux/user-reducer/user.selectors';
 import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
 import { TestState } from '../../redux/test-reducer/test-reducer.types';
 import { DispatchType } from '../../redux/store';
@@ -17,16 +18,16 @@ type Props = {
 }
 
 type userType = {
-    userName:  string | null,
-    email: string,
-    password: string,
+    userName:  string | null | undefined,
+    email: string| undefined | null,
+    password: string | null,
     token: string | null
 };
 
 var initialUser: userType =  {
     userName: null,
-    email: "matija.prs@gmail.com",
-    password: "123456",
+    email: null,
+    password: null,
     token: null
 }
 
@@ -34,17 +35,28 @@ function HeaderContainer(props: any) {
     var testState = useSelector(getTestState);
     var exists = useSelector(getUseless);
     var dispatch = useDispatch();
+    var reduxUser = useSelector(getUser);
+    const [user, setUserObject] = useState<userType>({} as userType);
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
+
+    useLayoutEffect(() => {
+        setUserObject({
+            ...initialUser,
+            userName: reduxUser.nickname,
+            email: reduxUser.email
+        });
+    }, [reduxUser])
+
     /**
      * we want user to be saved to persistenStorage.
      * whenever we chaneg osmethgi nto the user object we want
      * to query firebase user to see if there are some changes there
      * if name is different then udpate our user.
      */
-    var [user, setUserObject] =
-        usePersistedStorage<userType>("user", initialUser, [queryUser], []) ;
+    /*var [user, setUserObject] =
+        usePersistedStorage<userType>("user", initialUser, [queryUser], []) ;*/
     let {userName = "", email = "", password = ""} = user;
 
     /**

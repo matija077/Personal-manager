@@ -1,8 +1,6 @@
 export type userStateType = {
-    user: {
-        nickname: string,
-        email: string
-    }
+    nickname: string,
+    email: string
 }
 
 
