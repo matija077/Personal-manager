@@ -6,12 +6,12 @@ import { returnCodes } from '../../config/utils';
 router
     .post("/authenticate", async (req: express.Request, res: express.Response) => {
         const {email, password}: {email: string, password: string} = req.body;
-        const { isMatched: isAuthenticated, error } = await authenticate({email, password});
+        const { isMatched: isAuthenticated, error, nickname } = await authenticate({email, password});
 
         if (error) {
             res.status(returnCodes.error).send("something went wrong");
         } else {
-            res.send({isAuthenticated});
+            res.send({isAuthenticated, nickname});
         }
     })
 

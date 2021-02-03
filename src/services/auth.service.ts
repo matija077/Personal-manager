@@ -8,7 +8,8 @@ type authetnicateParamsType = {
 
 type authenticateReturnType = {
     isMatched: boolean | null,
-    error: boolean
+    error: boolean,
+    nickname: string | null
 }
 
 /**
@@ -22,7 +23,8 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
     console.log("here");
     var returnType: authenticateReturnType = {
         isMatched: null,
-        error: false
+        error: false,
+        nickname: null
     };
 
     try {
@@ -42,7 +44,7 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
         const text = 'INSERT INTO "user" (surname, name, password, email) values ($1, $2, $3, $4)';
         const values = ['prsa', 'matija', hashedPassword, 'matija.prs@gmail.com'];*/
 
-        const text = 'SELECT password FROM "user" WHERE email = $1';
+        const text = 'SELECT password, nickname FROM "user" WHERE email = $1';
         const values = [email];
         var result =  await client.client.query(
             text,
@@ -50,11 +52,13 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
         );
 
         const hashedPassword = result.rows[0]?.password || "";
+        const nickname = result.rows[0]?.nickname;
 
         const passwordsMatch = await arePasswordMatching(password, hashedPassword);
 
         if (passwordsMatch) {
             returnType.isMatched = true;
+            returnType.nickname = nickname;
         } else {
             returnType.isMatched = false;
         }
