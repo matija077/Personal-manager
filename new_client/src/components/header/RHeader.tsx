@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
@@ -35,8 +35,8 @@ function HeaderContainer(props: any) {
     var testState = useSelector(getTestState);
     var exists = useSelector(getUseless);
     var dispatch = useDispatch();
-    var reduxUser = useSelector(getUser);
-    const [user, setUserObject] = useState<userType>({} as userType);
+    var reduxUser = useSelector(getUser, shallowEqual);
+    //const [user, setUserObject] = useState<userType>({} as userType);
     function changeTest(text: string) {
         dispatch(changeTest(text));
     }
@@ -55,8 +55,9 @@ function HeaderContainer(props: any) {
      * to query firebase user to see if there are some changes there
      * if name is different then udpate our user.
      */
-    /*var [user, setUserObject] =
-        usePersistedStorage<userType>("user", initialUser, [queryUser], []) ;*/
+
+     var [user, setUserObject] =
+        usePersistedStorage<userType>("user", initialUser, [], [], sessionStorage) ;
     let {userName = "", email = "", password = ""} = user;
 
     /**
