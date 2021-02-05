@@ -29,7 +29,7 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
 
     try {
         // insert into part
-        /*const saltRounds = 10;
+       /* const saltRounds = 10;
         const hashedPassword = await new Promise(function (resolve, reject) {
             bcrypt.hash(password, saltRounds, function(error, hash) {
                 if (error) {
@@ -41,8 +41,13 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
         });
 
         console.log("before");
-        const text = 'INSERT INTO "user" (surname, name, password, email) values ($1, $2, $3, $4)';
-        const values = ['prsa', 'matija', hashedPassword, 'matija.prs@gmail.com'];*/
+        const text = 'INSERT INTO "user" (surname, name, password, email, nickname) values ($1, $2, $3, $4, $5)';
+        const values = ['prsa', 'matija', hashedPassword, 'matija.prs@gmail.com', 'matija'];
+
+        var result =  await client.client.query(
+            text,
+            values
+        );*/
 
         const text = 'SELECT password, nickname FROM "user" WHERE email = $1';
         const values = [email];
