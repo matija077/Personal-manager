@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 
 async function createToken(nickname: string): Promise<string> {
     try {
