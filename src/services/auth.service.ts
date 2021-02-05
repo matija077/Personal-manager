@@ -8,7 +8,6 @@ type authetnicateParamsType = {
 
 type authenticateReturnType = {
     isMatched: boolean | null,
-    error: boolean,
     nickname: string | null
 }
 
@@ -23,7 +22,6 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
     console.log("here");
     var returnType: authenticateReturnType = {
         isMatched: null,
-        error: false,
         nickname: null
     };
 
@@ -70,7 +68,7 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
 
     } catch(error: any) {
         console.log(error);
-        returnType.error = true;
+        throw error
     }
 
     return returnType;
