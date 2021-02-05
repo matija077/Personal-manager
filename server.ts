@@ -5,6 +5,7 @@ import { PORT } from './src/config/utils';
 
 import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
+import handleToken from './src/middlewares/handleToken';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 
 var port = process.env.PORT || PORT;
@@ -24,6 +25,7 @@ app.get("*", function(req, res) {
 graphServer.applyMiddleware({app, path: "/graphql"})
 
 app.use("/api*", cors);
+app.use("/api*", handleToken);
 
 app.use("/api/users", users);
 
