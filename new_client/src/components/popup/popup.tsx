@@ -8,7 +8,6 @@ type popupPropsType = {
 }
 
 function Popup({ children, onClickHandler }: popupPropsType) {
-    console.log(children);
     return (
         <PopupStyles
             onClick={onClickHandler}

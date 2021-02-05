@@ -38,13 +38,13 @@ function Quote(props: QuotePropsType) {
     }*/
 
     useLayoutEffect(() => {
-        setTimeout(() => {
-            setPossibleStates(PossibleStates.loading);
-        }, 200)
+        const timeoutId11 = setTimeout(() => setPossibleStates(PossibleStates.loading), 200);
+        const timeoutId2 = setTimeout(() => setPossibleStates(PossibleStates.error), 2800);
 
-        setTimeout(() => {
-            setPossibleStates(PossibleStates.error);
-        }, 2800)
+        return () => {
+            clearTimeout(timeoutId11);
+            clearTimeout(timeoutId2);
+        }
     }, [])
 
     // TODO - call warning component

@@ -6,8 +6,6 @@ function login(
     email: string,
     password: string
 ): any {
-    console.log("login");
-
     return axios.post("http://localhost:5012/api/auth/authenticate", {
         email: email,
         password

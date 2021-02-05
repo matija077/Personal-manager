@@ -1,5 +1,4 @@
-import { useState, useRef, useEffect, useLayoutEffect, useCallback, Ref, MutableRefObject } from 'react';
-import ReactDOM from 'react-dom';
+import { useState, useRef, useEffect, MutableRefObject } from 'react';
 
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
@@ -7,12 +6,12 @@ import { HTMLEventElement } from '../../utility/typescript.utils';
 import Spinner from '../spinner/spinner.component';
 import FailedAuthPopup from '../successful-login-popup/non-successfull-login-popup.component';
 
-import { useHistory, useRouteMatch, Route } from 'react-router';
+import { useHistory } from 'react-router';
 
-import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType } from '../../redux/utils.firebase';
+import { singInWithGoogle } from '../../redux/utils.firebase';
 import { login } from '../../redux/utils';
-import { usePersistedStorage, useError, useLogger } from '../../utility/customHooks.utils';
-import { AxiosPromise, AxiosResponse } from 'axios';
+import { useError } from '../../utility/customHooks.utils';
+import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 import { login as loginDispatch } from '../../redux/user-reducer/user.actions';
 
@@ -63,8 +62,6 @@ function LoginContainer(props: LoginContainerPropsType) {
     var [state, setState] = useState<stateType>(initalState);
     var { loginState, text: email, password, valid, loading, showPopup } = state;
     var inputRef: MutableRefObject<HTMLInputElement | undefined> = useRef();
-    const { url} = useRouteMatch();
-    var [popupState, setPopupState] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     // if we switch to passwrod we want to reset the state
@@ -255,8 +252,7 @@ function LoginContainer(props: LoginContainerPropsType) {
                      ...result.data,
                      email
                 });
-            }).
-            catch(function rejected(error: PromiseRejectedResult) {
+            }).catch(function rejected(error: PromiseRejectedResult) {
                 setError(error);
             });
 

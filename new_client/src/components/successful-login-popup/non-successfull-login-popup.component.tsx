@@ -27,4 +27,4 @@ function NonSuccessfulLoginPopup({ onTransitionedHandler }: NonSuccessfulLoginPo
 
 }
 
-export default React.forwardRef(NonSuccessfulLoginPopup);
+export default NonSuccessfulLoginPopup;

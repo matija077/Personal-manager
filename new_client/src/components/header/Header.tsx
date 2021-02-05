@@ -5,8 +5,6 @@ import {
     HeaderContainerItemStyles
 } from './header.styles';
 
-import { login } from '../../redux/utils';
-
 export type HeaderProps = {
     testState:string,
     exists: unknown,

@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useMemo, useState, useContext, createContext } from 'react';
-import { QueryResult, useMutation, useQuery } from '@apollo/client';
+import React, { useRef, useMemo, useContext, createContext } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 
 import { useSelector } from 'react-redux';
 import { getTasks } from '../redux/task-reducer/task-reducer.selectors';
 
 import { queries, mutations } from '../graphQL/resolvers';
 import { contextDataType, contextType, quotesType } from '../graphQL/types';
-import { useConsoleLogQueries, useError } from '../utility/customHooks.utils';
-
-//import contextContainer from './contextContainer';
+import { useConsoleLogQueries } from '../utility/customHooks.utils';
 
 type withHomePagePropsType = {
     //currentProp: String

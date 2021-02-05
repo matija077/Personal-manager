@@ -20,7 +20,6 @@ var SpinnerStylesContainer = styled.article.attrs<SpinnerStylesContainerPropsTyp
     width: 100%;
     height: 60vh;
     ${({ positionFixed }) => {
-        console.log(positionFixed);
         if (!positionFixed) {
             return `
                 position: absolute;

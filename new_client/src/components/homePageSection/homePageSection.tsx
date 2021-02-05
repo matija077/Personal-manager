@@ -2,9 +2,9 @@ import { HomePageSectionContainerStyles } from './homePageSectionStyles';
 
 import { popupsComponentPropsType } from '../../pages/home/home.page';
 
-type HomePageSectionPropsType = {
+/*type HomePageSectionPropsType = {
     children: any
-}
+}*/
 
 function HomePageSection({children, onClickHandler, component}:  popupsComponentPropsType) {
 

@@ -1,18 +1,13 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
 import { getUser } from '../../redux/user-reducer/user.selectors';
 import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
-import { changeTest } from '../../redux/test-reducer/test-reducer.actions';
-import { TestState } from '../../redux/test-reducer/test-reducer.types';
-import { DispatchType } from '../../redux/store';
-import { RootState } from '../../redux/root-reducer';
 import Header from './Header';
-import { login } from '../../redux/utils';
 import { usePersistedStorage } from '../../utility/customHooks.utils';
-import { getCurrentUser, signOut, singInWithGoogle, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
+import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {
 
@@ -38,9 +33,6 @@ function HeaderContainer(props: any) {
     var dispatch = useDispatch();
     var reduxUser = useSelector(getUser, shallowEqual);
     //const [user, setUserObject] = useState<userType>({} as userType);
-    function changeTest(text: string) {
-        dispatch(changeTest(text));
-    }
 
     useLayoutEffect(() => {
         setUserObject({
@@ -139,11 +131,9 @@ function HeaderContainer(props: any) {
         axios.post("http://localhost:5012/api/verifyToken", {
             token: user.token,
             email: user.email
-        }).
-        then(function resolved(result) {
+        }).then(function resolved(result) {
             console.log(result);
-        }).
-        catch(function rejected(error) {
+        }).catch(function rejected(error) {
             console.log("errow writing to backend");
             console.log(error);
         });
