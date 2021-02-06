@@ -22,6 +22,7 @@ import GlobalStyles from './global.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
+const User = React.lazy(() => import('./pages/user/user.page'));
 
 function RApp() {
 
@@ -51,6 +52,15 @@ function RApp() {
                                         <Suspense fallback="Loading">
                                             <Login>
                                             </Login>
+                                        </Suspense>
+                                    </Route>
+                                    <Route
+                                        path="/user"
+                                    >
+                                        <Suspense
+                                            fallback="Loading"
+                                        >
+                                            <User /> 
                                         </Suspense>
                                     </Route>
                                     <Route>
