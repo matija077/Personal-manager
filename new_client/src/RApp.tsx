@@ -12,6 +12,7 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
+import { useProtectedRoute as ProtectedRoute } from './utility/customRenderHooks';
 
 import { default as Header } from './components/header/RHeader';
 
