@@ -14,11 +14,10 @@ function handleToken(req: express.Request, res: express.Response, next: express.
             if (error) {
                 res.sendStatus(returnCodes.unauthorized);
             }
-
+            
             next();
         })
     } else {
-
         res.sendStatus(returnCodes.forbidden);
     }
 }

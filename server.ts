@@ -25,10 +25,10 @@ app.get("*", function(req, res) {
 graphServer.applyMiddleware({app, path: "/graphql"})
 
 app.use("/api*", cors);
-app.use("/api*", handleToken);
+//for testing tokens
+//app.use("/api*", handleToken);
 
 app.use("/api/users", users);
-
 //routes TODO - move
 app.use('/api/auth', auth);
 
