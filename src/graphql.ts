@@ -54,10 +54,11 @@ const tasks  = [
     }
 ];
 
-function getUser() {
+function getUser(user: any) {
+    console.log(user);
     async function getUserAsync() {
         try {
-            return await getUserByNickname({nickname: "matija"});
+            return await getUserByNickname(user);
         } catch(error: any) {
             throw error;
         }
@@ -96,10 +97,14 @@ const typeDefs = gql`
         name: String
     }
 
+    input UserInput {
+        nickname: String
+    }
+
     type Query {
         Quotes: [Quote]
         Tasks: [Task]
-        User: User
+        User(user: UserInput): User
     }
 
     type Mutation {
@@ -119,7 +124,7 @@ const resolvers = {
     Query: {
         Quotes: () => quotes,
         Tasks: () => tasks,
-        User: () => getUser()
+        User: (_: any, {user}: any) => getUser(user)
     },
     Mutation: {
         createTask: (parent:any, args: any, context: any, info: any) => {
