@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const UserStyles = styled.main``;
+const RowStyles = styled.article``;
 
 export {
-    UserStyles
+    RowStyles
 }
