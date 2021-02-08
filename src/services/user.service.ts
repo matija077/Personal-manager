@@ -14,7 +14,7 @@ type userType = {
 
 async function getUserByNickname({ nickname }: getUserByNicknameParamsType): Promise<userType> {
     try {
-        const text = 'SELECT * from "user" WHERE nickname = $1';
+        const text = 'SELECT nickname, name, surname, email, id from "user" WHERE nickname = $1';
         const values = [nickname];
         /*if (!client.connected) {
             throw new Error("no connection");
