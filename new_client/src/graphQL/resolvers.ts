@@ -25,7 +25,11 @@ const GET_TASKS = gql`
 const GET_USER = gql`
     query getUser($user: UserInput) {
         user: User(user: $user) {
-            email
+            email,
+            name,
+            surname,
+            nickname,
+            id
         }
     }
 `;

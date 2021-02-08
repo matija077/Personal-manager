@@ -58,7 +58,9 @@ function getUser(user: any) {
     console.log(user);
     async function getUserAsync() {
         try {
-            return await getUserByNickname(user);
+            const data = await getUserByNickname(user);
+            console.log(data);
+            return data;
         } catch(error: any) {
             throw error;
         }
