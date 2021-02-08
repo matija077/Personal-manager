@@ -1,12 +1,42 @@
 import { UserStyles } from './user.styles';
+import { userType } from './../../graphQL/types';
 
-type UserPropTypes = {};
+type UserPropTypes = {
 
-function User(props: UserPropTypes) {
+} & userType
+
+function User({}: UserPropTypes) {
     return (
-        <UserStyles>
-            HEllo
-        </UserStyles>
+        <HalfSizeContainer>
+            <Label
+                text="Nickname"
+            >
+                <InputText>
+
+                </InputText>
+            </Label>
+            <Label
+                 text="Name"
+            >
+                <InputText>
+
+                </InputText>
+            </Label>
+            <Label
+                text="Surname"
+            >
+                <InputText>
+
+                </InputText>
+            </Label>
+            <Label
+                text="Email"
+            >
+                <InputEmail>
+
+                </InputEmail>
+            </Label>
+        </HalfSizeContainer>
     )
 }
 
