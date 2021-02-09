@@ -1,15 +1,22 @@
-import { LabelStyles } from './Label.styles';
+import { LabelStyles, textAlign } from './Label.styles';
+export {textAlign};
+
+
 
 type LabelPropsType = {
     children: React.ReactNode[] | React.ReactNode
-    text: String
+    text: string,
+    htmlFor: string,
+    textAlign: textAlign
 }
 
-function Label({ text, children }: LabelPropsType) {
+function Label({ text, textAlign, htmlFor }: LabelPropsType) {
     return (
-        <LabelStyles>
+        <LabelStyles
+            htmlFor={htmlFor}
+            textAlign={textAlign}
+        >
             {text}
-            {children}
         </LabelStyles>
     );
 }

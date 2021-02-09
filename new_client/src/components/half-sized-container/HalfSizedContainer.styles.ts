@@ -8,11 +8,12 @@ const ContainerStyles = styled.main`
     top: 25%;
     border: 1em solid aqua;
     border-radius: 1em;
-    display: flex;
-    flex-direction: column;
     background-color: lightgray;
     box-shadow: 1em 1em 0.2em 1em azure;
     overflow: auto;
+    display: grid;
+    grid-template-rows: [header-start] 1fr [header-end main-start] 4fr [main-end footer-start] 1fr [footer-end];
+    grid-template-columns: 1fr;
 `;
 
 export {

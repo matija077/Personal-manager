@@ -8,6 +8,8 @@ const GridStyles = styled.div<GridStylesPropsType>`
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(auto-fit, [row-start] ${(props) => props.sizeOfElement}%  [row-end]);
+    justify-items: stretch;
+    align-items: stretch;
 `;
 
 export {
