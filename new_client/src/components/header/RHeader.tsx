@@ -148,7 +148,7 @@ function HeaderContainer(props: any) {
         return function cleanup() {
             signOut();
         }
-    })
+    }, [])
 
     return (
         <Header
