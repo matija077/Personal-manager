@@ -25,6 +25,7 @@ var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
 const User = React.lazy(() => import('./pages/user/user.container'));
 
+
 function RApp() {
 
     return(
@@ -61,9 +62,10 @@ function RApp() {
                                         <Suspense
                                             fallback="Loading"
                                         >
-                                            <User /> 
+                                            <User />
                                         </Suspense>
                                     </Route>
+
                                     <Route>
                                         <HomePage>
                                         </HomePage>
