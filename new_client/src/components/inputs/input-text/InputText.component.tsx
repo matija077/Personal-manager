@@ -1,14 +1,10 @@
 import { InputStyles } from './InputText.styles';
 
-type InputTextPropsType = {
-    children: React.ReactNode[] | React.ReactNode,
-    id: string
-}
 
-function InputText({ children, id }: InputTextPropsType) {
+function InputText({children}: any) {
     return (
         <InputStyles
-            id={id}
+
         >
             {children}
         </InputStyles>

@@ -7,7 +7,7 @@ export enum textAlign {
 }
 
 type LabelStylesPropsType = {
-    textAlign: textAlign
+    textAlign?: textAlign
 }
 
 const LabelStyles = styled.label<LabelStylesPropsType>`

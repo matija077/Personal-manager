@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { UserStyles } from './user.styles';
 import { userType } from './../../graphQL/types';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -8,30 +10,111 @@ import Label, {textAlign} from '../../components/Label/Label.component';
 import HalfSizedContainer from '../../components/half-sized-container/HalfSizedContainer.component';
 import InputText from '../../components/inputs/input-text/InputText.component';
 import InputEmail from '../../components/inputs/input-email/InputEmail.component';
+import Input from '../../components/inputs/input.component';
 import Grid from '../../components/grid/grid.component';
 import Row from '../../components/row/row.component';
+
+import { useConsoleLogQueries } from '../../utility/customHooks.utils';
 
 type UserPropTypes = {
 
 } & userType
 
-function User({ nickname }: UserPropTypes) {
-    const user = useSelector(getUser, shallowEqual);
+type InputType = {
+    value: string
+}
 
-    const mapOfIds: {
-        [key: string]: string,
+const InputTypeInitial = {
+    value: ""
+}
+
+const map: {
+    [key: string]: Object,
+    ofIds: {
         nameInput: string,
         surnameInput: string,
         nicknameInput: string,
         emailInput: string
-    } = {
-        nameInput: "name",
-        surnameInput: "surname",
-        nicknameInput: "nickname",
-        emailInput: "email"
+    },
+    ofLabelText: {
+        nickname: {
+            nickname: string,
+            nonZeroLength: boolean
+        }
+        email: {
+            email: string,
+            nonZeroLength: boolean
+        }
+    }
+} = {
+    ofIds: {
+        nameInput: "Name",
+        surnameInput: "Surname",
+        nicknameInput: "Nickname",
+        emailInput: "Email"
+    },
+    ofLabelText: {
+        nickname: {
+            nickname: "Nickname",
+            nonZeroLength: false
+        },
+        email: {
+            email: "Email",
+            nonZeroLength: false
+        }
+    }
+}
+
+function User({ nickname }: UserPropTypes) {
+    const user = useSelector(getUser, shallowEqual);
+    const [nicknameInput, setNicknameInput] = useState<InputType>(InputTypeInitial);
+    const [emailInput, setEmailInput] = useState<InputType>(InputTypeInitial);
+    const [labelTexts, setLabelTexts] = useState<typeof map.ofLabelText>(map.ofLabelText)
+
+    useConsoleLogQueries(false, undefined, nicknameInput, "nickname");
+    useConsoleLogQueries(false, undefined, emailInput, "email");
+
+
+    function onFocused(event: any) {
+
+    }
+
+    function onPointerLeaveHandler(event: any) {
+        const value = event.currentTarget.value;
+        console.dir(event.currentTarget);
+        if (value === "") {
+            return;
+        }
+        switch(event.currentTarget.type) {
+            case map.emailInput:
+                setEmailInput(updateInputState);
+                break;
+            case map.nicknameInput:
+                setNicknameInput(updateInputState);
+                break;
+        }
+
+        function updateInputState(state: InputType) {
+            return {
+                ...state,
+                value
+            }
+        }
+    }
+
+    function onInputHandler(event: any) {
+        const value = event.currentTarget.value;
+
+        if (value.length > 0 && ) {
+            return;
+        }
+
+
+
     }
 
     return (
+        <UserStyles>
         <HalfSizedContainer>
             <header
                 style={{ textAlign: "center" }}
@@ -41,26 +124,47 @@ function User({ nickname }: UserPropTypes) {
                 </h2>
             </header>
             <Grid>
-                <Row
-                    percantageLeft={1}
-                    percantageRight={1}
+                <Input
+                    id={map.ofIds.nicknameInput}
+                    type={'text'}
+                    onFocused={onFocused}
+                    onPointerLeave={onPointerLeaveHandler}
+                    onInputHandler={onInputHandler}
                 >
-                    <Label
-                        text="Nickname"
-                        htmlFor={mapOfIds.nicknameInput}
-                        textAlign={textAlign.right}
-                    >
-                    </Label>
-                    <InputText
-                        id={mapOfIds.nicknameInput}
-                    >
-                    </InputText>
-                </Row>
-                <Row
-                    percantageLeft={4}
-                    percantageRight={5}
+                </Input>
+                <Label
+                    text={labelTexts.nicknameInput}
+                    htmlFor={map.ofIds.nicknameInput}
                 >
-                    <Label
+                </Label>
+                <Input
+                    id={map.ofIds.emailInput}
+                    type={'email'}
+                    onFocused={onFocused}
+                    onPointerLeave={onPointerLeaveHandler}
+                    onInputHandler={onInputHandler}
+                >
+
+                </Input>
+                <Label
+                    text={labelTexts.emailInput}
+                    htmlFor={map.ofIds.emailInput}
+                >
+                </Label>
+            </Grid>
+            <footer
+                style={{ textAlign: "center" }}
+            >
+                <button>Apply changes</button>
+            </footer>
+        </HalfSizedContainer>
+        </UserStyles>
+    )
+}
+
+export default User;
+
+/*<Label
                         text="Name"
                         htmlFor={mapOfIds.nameInput}
                         textAlign={textAlign.right}
@@ -92,26 +196,5 @@ function User({ nickname }: UserPropTypes) {
                     percantageLeft={4}
                     percantageRight={5}
                 >
-                    <Label
-                        text="Email"
-                        htmlFor={mapOfIds.emailInput}
-                        textAlign={textAlign.right}
-                    >
-                    </Label>
-                    <InputEmail
-                            
-                        >
 
-                    </InputEmail>
-                </Row>
-            </Grid>
-            <footer
-                style={{ textAlign: "center" }}
-            >
-                <button>Apply changes</button>
-            </footer>
-        </HalfSizedContainer>
-    )
-}
-
-export default User;
+                </Row>*/

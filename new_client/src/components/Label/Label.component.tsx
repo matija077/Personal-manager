@@ -7,7 +7,7 @@ type LabelPropsType = {
     children: React.ReactNode[] | React.ReactNode
     text: string,
     htmlFor: string,
-    textAlign: textAlign
+    textAlign?: textAlign
 }
 
 function Label({ text, textAlign, htmlFor }: LabelPropsType) {
