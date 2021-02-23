@@ -86,10 +86,10 @@ function User({ nickname }: UserPropTypes) {
             return;
         }
         switch(event.currentTarget.type) {
-            case map.emailInput:
+            case map.ofIds.emailInput:
                 setEmailInput(updateInputState);
                 break;
-            case map.nicknameInput:
+            case map.ofIds.nicknameInput:
                 setNicknameInput(updateInputState);
                 break;
         }
@@ -105,9 +105,9 @@ function User({ nickname }: UserPropTypes) {
     function onInputHandler(event: any) {
         const value = event.currentTarget.value;
 
-        if (value.length > 0 && ) {
+        /*if (value.length > 0 && ) {
             return;
-        }
+        }*/
 
 
 
@@ -133,7 +133,7 @@ function User({ nickname }: UserPropTypes) {
                 >
                 </Input>
                 <Label
-                    text={labelTexts.nicknameInput}
+                    text={labelTexts.nickname.nickname}
                     htmlFor={map.ofIds.nicknameInput}
                 >
                 </Label>
@@ -147,7 +147,7 @@ function User({ nickname }: UserPropTypes) {
 
                 </Input>
                 <Label
-                    text={labelTexts.emailInput}
+                    text={labelTexts.email.email}
                     htmlFor={map.ofIds.emailInput}
                 >
                 </Label>

@@ -12,7 +12,7 @@ import store from './redux/store';
 
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
-import { useProtectedRoute as ProtectedRoute } from './utility/customRenderHooks';
+import ProtectedRoute from './reusable components/protected route/protected_route.component';
 
 import { default as Header } from './components/header/RHeader';
 
@@ -56,16 +56,13 @@ function RApp() {
                                             </Login>
                                         </Suspense>
                                     </Route>
-                                    <Route
-                                        path="/user"
-                                    >
+                                    <Route>
                                         <Suspense
                                             fallback="Loading"
                                         >
                                             <User />
                                         </Suspense>
                                     </Route>
-
                                     <Route>
                                         <HomePage>
                                         </HomePage>
