@@ -3,6 +3,16 @@ export type userStateType = {
     email: string
 }
 
+export type userPayloadActionTypeLoginType = {
+    nickname: string,
+    email: string,
+    token: string
+}
+
+export function isUserPayloadOfActionType(unknownTypePayload: unknown) {
+    const payload = unknownTypePayload as userPayloadActionTypeLoginType;
+    return (payload.nickname !== undefined && payload.email !== undefined);
+}
 
 const userActionTypes = {
     "LOGIN": "LOGIN",
