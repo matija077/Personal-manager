@@ -1,6 +1,7 @@
 export type userStateType = {
     nickname: string,
-    email: string
+    email: string,
+    token: string
 }
 
 export type userPayloadActionTypeLoginType = {
