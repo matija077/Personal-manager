@@ -31,8 +31,8 @@ function RApp() {
     return(
         <ErrorBoundary>
             <React.StrictMode>
-                <ApolloProvider client={client}>
-                    <Provider store={store}>
+                <Provider store={store}>
+                    <ApolloProvider client={client}>
                         <Router>
                             <React.Fragment>
                                 <GlobalStyles />
@@ -70,8 +70,8 @@ function RApp() {
                                 </Switch>
                             </React.Fragment>
                         </Router>
-                    </Provider>
-                </ApolloProvider>
+                    </ApolloProvider>
+                </Provider>
             </React.StrictMode>
         </ErrorBoundary>
     );
