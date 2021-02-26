@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect, useState } from 'react';
 import Spinner from '../components/spinner/spinner.component';
 
 import { contextType  } from '../graphQL/types';
-import { useError } from '../utility/customHooks.utils';
+import { useError } from '../utility/hooks/customHooks.utils';
 
 enum PossibleStates  {
     "begining",

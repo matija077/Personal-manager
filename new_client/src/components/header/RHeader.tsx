@@ -6,7 +6,7 @@ import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.
 import { getUser } from '../../redux/user-reducer/user.selectors';
 import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import Header from './Header';
-import { usePersistedStorage } from '../../utility/customHooks.utils';
+import { usePersistedStorage } from '../../utility/hooks/customHooks.utils';
 import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {

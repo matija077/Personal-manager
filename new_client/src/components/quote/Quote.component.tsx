@@ -2,7 +2,7 @@ import { useState, useEffect, useLayoutEffect } from 'react';
 import { useQuotesContext } from '../../containers/home.container';
 import { quoteType, contextType, quotesType } from '../../graphQL/types';
 
-import { useError } from '../../utility/customHooks.utils';
+import { useError } from '../../utility/hooks/customHooks.utils';
 
 import Spinner from '../spinner/spinner.component';
 

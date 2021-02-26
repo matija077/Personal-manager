@@ -11,7 +11,7 @@ import Popup from '../../components/popup/popup';
 import HomePageSection from '../../components/homePageSection/homePageSection';
 import Close from '../../components/close/close.component';
 
-import { useError } from '../../utility/customHooks.utils';
+import { useError } from '../../utility/hooks/customHooks.utils';
 
 import { contextsType, renderFunctionType } from '../../containers/home.container';
 import { contextType } from '../../graphQL/types';
