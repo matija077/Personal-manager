@@ -11,24 +11,25 @@ import errorHandling from './src/middlewares/errorHandling';
 
 var port = process.env.PORT || PORT;
 
+// initlaize necessary apps
 var client = require("./src/db/initialize.ts");
 
 var app = express();
 
+//middlewares for all routes
 configServerMiddlewares(app);
 
-/*app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", function(req, res) {
-    res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
-})*/
+
+//routes specifci middlewares
+app.use("/api*", cors);
 
 //graphql middleware
 graphServer.applyMiddleware({app, path: "/graphql"})
 
-app.use("/api*", cors);
 //for testing tokens
 //app.use("/api*", handleToken);
 
+// routes
 app.use("/api/users", users);
 //routes TODO - move
 app.use('/api/auth', auth);
@@ -37,6 +38,19 @@ app.use('/api/auth', auth);
 app.use(errorHandling);
 
 //require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
+
+
+//static files
+app.use(express.static("./"))
+//if no specific routes match return our index.html
+app.get('*', (req,res) =>{
+    res.sendFile("./index.html");
+});
+/*app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", function(req, res) {
+    res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
+})*/
+
 
 function running(error: any) {
     if (error) {
