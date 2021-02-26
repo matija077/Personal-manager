@@ -1,4 +1,4 @@
-var express = require('express');
+import express from 'express';
 import cors from './src/middlewares/customCORS';
 import configServerMiddlewares from './src/config/serverConfig';
 import { PORT } from './src/config/utils';
@@ -7,6 +7,7 @@ import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
 import handleToken from './src/middlewares/handleToken';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
+import errorHandling from './src/middlewares/errorHandling';
 
 var port = process.env.PORT || PORT;
 
@@ -32,6 +33,8 @@ app.use("/api/users", users);
 //routes TODO - move
 app.use('/api/auth', auth);
 
+// handling errors ase the last middleware
+app.use(errorHandling);
 
 //require(path.join(__dirname, "src", "routes", "routes.route.ts"))(app);
 
@@ -40,7 +43,7 @@ function running(error: any) {
         console.log(error);
     }
 }
-app.listen(port, running);
+app.listen(port);
 
 /*
 * servies
