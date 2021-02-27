@@ -27,10 +27,13 @@ var link = onError(({ graphQLErrors, networkError }) => {
         ),
         );
     console.log(networkError);
+    console.log(graphQLErrors);
 
     if (networkError){
+    
         
         console.log(`[Network error]: ${networkError}`);
+        //console.log(networkError);
     }
 });
 

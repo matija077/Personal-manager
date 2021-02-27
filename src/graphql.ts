@@ -1,6 +1,12 @@
 const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } =  require("graphql");
 
-var { ApolloServer, gql }= require("apollo-server-express");
+var { 
+    ApolloServer, 
+    gql,
+    AuthenticationError,
+    ForbiddenError,
+    UserInputError  
+}= require("apollo-server-express");
 
 import { getUserByNickname } from './services/user.service';
 
@@ -124,9 +130,12 @@ type mutationArgsType = {
 
 const resolvers = {
     Query: {
-        Quotes: () => quotes,
+        Quotes: () => {
+            throw new ForbiddenError();
+            quotes
+        },
         Tasks: () => tasks,
-        User: (_: any, {user}: any) => getUser(user)
+        User: (_: any, {user}: any) => getUser(user),
     },
     Mutation: {
         createTask: (parent:any, args: any, context: any, info: any) => {
