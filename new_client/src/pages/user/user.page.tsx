@@ -14,7 +14,7 @@ import Input from '../../components/inputs/input.component';
 import Grid from '../../components/grid/grid.component';
 import Row from '../../components/row/row.component';
 
-import { useConsoleLogQueries } from '../../utility/customHooks.utils';
+import { useConsoleLogQueries } from '../../utility/hooks/customHooks.utils';
 
 type UserPropTypes = {
 

@@ -8,7 +8,12 @@ function login(
 ): any {
     return axios.post("http://localhost:5012/api/auth/authenticate", {
         email: email,
-        password
+        password,    
+    },
+    {
+        headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6Im1hdGlqYSIsImlhdCI6MTYxMjYwOTUxNywiZXhwIjoxNjEyNzgyMzE3fQ.rD3n1vwDQVWoA59Gmj292dqyo3MMIxZkamss-_bYR9k`
+        }
     })
     //return auth.signInWithEmailAndPassword(email, password)
 }

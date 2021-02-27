@@ -4,7 +4,7 @@ import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
 import Header from './components/header/CHeader';
 
-import GlobalStyles from './global.styles';
+import GlobalStyles from './utility/styles/global.styles';
 
 function CApp() {
 

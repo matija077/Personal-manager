@@ -19,7 +19,9 @@ import { default as Header } from './components/header/RHeader';
 import { client } from '../src/graphQL/graphQL'
 import { ApolloProvider } from '@apollo/client';
 
-import GlobalStyles from './global.styles';
+import GlobalStyles from './utility/styles/global.styles';
+import { ThemeProvider } from 'styled-components';
+import theme from './utility/styles/theme.styles';
 
 var Summary = React.lazy(() => import('./pages/summary/Rsummary.page'));
 var Login = React.lazy(() => import('./components/login/login.container'));
@@ -31,47 +33,50 @@ function RApp() {
     return(
         <ErrorBoundary>
             <React.StrictMode>
-                <Provider store={store}>
-                    <ApolloProvider client={client}>
-                        <Router>
-                            <React.Fragment>
-                                <GlobalStyles />
+                <>
+                    <GlobalStyles />
+                    <ThemeProvider theme={theme}>
+                        <Provider store={store}>
+                            <ApolloProvider client={client}>
+                                <Router>
+                                    <React.Fragment>
+                                        <Header />
 
-                                <Header />
-
-                                <Switch>
-                                    <Route exact path="/">
-                                        <HomePage>
-                                        </HomePage>
-                                    </Route>
-                                    <Route path="/summary">
-                                        <Suspense fallback="Loading">
-                                            <Summary>
-                                            </Summary>
-                                        </Suspense>
-                                    </Route>
-                                    <Route path="/login">
-                                        <Suspense fallback="Loading">
-                                            <Login>
-                                            </Login>
-                                        </Suspense>
-                                    </Route>
-                                    <Route>
-                                        <Suspense
-                                            fallback="Loading"
-                                        >
-                                            <User />
-                                        </Suspense>
-                                    </Route>
-                                    <Route>
-                                        <HomePage>
-                                        </HomePage>
-                                    </Route>
-                                </Switch>
-                            </React.Fragment>
-                        </Router>
-                    </ApolloProvider>
-                </Provider>
+                                        <Switch>
+                                            <Route exact path="/">
+                                                <HomePage>
+                                                </HomePage>
+                                            </Route>
+                                            <Route path="/summary">
+                                                <Suspense fallback="Loading">
+                                                    <Summary>
+                                                    </Summary>
+                                                </Suspense>
+                                            </Route>
+                                            <Route path="/login">
+                                                <Suspense fallback="Loading">
+                                                    <Login>
+                                                    </Login>
+                                                </Suspense>
+                                            </Route>
+                                            <Route>
+                                                <Suspense
+                                                    fallback="Loading"
+                                                >
+                                                    <User />
+                                                </Suspense>
+                                            </Route>
+                                            <Route>
+                                                <HomePage>
+                                                </HomePage>
+                                            </Route>
+                                        </Switch>
+                                    </React.Fragment>
+                                </Router>
+                            </ApolloProvider>
+                        </Provider>
+                    </ThemeProvider>
+                </>
             </React.StrictMode>
         </ErrorBoundary>
     );
