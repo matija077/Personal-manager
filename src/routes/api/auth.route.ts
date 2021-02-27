@@ -1,11 +1,11 @@
-import express from "express";
+import express, { NextFunction } from "express";
 const router = express.Router();
 import { authenticate } from '../../services/auth.service';
 import { createToken } from '../../services/token.service';
-import { returnCodes } from '../../config/utils';
+
 
 router
-    .post("/authenticate", async (req: express.Request, res: express.Response) => {
+    .post("/authenticate", async (req: express.Request, res: express.Response, next: NextFunction) => {
         const {email, password}: {email: string, password: string} = req.body;
 
         try {
@@ -15,8 +15,8 @@ router
             res.json({isAuthenticated, nickname, token});
 
         } catch (error: any) {
-            res.status(returnCodes.error).send("something went wrong");
-        }           
+            next(error);
+        }
     })
 
     .get("/verifyToken", async (req: express.Request, res: express.Response) => {

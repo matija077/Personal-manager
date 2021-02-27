@@ -3,7 +3,7 @@ import { useContext, useLayoutEffect, useState } from 'react';
 import Spinner from '../components/spinner/spinner.component';
 
 import { contextType  } from '../graphQL/types';
-import { useError } from '../utility/customHooks.utils';
+import { useError } from '../utility/hooks/customHooks.utils';
 
 enum PossibleStates  {
     "begining",
@@ -37,13 +37,18 @@ function contextContainer<T>(
         var [error, setError] = useError();
 
         useLayoutEffect(() => {
-            setTimeout(() => {
+            const timeoutId1 = setTimeout(() => {
                 setPossibleStates(PossibleStates.loading);
             }, timeBeforeLoading)
 
-            setTimeout(() => {
+            const timeoutId2 = setTimeout(() => {
                 setPossibleStates(PossibleStates.error);
             }, errorTime)
+
+            return () => {
+                clearTimeout(timeoutId1);
+                clearTimeout(timeoutId2);
+            }
         }, [])
 
         // TODO - call warning component

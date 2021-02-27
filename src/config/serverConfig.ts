@@ -2,7 +2,7 @@ var helmet = require('helmet');
 import express from 'express';
 
 function configServerMiddlewares(app: express.Application) {
-    app.use(helmet());
+    app.use(helmet({contentSecurityPolicy: (process.env.NODE_ENV === 'production') ? undefined : false }));
     app.use(express.urlencoded({extended: true}));
     app.use(express.json());
 }

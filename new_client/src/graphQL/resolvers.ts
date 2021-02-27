@@ -22,6 +22,18 @@ const GET_TASKS = gql`
     }
 `;
 
+const GET_USER = gql`
+    query getUser($user: UserInput) {
+        user: User(user: $user) {
+            email,
+            name,
+            surname,
+            nickname,
+            id
+        }
+    }
+`;
+
 const SAVE_TASK = gql`
     mutation saveTask($task: TaskInput) {
         createTask(task: $task) {
@@ -38,7 +50,8 @@ const CREATE_TEST_TASk = gql`
 
 const queries = {
     GET_QUOTES,
-    GET_TASKS
+    GET_TASKS,
+    GET_USER
 }
 
 const mutations = {

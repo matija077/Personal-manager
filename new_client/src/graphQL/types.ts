@@ -13,6 +13,16 @@ export type contextPresentationType = {
     error: any,
 }
 
+export type queryDataType = {
+    [key: string]: any
+} | undefined
+
+export type graphQLResponseType<queryType> = {
+    loading: boolean,
+    error?: any,
+    data: queryType | undefined
+}
+
 
 export type quoteType = {
     author?: String
@@ -27,3 +37,11 @@ export type taskType = {
     location?: String
 }
 export type tasksType = Array<taskType>;
+
+export type userType = {
+    nickname?: string,
+    email?: string,
+    name?: string,
+    surname?: string,
+    id?: string
+};

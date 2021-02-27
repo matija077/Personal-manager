@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, MutableRefObject } from 'react';
 
 import Login from './login';
 import EmailAndPasswordLogin from './loginEmailAndPassword';
-import { HTMLEventElement } from '../../utility/typescript.utils';
+import { HTMLEventElement } from '../../utility/types/typescript.utils';
 import Spinner from '../spinner/spinner.component';
 import FailedAuthPopup from '../successful-login-popup/non-successfull-login-popup.component';
 
@@ -10,7 +10,7 @@ import { useHistory } from 'react-router';
 
 import { singInWithGoogle } from '../../redux/utils.firebase';
 import { login } from '../../redux/utils';
-import { useError } from '../../utility/customHooks.utils';
+import { useError } from '../../utility/hooks/customHooks.utils';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
 import { login as loginDispatch } from '../../redux/user-reducer/user.actions';
@@ -25,7 +25,8 @@ type renderType = {
 type authResultType = {
     isAuthenticated: boolean,
     nickname: string | null,
-    email: string
+    email: string,
+    token: string
 }
 
 type stateType = {
@@ -211,7 +212,7 @@ function LoginContainer(props: LoginContainerPropsType) {
         })
     }
 
-    function loginHandler({isAuthenticated, nickname, email}: authResultType) {
+    function loginHandler({isAuthenticated, nickname, email, token}: authResultType) {
         if (!isAuthenticated) {
             setState((state) => {
                 return {
@@ -221,7 +222,7 @@ function LoginContainer(props: LoginContainerPropsType) {
             })
         } else {
             nickname = nickname as string;
-            dispatch(loginDispatch({email, nickname}));
+            dispatch(loginDispatch({email, nickname, token}));
             history.replace("/");
         }
     }

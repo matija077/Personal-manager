@@ -1,7 +1,23 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloLink, DefaultOptions, HttpLink, InMemoryCache } from '@apollo/client';
 import { onError } from "@apollo/client/link/error";
+import { useSelector } from 'react-redux';
+import { getUser } from '../redux/user-reducer/user.selectors';
 
 var client: ApolloClient<any>;
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+    const { token } = useSelector(getUser);
+
+    if (token) {
+        operation.setContext({
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    }
+
+    return forward(operation);
+})
 
 var link = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
@@ -10,14 +26,28 @@ var link = onError(({ graphQLErrors, networkError }) => {
             `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
         ),
         );
+    console.log(networkError);
 
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+    if (networkError){
+        
+        console.log(`[Network error]: ${networkError}`);
+    }
 });
+
+const defaultOptions: DefaultOptions = {
+    watchQuery: {
+        fetchPolicy: 'no-cache'
+    },
+    query: {
+        fetchPolicy: 'no-cache'
+    }
+};
 
 (function(){
     client = new  ApolloClient({
         cache: new InMemoryCache(),
-        link: ApolloLink.from([link, new HttpLink({uri: 'http://localhost:5012/graphql'})])
+        link: ApolloLink.from([link, authMiddleware, new HttpLink({uri: 'http://localhost:5012/graphql'})]),
+        defaultOptions: defaultOptions
     });
 }());
 

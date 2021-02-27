@@ -1,4 +1,4 @@
-import { ValueOf } from './typescript.utils';
+import { ValueOf } from './types/typescript.utils';
 
 const values = {
     small_low: 400,

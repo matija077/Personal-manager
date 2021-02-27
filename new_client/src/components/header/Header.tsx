@@ -42,7 +42,7 @@ function Header({
             </HeaderItemStyles>
             {userName ?
                 <HeaderItemContainerStyles>
-                    <HeaderContainerItemStyles to="#" onClick={userNameOnClickHandler}>
+                    <HeaderContainerItemStyles to="/user" onClick={userNameOnClickHandler}>
                         {
                             userName
                         }

@@ -2,6 +2,8 @@ const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLSt
 
 var { ApolloServer, gql }= require("apollo-server-express");
 
+import { getUserByNickname } from './services/user.service';
+
 /*type QuotesType = {
     author?: String,
     text: String
@@ -52,6 +54,21 @@ const tasks  = [
     }
 ];
 
+function getUser(user: any) {
+    console.log(user);
+    async function getUserAsync() {
+        try {
+            const data = await getUserByNickname(user);
+            console.log(data);
+            return data;
+        } catch(error: any) {
+            throw error;
+        }
+    }
+
+    return getUserAsync();
+}
+
 const typeDefs = gql`
     type Quote {
         author: String
@@ -62,6 +79,13 @@ const typeDefs = gql`
         location: String!,
         category: String,
         description: String!
+    }
+    type User {
+        email: String,
+        nickname: String,
+        name: String!,
+        surname: String!,
+        id: Int
     }
 
     input TaskInput {
@@ -75,9 +99,14 @@ const typeDefs = gql`
         name: String
     }
 
+    input UserInput {
+        nickname: String
+    }
+
     type Query {
         Quotes: [Quote]
         Tasks: [Task]
+        User(user: UserInput): User
     }
 
     type Mutation {
@@ -96,7 +125,8 @@ type mutationArgsType = {
 const resolvers = {
     Query: {
         Quotes: () => quotes,
-        Tasks: () => tasks
+        Tasks: () => tasks,
+        User: (_: any, {user}: any) => getUser(user)
     },
     Mutation: {
         createTask: (parent:any, args: any, context: any, info: any) => {

@@ -1,9 +1,9 @@
 import userActionTypes from './user.types';
 
-export function login({nickname, email}: {nickname: string, email: string}) {
+export function login({nickname, email, token}: {nickname: string, email: string, token: string}) {
     return {
         type: userActionTypes.LOGIN,
-        payload: {nickname, email}
+        payload: {nickname, email, token}
     }
 }
 
