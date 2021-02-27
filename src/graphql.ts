@@ -131,8 +131,8 @@ type mutationArgsType = {
 const resolvers = {
     Query: {
         Quotes: () => {
-            throw new ForbiddenError();
-            quotes
+            //throw new ForbiddenError();
+            return quotes
         },
         Tasks: () => tasks,
         User: (_: any, {user}: any) => getUser(user),
