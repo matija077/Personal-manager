@@ -2,6 +2,7 @@ import express from 'express';
 import cors from './src/middlewares/customCORS';
 import configServerMiddlewares from './src/config/serverConfig';
 import { PORT } from './src/config/utils';
+import path from 'path';
 
 import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
@@ -41,15 +42,18 @@ app.use(errorHandling);
 
 
 //static files
-app.use(express.static("./"))
-//if no specific routes match return our index.html
-app.get('*', (req,res) =>{
-    res.sendFile("./index.html");
-});
-/*app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", function(req, res) {
-    res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
-})*/
+if (process.env.NODE_ENV === "production") {
+    const frontEndBuildDir = "new_client/public"
+    app.use(express.static(path.join(__dirname, frontEndBuildDir)))
+    //if no specific routes match return our index.html
+    app.get('*', (req,res) =>{
+        res.sendFile(path.join(__dirname, frontEndBuildDir, "./index.html"));
+    });
+    /*app.use(express.static(path.join(__dirname, "client/build")));
+    app.get("*", function(req, res) {
+        res.sendFile(path.join(_-__dirname, "client/build", "index.html"));
+    })*/
+}
 
 
 function running(error: any) {
