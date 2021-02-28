@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
+import { ApolloError, DocumentNode, TypedDocumentNode, useMutation, useQuery } from '@apollo/client';
+
 type storageType = typeof localStorage | typeof sessionStorage;
 
 /**
@@ -90,10 +92,20 @@ function useConsoleLogQueries(
     }, [loading, data, error, name])
 }
 
+// currently only docuemntNode allowed
+type QueryType = DocumentNode
+function useQueryContainer<DataType>(query: QueryType) {
+    //const { loading, error, data, networkStatus }: 
+   // { loading: boolean, error?: ApolloError, data: DataType, networkStatus: any } = useQuery(query);
+    const result = useQuery(query);
+    console.log(result);
+}
+
 export {
     usePersistedStorage,
     useError,
     useLogger,
     useUseQueryHook,
-    useConsoleLogQueries
+    useConsoleLogQueries,
+    useQueryContainer
 }

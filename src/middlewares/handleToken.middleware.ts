@@ -1,15 +1,14 @@
 import { returnCodes } from "../config/utils";
+import { getToken } from '../utility/utilty';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 
-function handleToken(req: express.Request, res: express.Response, next: express.NextFunction) {
+function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const authHeader = req.headers.authorization;
 
-    if (authHeader) {
-        console.log(authHeader);
-        // first part is Bearer. second part is the token
-        const token = authHeader.split(' ')[1];
+    const token = getToken(authHeader);
 
+    if (token) {
         jwt.verify(token, process.env.TOKEN as string, (error, payload) => {
             if (error) {
                 res.sendStatus(returnCodes.unauthorized);
@@ -22,4 +21,4 @@ function handleToken(req: express.Request, res: express.Response, next: express.
     }
 }
 
-export default handleToken;
+export default handleTokenMiddleware;

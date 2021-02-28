@@ -49,7 +49,7 @@ const defaultOptions: DefaultOptions = {
 (function(){
     client = new  ApolloClient({
         cache: new InMemoryCache(),
-        link: ApolloLink.from([link, authMiddleware, new HttpLink({uri: 'http://localhost:5012/graphql'})]),
+        link: ApolloLink.from([authMiddleware, new HttpLink({uri: 'http://localhost:5012/graphql'})]),
         defaultOptions: defaultOptions
     });
 }());

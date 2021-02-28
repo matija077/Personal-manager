@@ -6,7 +6,7 @@ import { getTasks } from '../redux/task-reducer/task-reducer.selectors';
 
 import { queries, mutations } from '../graphQL/resolvers';
 import { contextDataType, contextType, quotesType } from '../graphQL/types';
-import { useConsoleLogQueries } from '../utility/hooks/customHooks.utils';
+import { useConsoleLogQueries, useQueryContainer } from '../utility/hooks/customHooks.utils';
 
 type withHomePagePropsType = {
     //currentProp: String
@@ -42,6 +42,7 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
     return function WithHomePage(props: withHomePageIntersectionTPropsType<T>) {
         const reduxTasks = useSelector(getTasks);
 
+        useQueryContainer<contextDataType<quotesType>>(queries.GET_QUOTES);
         var { loading: loadingQuotes, error: errorQuotes, data: quotes } :
         {loading: boolean, error?: any, data: contextDataType<quotesType>} = useQuery(queries.GET_QUOTES);
         var { loading: loadingTasks, error: errorTasks, data: tasks } :
@@ -51,6 +52,8 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
         useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
         useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
         useConsoleLogQueries(loading, error, data, "mutation");
+       
+
 
         var task = useMemo(() => {
             return {

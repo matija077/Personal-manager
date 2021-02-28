@@ -1,12 +1,17 @@
 const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } =  require("graphql");
 
-var { 
+import {
     ApolloServer, 
     gql,
     AuthenticationError,
     ForbiddenError,
-    UserInputError  
-}= require("apollo-server-express");
+    UserInputError,
+    ApolloError
+    
+} from "apollo-server-express";
+import { PORT } from "./config/utils";
+
+import { getToken, verifyToken } from './utility/utilty';
 
 import { getUserByNickname } from './services/user.service';
 
@@ -130,10 +135,7 @@ type mutationArgsType = {
 
 const resolvers = {
     Query: {
-        Quotes: () => {
-            //throw new ForbiddenError();
-            return quotes
-        },
+        Quotes: () => quotes,
         Tasks: () => tasks,
         User: (_: any, {user}: any) => getUser(user),
     },
@@ -205,7 +207,24 @@ var schema = new GraphQLSchema({
 })
 
 //const server = new ApolloServer({ schema });
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers,
+
+    context: ({ req }) => {
+            //console.log(req);
+
+            const authHeader = req.headers.authorization;
+
+            const token = getToken(authHeader);
+
+            if (token) {
+                verifyToken(token, () => k, () => console.log("no"));
+            } else {
+                console.log(" forbidden");
+            }
+    }
+});
 /*server.listen({
     path: "http://localhost:5013/graphql",
     host: "localhost"
