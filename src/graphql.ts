@@ -236,7 +236,8 @@ const server = new ApolloServer({
             }
 
             return { user };
-    }
+    },
+    formatError: (err) => {console.log(err); return {message: err.message, status: "404"} }
 });
 /*server.listen({
     path: "http://localhost:5013/graphql",
