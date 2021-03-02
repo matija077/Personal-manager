@@ -42,7 +42,7 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
     return function WithHomePage(props: withHomePageIntersectionTPropsType<T>) {
         const reduxTasks = useSelector(getTasks);
 
-        useQueryContainer<contextDataType<quotesType>>(queries.GET_QUOTES);
+        useQueryContainer<contextDataType<taskContextType>>(queries.GET_TASKS);
         var { loading: loadingQuotes, error: errorQuotes, data: quotes } :
         {loading: boolean, error?: any, data: contextDataType<quotesType>} = useQuery(queries.GET_QUOTES);
         var { loading: loadingTasks, error: errorTasks, data: tasks } :
@@ -52,7 +52,7 @@ function withHomePage<T>( WrappedComponent: React.ComponentType<T>) {
         useConsoleLogQueries(loadingQuotes, errorQuotes, quotes, "quotes");
         useConsoleLogQueries(loadingTasks, errorTasks, tasks, "tasks");
         useConsoleLogQueries(loading, error, data, "mutation");
-       
+
 
 
         var task = useMemo(() => {

@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
-import { ApolloError, DocumentNode, TypedDocumentNode, useMutation, useQuery } from '@apollo/client';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/user-reducer/user.actions';
+
+import { ApolloError,
+    DocumentNode,
+    useMutation,
+    useQuery,
+    QueryResult
+} from '@apollo/client';
 
 type storageType = typeof localStorage | typeof sessionStorage;
 
@@ -95,10 +103,16 @@ function useConsoleLogQueries(
 // currently only docuemntNode allowed
 type QueryType = DocumentNode
 function useQueryContainer<DataType>(query: QueryType) {
-    //const { loading, error, data, networkStatus }: 
-   // { loading: boolean, error?: ApolloError, data: DataType, networkStatus: any } = useQuery(query);
-    const result = useQuery(query);
-    console.log(result);
+    //const { loading, error, data, networkStatus }:
+    const {
+        loading, data, error
+    } : QueryResult = useQuery(query);
+    const dispatch = useDispatch();
+    console.log(dispatch);
+
+    if (error) {
+        dispatch(logout());
+    }
 }
 
 export {
