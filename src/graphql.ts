@@ -1,19 +1,20 @@
 const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } =  require("graphql");
 
 import {
-    ApolloServer, 
+    ApolloServer,
     gql,
     AuthenticationError,
     ForbiddenError,
     UserInputError,
     ApolloError
-    
+
 } from "apollo-server-express";
 import { PORT } from "./config/utils";
 
 import { getToken, verifyToken } from './utility/utilty';
 
 import { getUserByNickname } from './services/user.service';
+import { quoteType, taskType } from "../new_client/src/graphQL/types";
 
 /*type QuotesType = {
     author?: String,
@@ -65,12 +66,24 @@ const tasks  = [
     }
 ];
 
+function getQuotes(parent:any, args: any, context: any, info: any): Array<quoteType> {
+    return quotes;
+}
+
+function getTasks(parent:any, args: any, context: any, info: any): Array<taskType> {
+    if (!context.user.token) {
+        throw new AuthenticationError("missing token");
+    }
+
+    return tasks;
+}
+
 function getUser(user: any) {
     console.log(user);
     async function getUserAsync() {
         try {
             const data = await getUserByNickname(user);
-            console.log(data);
+
             return data;
         } catch(error: any) {
             throw error;
@@ -124,7 +137,7 @@ const typeDefs = gql`
         createTask(task: TaskInput): Task
         createTest(test: TestInput): String
     }
-`;
+`
 
 type mutationArgsType = {
     parent: any,
@@ -135,15 +148,13 @@ type mutationArgsType = {
 
 const resolvers = {
     Query: {
-        Quotes: () => quotes,
-        Tasks: () => tasks,
+        Quotes: getQuotes,
+        Tasks: getTasks,
         User: (_: any, {user}: any) => getUser(user),
     },
     Mutation: {
         createTask: (parent:any, args: any, context: any, info: any) => {
-            console.log(args);
             tasks.push(args.task);
-            console.log(tasks);
 
             return args.task;
         },
@@ -207,22 +218,24 @@ var schema = new GraphQLSchema({
 })
 
 //const server = new ApolloServer({ schema });
-const server = new ApolloServer({ 
-    typeDefs, 
+const server = new ApolloServer({
+    typeDefs,
     resolvers,
 
     context: ({ req }) => {
-            //console.log(req);
+            var user: any  = {};
 
             const authHeader = req.headers.authorization;
 
             const token = getToken(authHeader);
 
             if (token) {
-                verifyToken(token, () => k, () => console.log("no"));
+                verifyToken(token, () => user.token = token, () => console.log("forbidden"));
             } else {
-                console.log(" forbidden");
+                console.log(" unaothized");
             }
+
+            return { user };
     }
 });
 /*server.listen({
