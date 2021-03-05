@@ -1,4 +1,11 @@
-const { GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString } =  require("graphql");
+const {
+    GraphQLList,
+    GraphQLNonNull,
+     GraphQLObjectType,
+     GraphQLSchema,
+     GraphQLString,
+     GraphQLError
+} =  require("graphql");
 
 import {
     ApolloServer,
@@ -12,6 +19,7 @@ import {
 import { PORT } from "./config/utils";
 
 import { getToken, verifyToken } from './utility/utilty';
+import { returnCodes } from './config/utils';
 
 import { getUserByNickname } from './services/user.service';
 import { quoteType, taskType } from "../new_client/src/graphQL/types";
@@ -66,6 +74,28 @@ const tasks  = [
     }
 ];
 
+function formatError(error: typeof GraphQLError)  {
+    const returnError: {
+        message: string,
+        status: number | undefined
+    } = {
+        message: error.message as string,
+        status: undefined
+    }
+
+    if (error.originalError instanceof AuthenticationError) {
+        returnError.status = returnCodes.unauthorized
+    }
+    if (error.originalError instanceof ForbiddenError) {
+        returnError.status = returnCodes.forbidden
+    }
+    if (error.originalError instanceof UserInputError) {
+        returnError.status = returnCodes.error
+    }
+
+    return returnError;
+}
+
 function getQuotes(parent:any, args: any, context: any, info: any): Array<quoteType> {
     return quotes;
 }
@@ -80,6 +110,7 @@ function getTasks(parent:any, args: any, context: any, info: any): Array<taskTyp
 
 function getUser(user: any) {
     console.log(user);
+    // this shoudl return null for graphql
     async function getUserAsync() {
         try {
             const data = await getUserByNickname(user);
@@ -237,7 +268,7 @@ const server = new ApolloServer({
 
             return { user };
     },
-    formatError: (err) => {console.log(err); return {message: err.message, status: "404"} }
+    formatError: formatError
 });
 /*server.listen({
     path: "http://localhost:5013/graphql",
