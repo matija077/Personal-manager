@@ -1,37 +1,17 @@
 import * as React from 'react';
 
+import { BoxStyles } from './box.styles';
+
 type BoxPropsType = {
     width?: string;
 };
 
-type BoxStateType = {
-    width: string;
-};
+function Box(props: BoxPropsType) {
+    return (
+        <BoxStyles>
 
-class Box extends React.Component<BoxPropsType, BoxStateType> {
-    constructor(props: BoxPropsType) {
-        super(props);
-
-        this.state = {
-            width: this.props.width ? "inital"
-        };
-    }
-
-    private updateState<T>(key: string, value: T) {
-        this.setState((state) =>  {
-            return {
-                ...state,
-                [key]: value
-            }
-        })
-    }
-
-    protected getWidth() {
-        return this.state.width;
-    }
-    protected setWidth(width: string) {
-        this.updateState("width", width);
-    }   
+        </BoxStyles>
+    );
 }
 
 export default Box;

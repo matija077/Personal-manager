@@ -13,6 +13,7 @@ import store from './redux/store';
 import ErrorBoundary from './components/error-boundary/errorBoundary';
 import HomePage from './pages/home/home.page';
 import ProtectedRoute from './reusable components/protected route/protected_route.component';
+import Button from './reusable components/button/button.component';
 
 import { default as Header } from './components/header/RHeader';
 
@@ -76,6 +77,7 @@ function RApp() {
                             </ApolloProvider>
                         </Provider>
                     </ThemeProvider>
+                    <Button></Button>
                 </>
             </React.StrictMode>
         </ErrorBoundary>

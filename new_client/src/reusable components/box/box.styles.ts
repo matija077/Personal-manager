@@ -21,6 +21,11 @@ const ButtonStyles = styled.button<ButtonStylesPropsType>`
     min-width: ${props => props.minWidth ?? "fit-content"};
 `;
 
+const BoxStyles = styled.div`
+
+`;
+
 export {
-    ButtonStyles
-};  
+    ButtonStyles,
+    BoxStyles
+};
