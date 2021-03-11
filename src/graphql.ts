@@ -101,8 +101,12 @@ function getQuotes(parent:any, args: any, context: any, info: any): Array<quoteT
 }
 
 function getTasks(parent:any, args: any, context: any, info: any): Array<taskType> {
-    if (!context.user.token) {
+    const user: userContextType = context.user;
+    if (user.unAuthenticated) {
         throw new AuthenticationError("missing token");
+    }
+    if (user.forbidden) {
+        throw new ForbiddenError("forbidden token")
     }
 
     return tasks;
@@ -176,6 +180,12 @@ type mutationArgsType = {
     context: any,
     info: any
 };
+
+type userContextType = {
+    token: string | undefined,
+    forbidden: boolean,
+    unAuthenticated: boolean
+}
 
 const resolvers = {
     Query: {
@@ -254,16 +264,24 @@ const server = new ApolloServer({
     resolvers,
 
     context: ({ req }) => {
-            var user: any  = {};
+            let user: userContextType  = {
+                forbidden: false,
+                unAuthenticated: false,
+                token: undefined
+            };
 
             const authHeader = req.headers.authorization;
 
             const token = getToken(authHeader);
 
             if (token) {
-                verifyToken(token, () => user.token = token, () => console.log("forbidden"));
+                verifyToken(
+                    token,
+                    () => user.token = token,
+                    () => user.forbidden = true
+                );
             } else {
-                console.log(" unaothized");
+                user.unAuthenticated = true;
             }
 
             return { user };

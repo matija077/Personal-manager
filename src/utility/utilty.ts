@@ -12,15 +12,15 @@ function getToken(authHeader: string | undefined) {
 }
 
 function verifyToken(
-    token: string, 
-    authenticated: () => void, 
-    unaothorized: () => void) 
+    token: string,
+    authenticated: () => void,
+    unauthorized: () => void)
 {
     jwt.verify(token, process.env.TOKEN as string, (error, payload) => {
         if (error) {
-            unaothorized()
+            unauthorized()
         }
-        
+
         authenticated();
     })
 }
