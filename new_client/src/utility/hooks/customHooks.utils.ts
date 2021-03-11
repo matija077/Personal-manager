@@ -9,6 +9,7 @@ import { ApolloError,
     useQuery,
     QueryResult
 } from '@apollo/client';
+import { GraphQLError } from 'graphql';
 
 type storageType = typeof localStorage | typeof sessionStorage;
 
@@ -102,15 +103,35 @@ function useConsoleLogQueries(
 
 // currently only docuemntNode allowed
 type QueryType = DocumentNode
+type returnErrorType = {
+    message: string,
+    status: number | undefined
+}
 function useQueryContainer<DataType>(query: QueryType) {
     //const { loading, error, data, networkStatus }:
     const {
         loading, data, error
     } : QueryResult = useQuery(query);
-    const dispatch = useDispatch();
-    console.log(dispatch);
+    //const result = useQuery(query)
 
-    if (error) {
+    let unAuthOrForbiddenError = false;
+    const dispatch = useDispatch();
+
+    error?.graphQLErrors && error.graphQLErrors.forEach(
+        (error: GraphQLError | returnErrorType) => {
+            const customError = error as returnErrorType;
+            if (customError.status !== undefined) {
+                if (customError.status === 401 || customError.status === 403) {
+                    unAuthOrForbiddenError = true;
+                }
+            } else {
+                error as GraphQLError;
+                // TODO - check GraphQLError later
+            }
+        }
+    )
+
+    if (unAuthOrForbiddenError) {
         dispatch(logout());
     }
 }
