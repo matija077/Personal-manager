@@ -121,12 +121,13 @@ function useQueryContainer<DataType>(query: QueryType) {
         (error: GraphQLError | returnErrorType) => {
             const customError = error as returnErrorType;
             if (customError.status !== undefined) {
+                // TODO AUTH handle this differently
                 if (customError.status === 401 || customError.status === 403) {
                     unAuthOrForbiddenError = true;
                 }
             } else {
                 error as GraphQLError;
-                // TODO - check GraphQLError later
+                // TODO ERROR - check GraphQLError later
             }
         }
     )

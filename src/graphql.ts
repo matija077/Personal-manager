@@ -105,9 +105,7 @@ function getTasks(parent:any, args: any, context: any, info: any): Array<taskTyp
     if (!user.unAuthenticated) {
         throw new AuthenticationError("missing token");
     }
-    if (user.forbidden) {
-        throw new ForbiddenError("forbidden token")
-    }
+    // TODO AUTH check for forbidden error
 
     return tasks;
 }
@@ -278,7 +276,7 @@ const server = new ApolloServer({
                 verifyToken(
                     token,
                     () => user.token = token,
-                    () => user.forbidden = true
+                    () => user.unAuthenticated = true
                 );
             } else {
                 user.unAuthenticated = true;

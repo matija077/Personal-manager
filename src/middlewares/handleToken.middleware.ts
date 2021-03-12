@@ -11,7 +11,7 @@ function handleTokenMiddleware(req: express.Request, res: express.Response, next
     if (token) {
         jwt.verify(token, process.env.TOKEN as string, (error, payload) => {
             if (error) {
-                res.sendStatus(returnCodes.forbidden);
+                res.sendStatus(returnCodes.unauthorized);
             }
 
             next();
