@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useLayoutEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/user-reducer/user.actions';
@@ -132,9 +132,11 @@ function useQueryContainer<DataType>(query: QueryType) {
         }
     )
 
-    if (unAuthOrForbiddenError) {
-        dispatch(logout());
-    }
+    useEffect(() => {
+        if (unAuthOrForbiddenError) {      
+            dispatch(logout());
+        }
+    }, [unAuthOrForbiddenError, dispatch])
 }
 
 export {
