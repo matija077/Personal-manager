@@ -76,8 +76,8 @@ function RApp() {
                                 </Router>
                             </ApolloProvider>
                         </Provider>
+                        <Button></Button>
                     </ThemeProvider>
-                    <Button></Button>
                 </>
             </React.StrictMode>
         </ErrorBoundary>

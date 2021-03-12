@@ -6,6 +6,7 @@ function Button() {
     return (
         <ButtonStyles
             as="button"
+            width="400"
         >
             BUTTON
         </ButtonStyles>

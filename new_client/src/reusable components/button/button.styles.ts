@@ -1,7 +1,11 @@
 import styled from 'styled-components';
 import MainStylesBox from "../main-styles-box/mainStylesBox";
 
-const ButtonStyles = styled(MainStylesBox)`
+type ButtonStylesPropsType = {
+
+}
+
+const ButtonStyles = styled(MainStylesBox)<ButtonStylesPropsType>`
 
 `;
 

@@ -2,9 +2,6 @@ import styled from 'styled-components';
 
 export type ButtonStylesPropsType = {
     backgroundColor?: string
-    width?: string;
-    minWidth?: string,
-    height?: string
 }
 
 const ButtonStyles = styled.button<ButtonStylesPropsType>`
@@ -14,11 +11,6 @@ const ButtonStyles = styled.button<ButtonStylesPropsType>`
         : props.theme.colors.secondary.main
     };
     text-align: center;
-    padding: 1em;
-    height: fit-content;
-    width: ${props => props.width ?? "fit-content"};
-    height: ${props => props.height ?? "fit-content"};
-    min-width: ${props => props.minWidth ?? "fit-content"};
 `;
 
 const BoxStyles = styled.div`

@@ -25,6 +25,21 @@ const theme = {
     },
     spacingFactor: 0.5,
     spacing: (spacing = 1) => spacing * theme.spacingFactor,
+    size: ( size?: number, unit?: string) => {
+        var resultValue: string | undefined;
+
+        if (!size) {
+            resultValue = "fit-content"
+        } else {
+            resultValue = size?.toString(); 
+
+            unit ?? (resultValue += unit)
+        }
+
+        console.log(resultValue);
+
+        return resultValue;
+    }
 }
 
 export default theme;
