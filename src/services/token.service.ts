@@ -1,13 +1,24 @@
 import jwt from 'jsonwebtoken';
 
-async function createToken(nickname: string): Promise<string> {
-    return await signToken(
+type createTokenReturnType = {
+    token: string,
+    expiresIn: string
+}
+async function createToken(nickname: string): Promise<createTokenReturnType> {
+    const expiresIn = process.env.TOKEN_EXPIRES_SECONDS || "60";
+
+    const token = await signToken(
         {nickname},
         tokenEnum.TOKEN,
         {
-            expiresIn: "1m"
+            expiresIn: expiresIn
         }
     );
+        
+    return {
+        token,
+        expiresIn
+    }
 }
 
 async function createRefreshToken(nickname: string): Promise<string> {
