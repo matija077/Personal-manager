@@ -13,7 +13,17 @@ router
             const token = nickname? await createToken(nickname) : undefined;
             const refreshToken = nickname? await createRefreshToken(nickname) : undefined;
 
-            res.json({isAuthenticated, nickname, token, refreshToken});
+            res.cookie(
+                "refreshToken",
+                refreshToken,
+                {
+                    maxAge: 17280000000,
+                    httpOnly: true,
+                    secure: true,
+                }
+            )
+
+            res.json({isAuthenticated, nickname, token});
 
         } catch (error: any) {
             next(error);
