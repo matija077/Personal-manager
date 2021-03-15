@@ -30,6 +30,10 @@ router
         }
     })
 
+    .post("/refreshToken", async (req: express.Request, res: express.Response, next: NextFunction) => {
+        console.log(req.cookies);
+    })
+
     .get("/verifyToken", async (req: express.Request, res: express.Response) => {
     })
 

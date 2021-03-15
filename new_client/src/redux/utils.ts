@@ -8,7 +8,7 @@ function login(
 ): any {
     return axios.post("http://localhost:5012/api/auth/authenticate", {
         email: email,
-        password,    
+        password,
     },
     {
         headers: {
@@ -18,6 +18,18 @@ function login(
     //return auth.signInWithEmailAndPassword(email, password)
 }
 
+function silentRefresh() {
+    axios.post("http://localhost:5012/api/auth/refreshToken", {
+
+    },
+    {
+        headers: {
+            credentials: "include"
+        }
+    });
+}
+
 export {
     login,
+    silentRefresh
 };
