@@ -1,35 +1,34 @@
 import jwt from 'jsonwebtoken';
 
 async function createToken(nickname: string): Promise<string> {
-    try {
-        const token: string = await new Promise(function signToken(resolve, reject) {
-            jwt.sign(
-                {nickname}, 
-                process.env.TOKEN as string, 
-                {expiresIn: "1m"}, 
-                function(err: Error | null, token: string | undefined) {
-                    if (token) {
-                        resolve(token);
-                    }
-
-                    reject(err);
-            });
-        });
-
-        // console.log(token);
-
-        return token;
-    } catch(error) {
-        throw error;
-    }
+    return await signToken(
+        {nickname},
+        tokenEnum.TOKEN,
+        {
+            expiresIn: "1m"
+        }
+    );
 }
 
-async function createRefrehToken(nickname: string): Promise<string> {
+async function createRefreshToken(nickname: string): Promise<string> {
+    return await signToken(
+        nickname,
+        tokenEnum.REFRESHTOKEN
+    );
+}
+
+
+enum tokenEnum  {
+    "TOKEN",
+    "REFRESHTOKEN"
+}
+async function signToken(data: string | object | Buffer, token: tokenEnum, options: jwt.SignOptions = {}) {
     try {
-        const refreshToken: string = await new Promise(function signRefreshToken(resolve, reject) {
+        const token: string = await new Promise(function (resolve, reject) {
             jwt.sign(
-                {nickname},
-                process.env.TOKEN as string,
+                data,
+                process.env.token as string,
+                options,
                 function(err: Error | null, token: string | undefined) {
                     if (token) {
                         resolve(token);
@@ -37,10 +36,10 @@ async function createRefrehToken(nickname: string): Promise<string> {
 
                     reject(err);
                 }
-            )   
+            )
         })
 
-        return refreshToken;
+        return token;
     } catch(error) {
         throw error;
     }
@@ -48,5 +47,5 @@ async function createRefrehToken(nickname: string): Promise<string> {
 
 export {
     createToken,
-    createRefrehToken
+    createRefreshToken
 };
