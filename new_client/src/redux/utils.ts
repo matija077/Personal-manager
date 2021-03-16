@@ -19,7 +19,9 @@ function login(
 }
 
 function silentRefresh() {
+    // this should be mvoed osmewhere lese TODO
     axios.defaults.withCredentials = true;
+
     axios.post("http://localhost:5012/api/auth/refreshToken", {
     },
     {
@@ -27,11 +29,6 @@ function silentRefresh() {
         xsrfCookieName: 'XSRF-TOKEN',
         xsrfHeaderName: 'X-XSRF-TOKEN',
     });
-    /*fetch("http://localhost:5012/api/auth/refreshToken",
-    {
-        method: "POST",
-        credentials: 'include'
-    })*/
 }
 
 export {

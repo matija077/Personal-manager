@@ -25,20 +25,6 @@ router
 
             )
 
-            /**
-             *  {
-                    maxAge: 17280000000,
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production'? true: false,
-                    sameSite: "none"
-                }
-            */
-
-            /*res.cookie(
-                "a",
-                "2"
-            )*/
-
             res.json({isAuthenticated, nickname, token});
 
         } catch (error: any) {
