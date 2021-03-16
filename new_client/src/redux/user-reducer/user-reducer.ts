@@ -6,10 +6,11 @@ type userReducerActionMapType = {
     [action: string]: (state: userStateType, payload?: unknown) => userStateType
 }
 
-const initialState = {
+const initialState: userStateType = {
         nickname: "",
         email: "",
-        token: ""
+        token: "",
+        expiresIn: ""
 }
 
 const userReducerActionMap : userReducerActionMapType = {
@@ -20,7 +21,8 @@ const userReducerActionMap : userReducerActionMapType = {
             ...state,
             email: payload.email,
             nickname: payload.nickname,
-            token: payload.token
+            token: payload.token,
+            expiresIn: payload.expiresIn
         };
     },
     [userActionTypes.LOGOUT]: function reducerLogout() {

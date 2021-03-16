@@ -1,13 +1,21 @@
 export type userStateType = {
     nickname: string,
     email: string,
-    token: string
+    token: string,
+    expiresIn: string
 }
 
 export type userPayloadActionTypeLoginType = {
     nickname: string,
     email: string,
-    token: string
+    token: string,
+    expiresIn: string
+}
+
+// TODO move this to a redux types file
+export type actionReturnType<T, payloadType> = {
+    type:  T[keyof T],
+    payload: payloadType
 }
 
 export function isUserPayloadOfActionType(unknownTypePayload: unknown) {

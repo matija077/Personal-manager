@@ -1,9 +1,10 @@
-import userActionTypes from './user.types';
+import userActionTypes, { userPayloadActionTypeLoginType,  actionReturnType} from './user.types';
 
-export function login({nickname, email, token}: {nickname: string, email: string, token: string}) {
+export function login({nickname, email, token, expiresIn}: userPayloadActionTypeLoginType):
+    actionReturnType<typeof userActionTypes, userPayloadActionTypeLoginType> {
     return {
         type: userActionTypes.LOGIN,
-        payload: {nickname, email, token}
+        payload: {nickname, email, token, expiresIn}
     }
 }
 

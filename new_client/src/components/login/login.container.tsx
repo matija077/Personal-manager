@@ -26,7 +26,8 @@ type authResultType = {
     isAuthenticated: boolean,
     nickname: string | null,
     email: string,
-    token: string
+    token: string,
+    expiresIn: string
 }
 
 type stateType = {
@@ -212,7 +213,7 @@ function LoginContainer(props: LoginContainerPropsType) {
         })
     }
 
-    function loginHandler({isAuthenticated, nickname, email, token}: authResultType) {
+    function loginHandler({isAuthenticated, nickname, email, token, expiresIn}: authResultType) {
         if (!isAuthenticated) {
             setState((state) => {
                 return {
@@ -222,7 +223,7 @@ function LoginContainer(props: LoginContainerPropsType) {
             })
         } else {
             nickname = nickname as string;
-            dispatch(loginDispatch({email, nickname, token}));
+            dispatch(loginDispatch({email, nickname, token, expiresIn}));
             history.replace("/");
         }
     }
