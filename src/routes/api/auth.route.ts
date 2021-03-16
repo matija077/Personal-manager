@@ -20,8 +20,24 @@ router
                     maxAge: 17280000000,
                     httpOnly: true,
                     secure: true,
+                    sameSite: "none"
                 }
+
             )
+
+            /**
+             *  {
+                    maxAge: 17280000000,
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production'? true: false,
+                    sameSite: "none"
+                }
+            */
+
+            /*res.cookie(
+                "a",
+                "2"
+            )*/
 
             res.json({isAuthenticated, nickname, token});
 
@@ -31,7 +47,8 @@ router
     })
 
     .post("/refreshToken", async (req: express.Request, res: express.Response, next: NextFunction) => {
-        console.log(req.cookies);
+        res.json(req.cookies);
+        console.log(req.headers.cookie);
     })
 
     .get("/verifyToken", async (req: express.Request, res: express.Response) => {

@@ -19,14 +19,19 @@ function login(
 }
 
 function silentRefresh() {
+    axios.defaults.withCredentials = true;
     axios.post("http://localhost:5012/api/auth/refreshToken", {
-
     },
     {
-        headers: {
-            credentials: "include"
-        }
+        withCredentials: true,
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN',
     });
+    /*fetch("http://localhost:5012/api/auth/refreshToken",
+    {
+        method: "POST",
+        credentials: 'include'
+    })*/
 }
 
 export {

@@ -8,7 +8,7 @@ function cors(req: express.Request, res: express.Response, next: express.NextFun
         const headers = {
             'Access-Control-Allow-Origin' : `${origin}`,
             'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Custom-Header, Authorization, credentials',
+            'Access-Control-Allow-Headers': 'Content-Type, Custom-Header, Authorization',
             'Access-Control-Allow-Credentials': 'true'
         };
 
@@ -18,6 +18,7 @@ function cors(req: express.Request, res: express.Response, next: express.NextFun
     }
 
     res.set('Access-Control-Allow-Origin', origin || "");
+    res.set('Access-Control-Allow-Credentials', 'true');
 
     next();
 }
