@@ -1,8 +1,6 @@
 import { TaskState } from './task-reducer.types';
-import { silentRefresh } from '../utils';
 
 export function getTasks(state: TaskState) {
-    silentRefresh();
     return state.tasks
 
 }

@@ -4,3 +4,7 @@ import { userStateType } from './user.types';
 export function getUser(state: RootState) {
     return state.user;
 }
+
+export function getExpiresIn(state: RootState) {
+    return getUser(state).expiresIn;
+}

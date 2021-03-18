@@ -3,10 +3,10 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import axios from 'axios';
 
 import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.selectors';
-import { getUser } from '../../redux/user-reducer/user.selectors';
+import { getUser, getExpiresIn } from '../../redux/user-reducer/user.selectors';
 import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import Header from './Header';
-import { usePersistedStorage } from '../../utility/hooks/customHooks.utils';
+import { usePersistedStorage, useSilentRefresh } from '../../utility/hooks/customHooks.utils';
 import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {
@@ -32,6 +32,7 @@ function HeaderContainer(props: any) {
     var exists = useSelector(getUseless);
     var dispatch = useDispatch();
     var reduxUser = useSelector(getUser, shallowEqual);
+    const expiresIn = parseInt(useSelector(getExpiresIn));
     //const [user, setUserObject] = useState<userType>({} as userType);
 
     useLayoutEffect(() => {
@@ -52,6 +53,8 @@ function HeaderContainer(props: any) {
      var [user, setUserObject] =
         usePersistedStorage<userType>("user", initialUser, [], [], sessionStorage) ;
     let {userName = "", email = "", password = ""} = user;
+
+    useSilentRefresh(expiresIn, dispatch);
 
     /**
      * wrapper for setting new user using useState hooks setState function

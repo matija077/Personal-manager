@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useMemo, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useMemo, useLayoutEffect, Dispatch } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../redux/user-reducer/user.actions';
+import { getExpiresIn } from '../../redux/user-reducer/user.selectors';
+import { silentRefresh } from '../../redux/utils';
 
 import { ApolloError,
     DocumentNode,
@@ -10,6 +12,7 @@ import { ApolloError,
     QueryResult
 } from '@apollo/client';
 import { GraphQLError } from 'graphql';
+import { AxiosError, AxiosResponse } from 'axios';
 
 type storageType = typeof localStorage | typeof sessionStorage;
 
@@ -133,10 +136,25 @@ function useQueryContainer<DataType>(query: QueryType) {
     )
 
     useEffect(() => {
-        if (unAuthOrForbiddenError) {      
+        if (unAuthOrForbiddenError) {
             dispatch(logout());
         }
     }, [unAuthOrForbiddenError, dispatch])
+}
+
+function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
+    useEffect(() => {
+        const silentRefreshTimeoutId = setTimeout(() => {
+            silentRefresh().then(function resolved(result: AxiosResponse) {
+                //dispatch(silentLogin)
+            }).catch(function rejected(error: AxiosError) {});
+            // dispatch(logout);
+        }, expiresIn);
+
+        return () => {
+            clearTimeout(silentRefreshTimeoutId);
+        }
+    }, [expiresIn])
 }
 
 export {
@@ -145,5 +163,6 @@ export {
     useLogger,
     useUseQueryHook,
     useConsoleLogQueries,
-    useQueryContainer
+    useQueryContainer,
+    useSilentRefresh
 }

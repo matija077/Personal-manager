@@ -1,6 +1,8 @@
 import { auth } from './utils.firebase';
 import React from 'react';
 import axios from 'axios';
+import { getExpiresIn } from './user-reducer/user.selectors';
+import {  useSelector } from 'react-redux';
 
 function login(
     email: string,
@@ -18,11 +20,10 @@ function login(
     //return auth.signInWithEmailAndPassword(email, password)
 }
 
-function silentRefresh() {
-    // this should be mvoed osmewhere lese TODO
+async function silentRefresh() {
     axios.defaults.withCredentials = true;
 
-    axios.post("http://localhost:5012/api/auth/refreshToken", {
+    return await axios.post("http://localhost:5012/api/auth/refreshToken", {
     },
     {
         withCredentials: true,
