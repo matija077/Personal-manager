@@ -1,6 +1,13 @@
 
 import { ActionType } from '../root-reducer';
-import userActionTypes, { userStateType, userPayloadActionTypeLoginType } from './user.types';
+import
+    userActionTypes,
+    {
+        userStateType,
+        userPayloadActionTypeLoginType,
+        userPayloadActionTypeSilentLoginType
+    }
+from './user.types';
 
 type userReducerActionMapType = {
     [action: string]: (state: userStateType, payload?: unknown) => userStateType
@@ -27,6 +34,15 @@ const userReducerActionMap : userReducerActionMapType = {
     },
     [userActionTypes.LOGOUT]: function reducerLogout() {
         return initialState;
+    },
+    [userActionTypes.SILENT_LOGIN]: function reducerSilentLogin(state, unknownPayload) {
+        const payload = unknownPayload as userPayloadActionTypeSilentLoginType;
+
+        return {
+            ...state,
+            token: payload.token,
+            expiresIn: payload.expiresIn
+        };
     }
 }
 

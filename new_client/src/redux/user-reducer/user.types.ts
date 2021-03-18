@@ -12,6 +12,11 @@ export type userPayloadActionTypeLoginType = {
     expiresIn: string
 }
 
+export type userPayloadActionTypeSilentLoginType = {
+    token: string,
+    expiresIn: string
+}
+
 // TODO move this to a redux types file
 export type actionReturnType<T, payloadType> = {
     type:  T[keyof T],
@@ -25,7 +30,8 @@ export function isUserPayloadOfActionType(unknownTypePayload: unknown) {
 
 const userActionTypes = {
     "LOGIN": "LOGIN",
-    "LOGOUT": "LOGOUT"
+    "LOGOUT": "LOGOUT",
+    "SILENT_LOGIN": "SILENT_LOGIN"
 }
 
 export default userActionTypes;

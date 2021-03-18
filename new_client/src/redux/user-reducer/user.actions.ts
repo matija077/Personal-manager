@@ -1,4 +1,11 @@
-import userActionTypes, { userPayloadActionTypeLoginType,  actionReturnType} from './user.types';
+import
+    userActionTypes,
+    {
+        userPayloadActionTypeLoginType,
+        actionReturnType,
+        userPayloadActionTypeSilentLoginType
+    }
+from './user.types';
 
 export function login({nickname, email, token, expiresIn}: userPayloadActionTypeLoginType):
     actionReturnType<typeof userActionTypes, userPayloadActionTypeLoginType> {
@@ -13,4 +20,12 @@ export function logout() {
         type: userActionTypes.LOGOUT,
         payload: undefined
     }
+}
+
+export function silentLogin({ expiresIn, token }: userPayloadActionTypeSilentLoginType):
+    actionReturnType<typeof userActionTypes, userPayloadActionTypeSilentLoginType > {
+    return {
+            type: userActionTypes.SILENT_LOGIN,
+            payload: {token, expiresIn}
+        }
 }
