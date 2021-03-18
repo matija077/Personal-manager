@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo, useLayoutEffect, Dispatch } from 'react';
+import React, { useState, useEffect, useMemo, useLayoutEffect, useRef, Dispatch } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../redux/user-reducer/user.actions';
+import { logout, silentLogin} from '../../redux/user-reducer/user.actions';
 import { getExpiresIn } from '../../redux/user-reducer/user.selectors';
 import { silentRefresh } from '../../redux/utils';
 
@@ -145,16 +145,18 @@ function useQueryContainer<DataType>(query: QueryType) {
 function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
     useEffect(() => {
         const silentRefreshTimeoutId = setTimeout(() => {
-            silentRefresh().then(function resolved(result: AxiosResponse) {
-                //dispatch(silentLogin)
-            }).catch(function rejected(error: AxiosError) {});
-            // dispatch(logout);
-        }, expiresIn);
+            silentRefresh().
+                then(function resolved(result: AxiosResponse) {
+                    dispatch(silentLogin({...result.data}))
+                }).catch(function rejected(error: AxiosError) {
+                    //dispatch(logout());
+                });
+        }, expiresIn*1000);
 
         return () => {
             clearTimeout(silentRefreshTimeoutId);
         }
-    }, [expiresIn])
+    }, [expiresIn, dispatch])
 }
 
 export {
