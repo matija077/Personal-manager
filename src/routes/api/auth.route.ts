@@ -3,7 +3,7 @@ const router = express.Router();
 import handleToken from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
 import { createToken, createRefreshToken } from '../../services/token.service';
-import { tokenEnum } from "../../utility/types";
+import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
 
 const cookieOptions: CookieOptions = {
     maxAge: 17280000000,
@@ -19,7 +19,7 @@ function createAndSetCookie(name: string, token: string, options: CookieOptions 
     )
 }
 function setRefreshTokenCookie( token: string, res: express.Response) {
-    createAndSetCookie("refreshToken", token, undefined, res);
+    createAndSetCookie(REFRESH_TOKEN, token, undefined, res);
 }
 
 router
