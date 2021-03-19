@@ -19,9 +19,6 @@ function handleTokenMiddlewareWrapper(secretType: tokenEnum) {
             token = getRefreshToken(cookie);
         }
 
-        if (secretType === tokenEnum.REFRESHTOKEN) {
-            console.log("token is " + token)
-        }
         if (token) {
             verifyToken(token, secretType, () => next(), () => res.sendStatus(returnCodes.unauthorized));
         } else {

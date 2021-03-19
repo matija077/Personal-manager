@@ -103,16 +103,15 @@ function getQuotes(parent:any, args: any, context: any, info: any): Array<quoteT
 
 function getTasks(parent:any, args: any, context: any, info: any): Array<taskType> {
     const user: userContextType = context.user;
-    /*if (user.unAuthenticated) {
+    if (user.unAuthenticated) {
         throw new AuthenticationError("missing token");
-    }*/
+    }
     // TODO AUTH check for forbidden error
 
     return tasks;
 }
 
 function getUser(user: any) {
-    console.log(user);
     // this shoudl return null for graphql
     async function getUserAsync() {
         try {

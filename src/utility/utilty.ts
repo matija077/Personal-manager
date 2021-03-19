@@ -33,7 +33,8 @@ function verifyToken(
 {
     jwt.verify(token, process.env[secretType] as string, (error, payload) => {
         if (error) {
-            unauthorized()
+            console.error(error);
+            return unauthorized()
         }
 
         authenticated();

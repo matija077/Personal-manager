@@ -9,7 +9,6 @@ function router(app, params) {
             require(path.resolve(apiPath, file))(app, params);
         }
     )
-    console.log("route");
 }
 
 module.exports = router;

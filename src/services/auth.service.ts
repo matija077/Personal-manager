@@ -19,7 +19,6 @@ type authenticateReturnType = {
  * true - successful authentication
  */
 async function authenticate({ email, password }: authetnicateParamsType): Promise<authenticateReturnType> {
-    console.log("here");
     var returnType: authenticateReturnType = {
         isMatched: null,
         nickname: null
