@@ -149,7 +149,7 @@ function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
                 then(function resolved(result: AxiosResponse) {
                     dispatch(silentLogin({...result.data}))
                 }).catch(function rejected(error: AxiosError) {
-                    //dispatch(logout());
+                    dispatch(logout());
                 });
         }, expiresIn*1000);
 

@@ -4,6 +4,9 @@ import express from 'express';
 function cors(req: express.Request, res: express.Response, next: express.NextFunction) {
     const origin = req.get('origin');
 
+    // each request must have origin, and response must allow origin
+    // because each request sends cookies it must have withCredentials: true and
+    // response must have allow-credentials: true.
     res.set('Access-Control-Allow-Origin', origin || "");
     res.set('Access-Control-Allow-Credentials', 'true');
 

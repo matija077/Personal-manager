@@ -6,7 +6,6 @@ import path from 'path';
 
 import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
-import handleToken from './src/middlewares/handleToken.middleware';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 import errorHandling from './src/middlewares/errorHandling';
 
