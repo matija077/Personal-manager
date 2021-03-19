@@ -23,6 +23,7 @@ import { returnCodes } from './config/utils';
 
 import { getUserByNickname } from './services/user.service';
 import { quoteType, taskType } from "../new_client/src/graphQL/types";
+import { tokenEnum } from "./utility/types";
 
 /*type QuotesType = {
     author?: String,
@@ -102,9 +103,9 @@ function getQuotes(parent:any, args: any, context: any, info: any): Array<quoteT
 
 function getTasks(parent:any, args: any, context: any, info: any): Array<taskType> {
     const user: userContextType = context.user;
-    if (user.unAuthenticated) {
+    /*if (user.unAuthenticated) {
         throw new AuthenticationError("missing token");
-    }
+    }*/
     // TODO AUTH check for forbidden error
 
     return tasks;
@@ -275,6 +276,7 @@ const server = new ApolloServer({
             if (token) {
                 verifyToken(
                     token,
+                    tokenEnum.TOKEN,
                     () => user.token = token,
                     () => user.unAuthenticated = true
                 );

@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { tokenEnum } from './types';
 
 function getToken(authHeader: string | undefined) {
     let token: string | null = null;
@@ -13,10 +14,11 @@ function getToken(authHeader: string | undefined) {
 
 function verifyToken(
     token: string,
+    secretType: tokenEnum,
     authenticated: () => void,
     unauthorized: () => void)
 {
-    jwt.verify(token, process.env.TOKEN as string, (error, payload) => {
+    jwt.verify(token, process.env.secretType as string, (error, payload) => {
         if (error) {
             unauthorized()
         }

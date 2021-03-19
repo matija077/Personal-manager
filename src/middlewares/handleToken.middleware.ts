@@ -1,24 +1,21 @@
 import { returnCodes } from "../config/utils";
-import { getToken } from '../utility/utilty';
+import { getToken, verifyToken } from '../utility/utilty';
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import { tokenEnum } from '../utility/types';
 
-function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const authHeader = req.headers.authorization;
+function handleTokenMiddlewareWrapper(secretType: tokenEnum) {
+    return function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+        const authHeader = req.headers.authorization;
 
-    const token = getToken(authHeader);
+        const token = getToken(authHeader);
 
-    if (token) {
-        jwt.verify(token, process.env.TOKEN as string, (error, payload) => {
-            if (error) {
-                res.sendStatus(returnCodes.unauthorized);
-            }
-
-            next();
-        })
-    } else {
-        res.sendStatus(returnCodes.unauthorized);
+        if (token) {
+            verifyToken(token, secretType, () => next(), () => res.sendStatus(returnCodes.unauthorized));
+        } else {
+            res.sendStatus(returnCodes.unauthorized);
+        }
     }
 }
 
-export default handleTokenMiddleware;
+export default handleTokenMiddlewareWrapper;

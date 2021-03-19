@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { tokenEnum } from '../utility/types';
 
 type createTokenReturnType = {
     token: string,
@@ -28,17 +29,13 @@ async function createRefreshToken(nickname: string): Promise<string> {
     );
 }
 
-
-enum tokenEnum  {
-    "TOKEN",
-    "REFRESHTOKEN"
-}
-async function signToken(data: string | object | Buffer, token: tokenEnum, options: jwt.SignOptions = {}) {
+async function signToken(data: string | object | Buffer, secretType: tokenEnum, options: jwt.SignOptions = {}) {
     try {
+        console.log(secretType);
         const token: string = await new Promise(function (resolve, reject) {
             jwt.sign(
                 data,
-                process.env.token as string,
+                process.env[secretType] as string,
                 options,
                 function(err: Error | null, token: string | undefined) {
                     if (token) {

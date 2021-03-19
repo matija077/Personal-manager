@@ -3,6 +3,7 @@ const router = express.Router();
 import handleToken from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
 import { createToken, createRefreshToken } from '../../services/token.service';
+import { tokenEnum } from "../../utility/types";
 
 const cookieOptions: CookieOptions = {
     maxAge: 17280000000,
@@ -17,7 +18,7 @@ function createAndSetCookie(name: string, token: string, options: CookieOptions 
         options
     )
 }
-function createAndSetRefreshTokenCookie( token: string, res: express.Response) {
+function setRefreshTokenCookie( token: string, res: express.Response) {
     createAndSetCookie("refreshToken", token, undefined, res);
 }
 
@@ -30,7 +31,7 @@ router
             const { token = "", expiresIn = "" } = nickname ? await createToken(nickname) : {};
             const refreshToken = nickname? await createRefreshToken(nickname) : undefined;
 
-            refreshToken && createAndSetRefreshTokenCookie(refreshToken, res);
+            refreshToken && setRefreshTokenCookie(refreshToken, res);
 
             res.json({isAuthenticated, nickname, token, expiresIn});
 
@@ -39,7 +40,7 @@ router
         }
     })
 
-    .post("/refreshToken", handleToken,  async (req: express.Request, res: express.Response, next: NextFunction) => {
+    .post("/refreshToken", handleToken(tokenEnum.REFRESHTOKEN),  async (req: express.Request, res: express.Response, next: NextFunction) => {
         res.json(req.cookies);
         console.log(req.headers.cookie);
 
