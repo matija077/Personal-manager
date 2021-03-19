@@ -12,7 +12,7 @@ async function createToken(nickname: string): Promise<createTokenReturnType> {
         {nickname},
         tokenEnum.TOKEN,
         {
-            expiresIn: expiresIn
+            expiresIn: parseInt(expiresIn)
         }
     );
         
