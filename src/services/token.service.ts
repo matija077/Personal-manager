@@ -29,6 +29,7 @@ async function createRefreshToken(nickname: string): Promise<string> {
     );
 }
 
+// expiresIn - number - seconds, string - milliseconds
 async function signToken(data: string | object | Buffer, secretType: tokenEnum, options: jwt.SignOptions = {}) {
     try {
         const token: string = await new Promise(function (resolve, reject) {
