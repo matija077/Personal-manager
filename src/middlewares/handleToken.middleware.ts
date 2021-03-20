@@ -9,11 +9,11 @@ function handleTokenMiddlewareWrapper(secretType: tokenEnum) {
     return function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
         let token: string | null = null;
 
-        if (secretType === tokenEnum.TOKEN) {
+        if (secretType === tokenEnum.TOKEN_SECRET) {
             const authHeader = req.headers.authorization;
 
             token = getToken(authHeader);
-        } else if (secretType === tokenEnum.REFRESHTOKEN) {
+        } else if (secretType === tokenEnum.REFRESH_TOKEN_SECRET) {
             const cookie = req.headers.cookie;
            
             token = getRefreshToken(cookie);

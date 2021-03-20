@@ -275,7 +275,7 @@ const server = new ApolloServer({
             if (token) {
                 verifyToken(
                     token,
-                    tokenEnum.TOKEN,
+                    tokenEnum.TOKEN_SECRET,
                     () => user.token = token,
                     () => user.unAuthenticated = true
                 );

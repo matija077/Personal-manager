@@ -7,12 +7,14 @@ import path from 'path';
 import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
+import redis from 'redis';
 import errorHandling from './src/middlewares/errorHandling';
 
 var port = process.env.PORT || PORT;
 
 // initlaize necessary apps
 var client = require("./src/db/initialize.ts");
+//const redisCLient = redis.createClient();
 
 var app = express();
 

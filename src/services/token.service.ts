@@ -10,7 +10,7 @@ async function createToken(nickname: string): Promise<createTokenReturnType> {
 
     const token = await signToken(
         {nickname},
-        tokenEnum.TOKEN,
+        tokenEnum.TOKEN_SECRET,
         {
             expiresIn: parseInt(expiresIn)
         }
@@ -25,7 +25,7 @@ async function createToken(nickname: string): Promise<createTokenReturnType> {
 async function createRefreshToken(nickname: string): Promise<string> {
     return await signToken(
         nickname,
-        tokenEnum.REFRESHTOKEN
+        tokenEnum.REFRESH_TOKEN_SECRET
     );
 }
 

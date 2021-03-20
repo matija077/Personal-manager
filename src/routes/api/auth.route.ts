@@ -32,6 +32,7 @@ router
             const refreshToken = nickname? await createRefreshToken(nickname) : undefined;
 
             refreshToken && setRefreshTokenCookie(refreshToken, res);
+            //refreshToken && setRefreshTokenState(refreshToken, nickname);
 
             res.json({isAuthenticated, nickname, token, expiresIn});
 
@@ -40,7 +41,7 @@ router
         }
     })
 
-    .post("/refreshToken", handleToken(tokenEnum.REFRESHTOKEN), async (req: express.Request, res: express.Response, next: NextFunction) => {
+    .post("/refreshToken", handleToken(tokenEnum.REFRESH_TOKEN_SECRET), async (req: express.Request, res: express.Response, next: NextFunction) => {
         res.json(req.cookies);
         //console.log(req.headers.cookie);
 
