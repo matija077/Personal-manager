@@ -8,7 +8,8 @@ type authetnicateParamsType = {
 
 type authenticateReturnType = {
     isMatched: boolean | null,
-    nickname: string | null
+    nickname: string | null,
+    id: number | null
 }
 
 /**
@@ -21,7 +22,8 @@ type authenticateReturnType = {
 async function authenticate({ email, password }: authetnicateParamsType): Promise<authenticateReturnType> {
     var returnType: authenticateReturnType = {
         isMatched: null,
-        nickname: null
+        nickname: null,
+        id: null
     };
 
     try {
@@ -46,7 +48,7 @@ async function authenticate({ email, password }: authetnicateParamsType): Promis
             values
         );*/
 
-        const text = 'SELECT password, nickname FROM "user" WHERE email = $1';
+        const text = 'SELECT password, nickname, id FROM "user" WHERE email = $1';
         const values = [email];
         var result =  await client.client.query(
             text,
