@@ -8,13 +8,13 @@ function parseCookies(key: string, cookies: string = ""): string {
         //console.log("first " + cookieArray[0]);
         //console.log("key" + key);
 
-        if (cookieArray[0] === key) {
+        if (cookieArray[0].trim() === key) {
             returnValue = cookieArray[1];
         }
     }
 
     //console.log("return " + returnValue);
     return returnValue;
-} 
+}
 
 export default parseCookies;
