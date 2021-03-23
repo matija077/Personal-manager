@@ -4,27 +4,43 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import { tokenEnum } from '../utility/types';
 
+function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+    const cookie = req.headers.cookie;
 
-function handleTokenMiddlewareWrapper(secretType: tokenEnum) {
-    return function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
-        let token: string | null = null;
+    const token = getRefreshToken(cookie);
 
-        if (secretType === tokenEnum.TOKEN_SECRET) {
-            const authHeader = req.headers.authorization;
-
-            token = getToken(authHeader);
-        } else if (secretType === tokenEnum.REFRESH_TOKEN_SECRET) {
-            const cookie = req.headers.cookie;
-           
-            token = getRefreshToken(cookie);
-        }
-
-        if (token) {
-            verifyToken(token, secretType, () => next(), () => res.sendStatus(returnCodes.unauthorized));
-        } else {
-            res.sendStatus(returnCodes.unauthorized);
-        }
+    if (token) {
+        verifyToken(
+            token,
+            tokenEnum.TOKEN_SECRET,
+            () => next(),
+            () => res.sendStatus(returnCodes.unauthorized)
+        );
+    } else {
+        res.sendStatus(returnCodes.unauthorized);
     }
 }
 
-export default handleTokenMiddlewareWrapper;
+function handleRefreshTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
+    const cookie = req.headers.cookie;
+
+    const token = getRefreshToken(cookie);
+
+    if (token) {
+        verifyToken(
+            token,
+            tokenEnum.REFRESH_TOKEN_SECRET,
+            () => next(),
+            () => {
+
+            }
+        );
+    } else {
+        res.sendStatus(returnCodes.forbidden)
+    }
+ }
+
+export {
+    handleTokenMiddleware,
+    handleRefreshTokenMiddleware
+};

@@ -1,6 +1,6 @@
 import express, { CookieOptions, NextFunction } from "express";
 const router = express.Router();
-import handleToken from '../../middlewares/handleToken.middleware';
+import { handleRefreshTokenMiddleware } from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
 import { createToken, createRefreshToken } from '../../services/token.service';
 import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
@@ -41,7 +41,7 @@ router
         }
     })
 
-    .post("/refreshToken", handleToken(tokenEnum.REFRESH_TOKEN_SECRET), async (req: express.Request, res: express.Response, next: NextFunction) => {
+    .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
         res.json(req.cookies);
         //console.log(req.headers.cookie);
 
