@@ -1,4 +1,4 @@
-import client from '../db/initialize';
+import client from '../db/postgres/initialize';
 
 type getUserByNicknameParamsType = {
     nickname: string

@@ -1,4 +1,4 @@
-import client from '../db/initialize';
+import client from '../db/postgres/initialize';
 import bcrypt from 'bcrypt';
 
 type authetnicateParamsType = {

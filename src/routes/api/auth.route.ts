@@ -42,11 +42,7 @@ router
     })
 
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
-        res.json(req.cookies);
-        //console.log(req.headers.cookie);
-
-        // TODO -veryf token adn read data
-
+       
 
 
     })
