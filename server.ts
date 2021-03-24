@@ -8,14 +8,14 @@ import auth from './src/routes/api/auth.route';
 import users from './src/routes/api/users';
 var { resolvers, server: graphServer } = require('./src/graphql.ts');
 import errorHandling from './src/middlewares/errorHandling';
-import redis from './src/db/redis/initliazie';
+//import redis from './src/db/redis/initliazie';
 
 var port = process.env.PORT || PORT;
 
 // initlaize necessary apps
 var client = require("./src/db/postgres/initialize.ts");
-const redisCLient = redis;
-console.log(redisCLient);
+//const redisCLient = redis;
+//console.log(redisCLient);
 
 var app = express();
 
