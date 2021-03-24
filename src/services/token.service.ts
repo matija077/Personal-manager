@@ -127,14 +127,17 @@ async function getRefreshToken(jti: string): Promise<string | undefined> {
     return refreshTokens[jti];
 }
 
+async function revokeRefreshToken(jti: string): Promise<void> {
+    delete refreshTokens[jti];
+}
+
 type refreshTokenPayload = {
     nickname: string,
     iat: number,
     exp: number,
     jti: string
 }
-async function checkExpiredRefreshToken(t: any): Promise<boolean> {
-    const token = t as refreshTokenPayload;
+async function checkExpiredRefreshToken(token: refreshTokenPayload): Promise<boolean> {
     let expired = true;
     //console.log(token);
     // date.now() retursn miliseconds. tokekn expiresIn are in seconds
@@ -167,5 +170,7 @@ export {
     createAccessTokenType,
     verifyToken,
     checkExpiredRefreshToken,
-    storeRefreshToken
+    storeRefreshToken,
+    revokeRefreshToken,
+    refreshTokenPayload
 };

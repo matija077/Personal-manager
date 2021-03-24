@@ -8,7 +8,9 @@ import {
     checkExpiredRefreshToken,
     storeRefreshToken,
     createAccessTokenType,
-    createRefreshTokenType
+    createRefreshTokenType,
+    revokeRefreshToken,
+    refreshTokenPayload
 } from '../../services/token.service';
 import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
 
@@ -54,15 +56,19 @@ router
     })
 
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
-        const token: string = res.locals.payload;
+        const token: refreshTokenPayload = res.locals.payload;
 
         try {
             const expired = await checkExpiredRefreshToken(token);
 
+            revokeRefreshToken(token.jti);
+
             if (expired) {
                console.log("expired");
+               // retur nsomething
             } else {
                 console.log("still valid");
+                // create new tokens
             }
         } catch(error: any) {
             next(error);
