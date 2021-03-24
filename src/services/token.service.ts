@@ -1,17 +1,29 @@
 import jwt from 'jsonwebtoken';
-import { tokenEnum } from '../utility/types';
+import { tokenEnum, tokenExpiresEnum, defaultExpires } from '../utility/types';
 
-type createTokenReturnType = {
+export type createTokenReturnType = {
     token: string,
-    expiresIn: string
+    expiresIn: string,
+    options?: Record<string, any>
 }
-async function createToken(nickname: string): Promise<createTokenReturnType> {
-    const expiresIn = process.env.TOKEN_EXPIRES_SECONDS || "60";
+async function createToken({
+    nickname,
+    tokenSecret,
+    tokenExpires,
+    options = {}
+}: {
+    nickname: string,
+    tokenSecret: tokenEnum,
+    tokenExpires: tokenExpiresEnum,
+    options?: jwt.SignOptions
+}): Promise<createTokenReturnType> {
+    const expiresIn = process.env[tokenExpires] || defaultExpires[tokenExpires];
 
     const token = await signToken(
         {nickname},
-        tokenEnum.TOKEN_SECRET,
+        tokenEnum[tokenSecret],
         {
+            ...options,
             expiresIn: parseInt(expiresIn)
         }
     );
@@ -22,11 +34,40 @@ async function createToken(nickname: string): Promise<createTokenReturnType> {
     }
 }
 
-async function createRefreshToken(nickname: string): Promise<string> {
-    return await signToken(
+type createAccessTokenType = createTokenReturnType;
+async function createAccessToken(nickname: string): Promise<createAccessTokenType> {
+    return await createToken({
         nickname,
-        tokenEnum.REFRESH_TOKEN_SECRET
-    );
+        tokenSecret: tokenEnum.TOKEN_SECRET,
+        tokenExpires: tokenExpiresEnum.TOKEN_EXPIRES_SECONDS
+    })
+}
+
+interface createRefreshTokenType extends createTokenReturnType {
+    options: {
+        jwtid: string
+    }
+}
+async function createRefreshToken(nickname: string): Promise<createRefreshTokenType> {
+    const jwtid = "1234";
+
+    const createTokenResult = await createToken({
+        nickname,
+        tokenSecret: tokenEnum.REFRESH_TOKEN_SECRET,
+        tokenExpires: tokenExpiresEnum.REFRESH_TOKEN_EXPIRES_SECONDS,
+        options: {
+            jwtid
+        }
+    });
+
+    const createRefreshTokenResult: createRefreshTokenType = {
+        ...createTokenResult,
+        options: {
+            jwtid
+        }
+    }
+
+    return createRefreshTokenResult;
 }
 
 // expiresIn - number - seconds, string - milliseconds
@@ -70,19 +111,12 @@ function verifyToken(
     })
 }
 
-type refreshTokensType = {
-    [key: string]: {
-        expiresIn: number
-    }
-}
-const refreshTokens = []
-
 async function checkExpiredRefreshToken(token: string): Promise<boolean> {
-
+    return await Promise.resolve(true);
 }
 
 export {
-    createToken,
+    createAccessToken,
     createRefreshToken,
     verifyToken,
     checkExpiredRefreshToken

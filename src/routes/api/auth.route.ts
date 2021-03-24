@@ -3,9 +3,10 @@ const router = express.Router();
 import { handleRefreshTokenMiddleware } from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
 import {
-    createToken,
+    createAccessToken,
     createRefreshToken,
-    checkExpiredRefreshToken
+    checkExpiredRefreshToken,
+    createTokenReturnType
 } from '../../services/token.service';
 import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
 
@@ -26,19 +27,28 @@ function setRefreshTokenCookie( token: string, res: express.Response) {
     createAndSetCookie(REFRESH_TOKEN, token, undefined, res);
 }
 
+type refreshTokensType = {
+    [key: string]: string
+}
+const refreshTokens: refreshTokensType = {};
+
 router
     .post("/authenticate", async (req: express.Request, res: express.Response, next: NextFunction) => {
         const {email, password}: {email: string, password: string} = req.body;
 
         try {
             const { isMatched: isAuthenticated, nickname } = await authenticate({email, password});
-            const { token = "", expiresIn = "" } = nickname ? await createToken(nickname) : {};
-            const refreshToken = nickname? await createRefreshToken(nickname) : undefined;
+            const { token = "", expiresIn: accessTokenExpiresIn = "" } = nickname ? await createAccessToken(nickname) : {};
+            const {
+                token: refreshToken = "",
+                expiresIn: refreshTokenExpiresIn = "",
+                options = {}
+            } = nickname? await createRefreshToken(nickname) : {};
 
             refreshToken && setRefreshTokenCookie(refreshToken, res);
             //refreshToken && setRefreshTokenState(refreshToken, nickname);
 
-            res.json({isAuthenticated, nickname, token, expiresIn});
+            res.json({isAuthenticated, nickname, token, expiresIn: accessTokenExpiresIn});
 
         } catch (error: any) {
             next(error);
