@@ -6,7 +6,9 @@ import {
     createAccessToken,
     createRefreshToken,
     checkExpiredRefreshToken,
-    createTokenReturnType
+    storeRefreshToken,
+    createAccessTokenType,
+    createRefreshTokenType
 } from '../../services/token.service';
 import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
 
@@ -27,10 +29,6 @@ function setRefreshTokenCookie( token: string, res: express.Response) {
     createAndSetCookie(REFRESH_TOKEN, token, undefined, res);
 }
 
-type refreshTokensType = {
-    [key: string]: string
-}
-const refreshTokens: refreshTokensType = {};
 
 router
     .post("/authenticate", async (req: express.Request, res: express.Response, next: NextFunction) => {
@@ -38,15 +36,15 @@ router
 
         try {
             const { isMatched: isAuthenticated, nickname } = await authenticate({email, password});
-            const { token = "", expiresIn: accessTokenExpiresIn = "" } = nickname ? await createAccessToken(nickname) : {};
+            const { token = "", expiresIn: accessTokenExpiresIn = "" } = nickname ? await createAccessToken(nickname) : {} as createAccessTokenType;
             const {
                 token: refreshToken = "",
                 expiresIn: refreshTokenExpiresIn = "",
-                options = {}
-            } = nickname? await createRefreshToken(nickname) : {};
+                options
+            } = nickname? await createRefreshToken(nickname) : {} as createRefreshTokenType;
 
             refreshToken && setRefreshTokenCookie(refreshToken, res);
-            //refreshToken && setRefreshTokenState(refreshToken, nickname);
+            storeRefreshToken(refreshTokenExpiresIn, options.jwtid);
 
             res.json({isAuthenticated, nickname, token, expiresIn: accessTokenExpiresIn});
 

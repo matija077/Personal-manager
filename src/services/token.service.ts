@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import { nextTick } from 'process';
 import { tokenEnum, tokenExpiresEnum, defaultExpires } from '../utility/types';
 
 export type createTokenReturnType = {
@@ -49,7 +50,7 @@ interface createRefreshTokenType extends createTokenReturnType {
     }
 }
 async function createRefreshToken(nickname: string): Promise<createRefreshTokenType> {
-    const jwtid = "1234";
+    const jwtid = (Math.random()*(Math.random()*1000)).toString();
 
     const createTokenResult = await createToken({
         nickname,
@@ -111,6 +112,18 @@ function verifyToken(
     })
 }
 
+type refreshTokensType = {
+    [key: string]: string
+}
+const refreshTokens: refreshTokensType = {};
+
+function storeRefreshToken(expiresIn: string, jwtid: string) {
+    nextTick(() => {
+        refreshTokens[jwtid] = expiresIn;
+        console.log(refreshTokens);
+    })
+}
+
 async function checkExpiredRefreshToken(token: string): Promise<boolean> {
     return await Promise.resolve(true);
 }
@@ -118,6 +131,9 @@ async function checkExpiredRefreshToken(token: string): Promise<boolean> {
 export {
     createAccessToken,
     createRefreshToken,
+    createRefreshTokenType,
+    createAccessTokenType,
     verifyToken,
-    checkExpiredRefreshToken
+    checkExpiredRefreshToken,
+    storeRefreshToken
 };
