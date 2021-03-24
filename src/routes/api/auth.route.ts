@@ -60,9 +60,9 @@ router
             const expired = await checkExpiredRefreshToken(token);
 
             if (expired) {
-                // revoke
+               console.log("expired");
             } else {
-                // create
+                console.log("still valid");
             }
         } catch(error: any) {
             next(error);

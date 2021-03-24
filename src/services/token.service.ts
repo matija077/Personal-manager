@@ -120,12 +120,44 @@ const refreshTokens: refreshTokensType = {};
 function storeRefreshToken(expiresIn: string, jwtid: string) {
     nextTick(() => {
         refreshTokens[jwtid] = expiresIn;
-        console.log(refreshTokens);
     })
 }
 
-async function checkExpiredRefreshToken(token: string): Promise<boolean> {
-    return await Promise.resolve(true);
+async function getRefreshToken(jti: string): Promise<string | undefined> {
+    return refreshTokens[jti];
+}
+
+type refreshTokenPayload = {
+    nickname: string,
+    iat: number,
+    exp: number,
+    jti: string
+}
+async function checkExpiredRefreshToken(t: any): Promise<boolean> {
+    const token = t as refreshTokenPayload;
+    let expired = true;
+    //console.log(token);
+    // date.now() retursn miliseconds. tokekn expiresIn are in seconds
+    const currentTime = Math.round((Date.now()/1000));
+    //console.log(currentTime);
+
+    const expiredAtFromStorage = await getRefreshToken(token.jti);
+    if (!expiredAtFromStorage) {
+        return expired;
+    }
+
+    const expiresAtFromStorage= token.iat + parseInt(expiredAtFromStorage);
+    const expiresAt = token.exp;
+
+    console.log("expires at fro mstorage" + expiresAtFromStorage);
+    console.log("expires at from token" + expiresAt);
+    console.log("current time" + currentTime);
+
+    if (expiresAt >= currentTime && expiresAtFromStorage >= currentTime) {
+        expired = false;
+    }
+
+    return expired;
 }
 
 export {
