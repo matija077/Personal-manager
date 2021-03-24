@@ -21,7 +21,6 @@ var clientWrapper : {
 } = {
     connected: false,
     client
-} 
+}
 
 export default clientWrapper;
-

@@ -28,7 +28,7 @@ function handleRefreshTokenMiddleware(req: express.Request, res: express.Respons
     let token = getRefreshToken(cookie);
 
     if (!token) {
-        res.sendStatus(returnCodes.forbidden)
+        return res.sendStatus(returnCodes.forbidden)
     }
 
     token = token as string;
