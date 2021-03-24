@@ -70,8 +70,20 @@ function verifyToken(
     })
 }
 
+type refreshTokensType = {
+    [key: string]: {
+        expiresIn: number
+    }
+}
+const refreshTokens = []
+
+async function checkExpiredRefreshToken(token: string): Promise<boolean> {
+
+}
+
 export {
     createToken,
     createRefreshToken,
-    verifyToken
+    verifyToken,
+    checkExpiredRefreshToken
 };

@@ -2,7 +2,11 @@ import express, { CookieOptions, NextFunction } from "express";
 const router = express.Router();
 import { handleRefreshTokenMiddleware } from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
-import { createToken, createRefreshToken } from '../../services/token.service';
+import {
+    createToken,
+    createRefreshToken,
+    checkExpiredRefreshToken
+} from '../../services/token.service';
 import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
 
 const cookieOptions: CookieOptions = {
@@ -42,9 +46,19 @@ router
     })
 
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
-       
+        const token: string = res.locals.payload;
 
+        try {
+            const expired = await checkExpiredRefreshToken(token);
 
+            if (expired) {
+                // revoke
+            } else {
+                // create
+            }
+        } catch(error: any) {
+            next(error);
+        }
     })
 
     .get("/verifyToken", async (req: express.Request, res: express.Response) => {
