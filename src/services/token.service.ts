@@ -15,7 +15,7 @@ async function createToken(nickname: string): Promise<createTokenReturnType> {
             expiresIn: parseInt(expiresIn)
         }
     );
-        
+
     return {
         token,
         expiresIn
@@ -53,7 +53,25 @@ async function signToken(data: string | object | Buffer, secretType: tokenEnum, 
     }
 }
 
+function verifyToken(
+    token: string,
+    secretType: tokenEnum,
+    authenticated: (payload: Object | undefined) => void,
+    unauthorized: () => void,
+    options?: jwt.VerifyOptions,
+) {
+    jwt.verify(token, process.env[secretType] as string, options, (error, payload) => {
+        if (error) {
+            console.error(error);
+            return unauthorized();
+        }
+
+        authenticated(payload);
+    })
+}
+
 export {
     createToken,
-    createRefreshToken
+    createRefreshToken,
+    verifyToken
 };

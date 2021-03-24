@@ -18,10 +18,11 @@ import {
 } from "apollo-server-express";
 import { PORT } from "./config/utils";
 
-import { getToken, verifyToken } from './utility/utilty';
+import { getToken } from './utility/utilty';
 import { returnCodes } from './config/utils';
 
 import { getUserByNickname } from './services/user.service';
+import { verifyToken } from './services/token.service';
 import { quoteType, taskType } from "../new_client/src/graphQL/types";
 import { tokenEnum } from "./utility/types";
 

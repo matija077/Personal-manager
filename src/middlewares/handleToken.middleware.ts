@@ -1,8 +1,9 @@
 import { returnCodes } from "../config/utils";
-import { getRefreshToken, getToken, verifyToken } from '../utility/utilty';
+import { getRefreshToken, getToken } from '../utility/utilty';
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import { tokenEnum } from '../utility/types';
+import { verifyToken } from '../services/token.service';
 
 function handleTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const cookie = req.headers.cookie;
@@ -24,20 +25,28 @@ function handleTokenMiddleware(req: express.Request, res: express.Response, next
 function handleRefreshTokenMiddleware(req: express.Request, res: express.Response, next: express.NextFunction) {
     const cookie = req.headers.cookie;
 
-    const token = getRefreshToken(cookie);
+    let token = getRefreshToken(cookie);
 
-    if (token) {
-        verifyToken(
-            token,
-            tokenEnum.REFRESH_TOKEN_SECRET,
-            () => next(),
-            () => {
-
-            }
-        );
-    } else {
+    if (!token) {
         res.sendStatus(returnCodes.forbidden)
     }
+
+    token = token as string;
+    verifyToken(
+        token,
+        tokenEnum.REFRESH_TOKEN_SECRET,
+        (payload: Object | undefined) => {
+            res.locals.payload = payload;
+
+            next();
+        },
+        () => {
+            res.sendStatus(returnCodes.forbidden)
+        },
+        {
+            ignoreExpiration: true
+        }
+    );
  }
 
 export {

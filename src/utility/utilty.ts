@@ -25,24 +25,7 @@ function getRefreshToken(cookie: string | undefined) {
     return token;
 }
 
-function verifyToken(
-    token: string,
-    secretType: tokenEnum,
-    authenticated: () => void,
-    unauthorized: () => void)
-{
-    jwt.verify(token, process.env[secretType] as string, (error, payload) => {
-        if (error) {
-            console.error(error);
-            return unauthorized()
-        }
-
-        authenticated();
-    })
-}
-
 export {
     getToken,
-    verifyToken,
     getRefreshToken
 }
