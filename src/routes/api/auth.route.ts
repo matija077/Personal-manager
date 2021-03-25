@@ -1,5 +1,6 @@
 import express, { CookieOptions, NextFunction } from "express";
 const router = express.Router();
+import { returnCodes } from '../../config/utils';
 import { handleRefreshTokenMiddleware } from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
 import {
@@ -56,26 +57,34 @@ router
     })
 
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
-        const token: refreshTokenPayload = res.locals.payload;
+        const refreshToken: refreshTokenPayload = res.locals.payload;
 
         try {
-            const expired = await checkExpiredRefreshToken(token);
+            const expired = await checkExpiredRefreshToken(refreshToken);
 
-            revokeRefreshToken(token.jti);
+            revokeRefreshToken(refreshToken.jti);
 
             if (expired) {
-               console.log("expired");
-               // retur nsomething
-            } else {
-                console.log("still valid");
-                // create new tokens
+               return res.sendStatus(returnCodes.unauthorized);
             }
+
+            const { nickname } = refreshToken;
+            const isAuthenticated = true;
+
+            const { token = "", expiresIn: accessTokenExpiresIn = "" } = nickname ? await createAccessToken(nickname) : {} as createAccessTokenType;
+            const {
+                token: newRefreshToken = "",
+                expiresIn: refreshTokenExpiresIn = "",
+                options
+            } = nickname? await createRefreshToken(nickname) : {} as createRefreshTokenType;
+
+            refreshToken && setRefreshTokenCookie(newRefreshToken, res);
+            storeRefreshToken(refreshTokenExpiresIn, options.jwtid);
+
+            res.json({isAuthenticated, nickname, token, expiresIn: accessTokenExpiresIn});
         } catch(error: any) {
             next(error);
         }
-    })
-
-    .get("/verifyToken", async (req: express.Request, res: express.Response) => {
     })
 
 export default router;

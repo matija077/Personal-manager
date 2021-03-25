@@ -23,13 +23,19 @@ function login(
 async function silentRefresh() {
     axios.defaults.withCredentials = true;
 
-    return await axios.post("http://localhost:5012/api/auth/refreshToken", {
+    const response = await axios.post("http://localhost:5012/api/auth/refreshToken", {
     },
     {
         withCredentials: true,
         xsrfCookieName: 'XSRF-TOKEN',
         xsrfHeaderName: 'X-XSRF-TOKEN',
     });
+
+    if (response.status === 200) {
+        return response;
+    }
+
+    return Promise.reject(response);
 }
 
 export {
