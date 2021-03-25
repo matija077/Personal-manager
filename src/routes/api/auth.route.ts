@@ -13,23 +13,34 @@ import {
     revokeRefreshToken,
     refreshTokenPayload
 } from '../../services/token.service';
-import { tokenEnum,REFRESH_TOKEN } from "../../utility/types";
+import { tokenEnum, REFRESH_TOKEN } from "../../utility/types";
 
-const cookieOptions: CookieOptions = {
-    maxAge: 17280000000,
-    httpOnly: true,
-    secure: true,
-    sameSite: "none"
-}
-function createAndSetCookie(name: string, token: string, options: CookieOptions = cookieOptions, res: express.Response) {
+
+function createAndSetCookie(name: string, token: string, options: CookieOptions, res: express.Response) {
+    const cookieDefaultOptions: CookieOptions = {
+        maxAge: 17280000000,
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }
+
     res.cookie(
         name,
         token,
-        options
+        {
+            ...cookieDefaultOptions,
+            ...options
+        }
     )
 }
-function setRefreshTokenCookie( token: string, res: express.Response) {
-    createAndSetCookie(REFRESH_TOKEN, token, undefined, res);
+function setRefreshTokenCookie( token: string, maxAge: number, res: express.Response) {
+    // maxAge is in milsieconds and we are workign with seconds
+    // 100 secodns will be added range of error
+    const conversionFactor = 1000;
+    //const maxAgeWithSafeRange = maxAge * conversionFactor + 100 * conversionFactor;
+    const maxAgeWithSafeRange = maxAge * conversionFactor
+   // console.log(maxAgeWithSafeRange);
+    createAndSetCookie(REFRESH_TOKEN, token, {maxAge: maxAgeWithSafeRange}, res);
 }
 
 
@@ -46,7 +57,7 @@ router
                 options
             } = nickname? await createRefreshToken(nickname) : {} as createRefreshTokenType;
 
-            refreshToken && setRefreshTokenCookie(refreshToken, res);
+            refreshToken && setRefreshTokenCookie(refreshToken, parseInt(refreshTokenExpiresIn), res);
             storeRefreshToken(refreshTokenExpiresIn, options.jwtid);
 
             res.json({isAuthenticated, nickname, token, expiresIn: accessTokenExpiresIn});
@@ -78,7 +89,7 @@ router
                 options
             } = nickname? await createRefreshToken(nickname) : {} as createRefreshTokenType;
 
-            refreshToken && setRefreshTokenCookie(newRefreshToken, res);
+            refreshToken && setRefreshTokenCookie(newRefreshToken, parseInt(refreshTokenExpiresIn), res);
             storeRefreshToken(refreshTokenExpiresIn, options.jwtid);
 
             res.json({isAuthenticated, nickname, token, expiresIn: accessTokenExpiresIn});
