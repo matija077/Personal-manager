@@ -144,6 +144,10 @@ function useQueryContainer<DataType>(query: QueryType) {
 
 function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
     useEffect(() => {
+        if (!expiresIn) {
+            return;
+        }
+
         const silentRefreshTimeoutId = setTimeout(() => {
             silentRefresh().
                 then(function resolved(result: AxiosResponse) {
