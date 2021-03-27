@@ -125,7 +125,7 @@ function useQueryContainer<DataType>(query: QueryType) {
             const customError = error as returnErrorType;
             if (customError.status !== undefined) {
                 // TODO AUTH handle this differently
-                if (customError.status === 401 || customError.status === 403) {
+                if (customError.status === 401) {
                     unAuthOrForbiddenError = true;
                 }
             } else {
