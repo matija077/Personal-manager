@@ -7,6 +7,11 @@ export type createTokenReturnType = {
     expiresIn: string,
     options?: Record<string, any>
 }
+/**
+ * tokenSecret and okenExpires are enums corespomnding to either access or refresh token
+ * for expiresIn we use customOne, env, defautl i mnthat order. customIn is need for
+ * refreshToken refreshing for example
+ */
 async function createToken({
     nickname,
     tokenSecret,
@@ -51,6 +56,10 @@ interface createRefreshTokenType extends createTokenReturnType {
         jwtid: string
     }
 }
+/**
+ * for storing refresh token itn doatabase we need to return jwtid.
+ * we can accomplish correct ytpes by using itnefaces and extends
+ */
 async function createRefreshToken(nickname: string, expiresIn?: string): Promise<createRefreshTokenType> {
     const jwtid = (Math.random()*(Math.random()*1000)).toString();
 
@@ -75,6 +84,10 @@ async function createRefreshToken(nickname: string, expiresIn?: string): Promise
 }
 
 // expiresIn - number - seconds, string - milliseconds
+/**
+ * if we doo async it wil lread key asynconosly. doenst really matter
+ * expriesIn is expected in seocnds/mislsiceodns remaining.
+ */
 async function signToken(data: string | object | Buffer, secretType: tokenEnum, options: jwt.SignOptions = {}) {
     try {
         const token: string = await new Promise(function (resolve, reject) {
@@ -98,6 +111,12 @@ async function signToken(data: string | object | Buffer, secretType: tokenEnum, 
     }
 }
 
+/**
+ *
+ * returned token will have its expiresIn in seconds remaning!!
+ * thsi is different hten date from ajvacritp which works in seconds sicne the epoch
+ * or fro mexpiresIn used in signToken
+ */
 function verifyToken(
     token: string,
     secretType: tokenEnum,
@@ -120,6 +139,9 @@ type refreshTokensType = {
 }
 const refreshTokens: refreshTokensType = {};
 
+/**
+ * storing refresh TOken should not pause the main thread and can be saflety done after sendign the response
+ */
 function storeRefreshToken(expiresIn: string, jwtid: string) {
     nextTick(() => {
         refreshTokens[jwtid] = expiresIn;
@@ -140,12 +162,18 @@ type refreshTokenPayload = {
     exp: number,
     jti: string
 }
+/**
+ * double chekc of expried time
+ * one taken straight from the token, the other from the databaase
+ * one fro mthe database is stored in secodns remaining.
+ * one from the token is in seconds since the Epoch
+ * the one fro mthe database we add issuedAt (i nseconds since the epoch) to secodns remaining
+ * both shoudl now be equal adn bot hshould be greater than currentTIme (seconds since the epoch)
+ */
 async function checkExpiredRefreshToken(token: refreshTokenPayload): Promise<boolean> {
     let expired = true;
-    //console.log(token);
     // date.now() retursn miliseconds. tokekn expiresIn are in seconds
     const currentTime = Math.round((Date.now()/1000));
-    //console.log(currentTime);
 
     const expiredAtFromStorage = await getRefreshToken(token.jti);
     if (!expiredAtFromStorage) {
@@ -154,10 +182,6 @@ async function checkExpiredRefreshToken(token: refreshTokenPayload): Promise<boo
 
     const expiresAtFromStorage= token.iat + parseInt(expiredAtFromStorage);
     const expiresAt = token.exp;
-
-    console.log("expires at fro mstorage" + new Date(expiresAtFromStorage));
-    console.log("expires at from token" + new Date(expiresAt));
-    console.log("current time" + new Date(currentTime));
 
     if (expiresAt >= currentTime && expiresAtFromStorage >= currentTime) {
         expired = false;
