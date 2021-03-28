@@ -67,6 +67,13 @@ router
         }
     })
 
+    /**
+     * check for existance and valdiity of the token regardless of whe ndoes it expire i nthe mdidleware
+     * check if it is expired
+     * in any case revoke it
+     * for new tokens we considered it authenticated. refresh token expires datea.getTIme
+     * is in miliseconds and we have to substract that from old refreshToens expiresIn
+     */
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
         const refreshToken: refreshTokenPayload = res.locals.payload;
 
@@ -81,13 +88,16 @@ router
 
             const { nickname } = refreshToken;
             const isAuthenticated = true;
+            const refreshTokenExpiresInToSet = refreshToken.exp - Math.round(new Date().getTime()/1000);
 
             const { token = "", expiresIn: accessTokenExpiresIn = "" } = nickname ? await createAccessToken(nickname) : {} as createAccessTokenType;
             const {
                 token: newRefreshToken = "",
                 expiresIn: refreshTokenExpiresIn = "",
                 options
-            } = nickname? await createRefreshToken(nickname) : {} as createRefreshTokenType;
+            } = nickname
+                ? await createRefreshToken(nickname, refreshTokenExpiresInToSet.toString())
+                : {} as createRefreshTokenType;
 
             refreshToken && setRefreshTokenCookie(newRefreshToken, parseInt(refreshTokenExpiresIn), res);
             storeRefreshToken(refreshTokenExpiresIn, options.jwtid);

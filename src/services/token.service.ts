@@ -11,14 +11,16 @@ async function createToken({
     nickname,
     tokenSecret,
     tokenExpires,
-    options = {}
+    options = {},
+    customExpires
 }: {
     nickname: string,
     tokenSecret: tokenEnum,
     tokenExpires: tokenExpiresEnum,
-    options?: jwt.SignOptions
+    options?: jwt.SignOptions,
+    customExpires?: string
 }): Promise<createTokenReturnType> {
-    const expiresIn = process.env[tokenExpires] || defaultExpires[tokenExpires];
+    const expiresIn = customExpires || (process.env[tokenExpires] || defaultExpires[tokenExpires]);
 
     const token = await signToken(
         {nickname},
@@ -49,7 +51,7 @@ interface createRefreshTokenType extends createTokenReturnType {
         jwtid: string
     }
 }
-async function createRefreshToken(nickname: string): Promise<createRefreshTokenType> {
+async function createRefreshToken(nickname: string, expiresIn?: string): Promise<createRefreshTokenType> {
     const jwtid = (Math.random()*(Math.random()*1000)).toString();
 
     const createTokenResult = await createToken({
@@ -58,7 +60,8 @@ async function createRefreshToken(nickname: string): Promise<createRefreshTokenT
         tokenExpires: tokenExpiresEnum.REFRESH_TOKEN_EXPIRES_SECONDS,
         options: {
             jwtid
-        }
+        },
+        customExpires: expiresIn
     });
 
     const createRefreshTokenResult: createRefreshTokenType = {
@@ -152,9 +155,9 @@ async function checkExpiredRefreshToken(token: refreshTokenPayload): Promise<boo
     const expiresAtFromStorage= token.iat + parseInt(expiredAtFromStorage);
     const expiresAt = token.exp;
 
-    console.log("expires at fro mstorage" + expiresAtFromStorage);
-    console.log("expires at from token" + expiresAt);
-    console.log("current time" + currentTime);
+    console.log("expires at fro mstorage" + new Date(expiresAtFromStorage));
+    console.log("expires at from token" + new Date(expiresAt));
+    console.log("current time" + new Date(currentTime));
 
     if (expiresAt >= currentTime && expiresAtFromStorage >= currentTime) {
         expired = false;
