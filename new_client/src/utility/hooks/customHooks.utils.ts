@@ -126,7 +126,13 @@ function useQueryContainer<DataType>(query: QueryType) {
             if (customError.status !== undefined) {
                 // TODO AUTH handle this differently
                 if (customError.status === 401) {
-                    unAuthOrForbiddenError = true;
+                    silentRefresh().
+                        then(function resolved(result: AxiosResponse) {
+                            dispatch(silentLogin({...result.data}))
+                            // retry3
+                        }).catch(function rejected(error: AxiosError) {
+                            dispatch(logout());
+                        });
                 }
             } else {
                 error as GraphQLError;
@@ -134,12 +140,6 @@ function useQueryContainer<DataType>(query: QueryType) {
             }
         }
     )
-
-    useEffect(() => {
-        if (unAuthOrForbiddenError) {
-            dispatch(logout());
-        }
-    }, [unAuthOrForbiddenError, dispatch])
 }
 
 function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
@@ -160,7 +160,7 @@ function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
         return () => {
             clearTimeout(silentRefreshTimeoutId);
         }
-    }, [expiresIn, dispatch])
+    })
 }
 
 export {
