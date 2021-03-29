@@ -6,7 +6,7 @@ import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.
 import { getUser, getExpiresIn } from '../../redux/user-reducer/user.selectors';
 import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import Header from './Header';
-import { usePersistedStorage, useSilentRefresh } from '../../utility/hooks/customHooks.utils';
+import { usePersistedStorage, useSilentRefresh, useInitialSilentRefresh } from '../../utility/hooks/customHooks.utils';
 import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
 
 type Props = {
@@ -55,6 +55,7 @@ function HeaderContainer(props: any) {
     let {userName = "", email = "", password = ""} = user;
 
     useSilentRefresh(expiresIn, dispatch);
+    useInitialSilentRefresh(dispatch);
 
     /**
      * wrapper for setting new user using useState hooks setState function

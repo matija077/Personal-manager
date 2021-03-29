@@ -163,6 +163,18 @@ function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
     })
 }
 
+function useInitialSilentRefresh(dispatch: Dispatch<any>) {
+    useEffect(() => {
+        console.log("intiial");
+        silentRefresh().
+        then(function resolved(result: AxiosResponse) {
+            dispatch(silentLogin({...result.data}))
+        }).catch(function rejected(error: AxiosError) {
+            // go to login one day
+        });
+    }, [])
+}
+
 export {
     usePersistedStorage,
     useError,
@@ -170,5 +182,6 @@ export {
     useUseQueryHook,
     useConsoleLogQueries,
     useQueryContainer,
-    useSilentRefresh
+    useSilentRefresh,
+    useInitialSilentRefresh
 }
