@@ -33,13 +33,14 @@ function createAndSetCookie(name: string, token: string, options: CookieOptions,
         }
     )
 }
+// maxAge is in milsieconds and we are workign with seconds
+// 100 secodns will be added range of error
 function setRefreshTokenCookie( token: string, maxAge: number, res: express.Response) {
-    // maxAge is in milsieconds and we are workign with seconds
-    // 100 secodns will be added range of error
     const conversionFactor = 1000;
-    //const maxAgeWithSafeRange = maxAge * conversionFactor + 100 * conversionFactor;
-    const maxAgeWithSafeRange = maxAge * conversionFactor
-   // console.log(maxAgeWithSafeRange);
+    const safeRange = parseInt(process.env.REFRESH_TOKEN_COOKIE_EXPIRES_RANGE || "100");
+
+    const maxAgeWithSafeRange = maxAge * conversionFactor + safeRange * conversionFactor;
+
     createAndSetCookie(REFRESH_TOKEN, token, {maxAge: maxAgeWithSafeRange}, res);
 }
 
@@ -71,8 +72,9 @@ router
      * check for existance and valdiity of the token regardless of whe ndoes it expire i nthe mdidleware
      * check if it is expired
      * in any case revoke it
-     * for new tokens we considered it authenticated. refresh token expires datea.getTIme
-     * is in miliseconds and we have to substract that from old refreshToens expiresIn
+     * for new tokens we considered it authenticated. refresh token expiresIn -  datea.getTIme
+     * is in miliseconds and we have to substract that from old refreshToens expiresIn to get
+     * senconds to expire. both are in seocnds of epoch time.
      */
     .post("/refreshToken", handleRefreshTokenMiddleware, async (req: express.Request, res: express.Response, next: NextFunction) => {
         const refreshToken: refreshTokenPayload = res.locals.payload;
