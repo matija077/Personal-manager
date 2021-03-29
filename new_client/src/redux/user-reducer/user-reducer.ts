@@ -5,12 +5,13 @@ import
     {
         userStateType,
         userPayloadActionTypeLoginType,
-        userPayloadActionTypeSilentLoginType
+        userPayloadActionTypeSilentLoginType,
+        userPayloadType
     }
 from './user.types';
 
 type userReducerActionMapType = {
-    [action: string]: (state: userStateType, payload?: unknown) => userStateType
+    [action: string]: (state: userStateType, payload?: userPayloadType) => userStateType
 }
 
 const initialState: userStateType = {
@@ -21,8 +22,8 @@ const initialState: userStateType = {
 }
 
 const userReducerActionMap : userReducerActionMapType = {
-    [userActionTypes.LOGIN]: function reducerLogin(state, unknownPayload) {
-        const payload = unknownPayload as userPayloadActionTypeLoginType;
+    [userActionTypes.LOGIN]: function reducerLogin(state, userPayload) {
+        const payload = userPayload as userPayloadActionTypeLoginType;
 
         return {
             ...state,
@@ -35,8 +36,8 @@ const userReducerActionMap : userReducerActionMapType = {
     [userActionTypes.LOGOUT]: function reducerLogout() {
         return initialState;
     },
-    [userActionTypes.SILENT_LOGIN]: function reducerSilentLogin(state, unknownPayload) {
-        const payload = unknownPayload as userPayloadActionTypeSilentLoginType;
+    [userActionTypes.SILENT_LOGIN]: function reducerSilentLogin(state, userPayload) {
+        const payload = userPayload as userPayloadActionTypeSilentLoginType;
 
         return {
             ...state,

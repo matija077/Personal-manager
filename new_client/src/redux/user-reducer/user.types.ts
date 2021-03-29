@@ -17,6 +17,10 @@ export type userPayloadActionTypeSilentLoginType = {
     expiresIn: string
 }
 
+export type userPayloadType =
+    userPayloadActionTypeLoginType |
+    userPayloadActionTypeSilentLoginType;
+
 // TODO move this to a redux types file
 export type actionReturnType<T, payloadType> = {
     type:  T[keyof T],
