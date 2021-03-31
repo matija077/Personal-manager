@@ -4,32 +4,33 @@ import axios from 'axios';
 import { getExpiresIn } from './user-reducer/user.selectors';
 import {  useSelector } from 'react-redux';
 
+const apiWithoutCredentials = axios.create({
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+});
+const apiWithCredentials = axios.create({
+    withCredentials: true,
+    xsrfCookieName: 'XSRF-TOKEN',
+    xsrfHeaderName: 'X-XSRF-TOKEN',
+});
+
+
 function login(
     email: string,
     password: string
 ): any {
-    return axios.post("http://localhost:5012/api/auth/authenticate", {
+    return apiWithCredentials.post("http://localhost:5012/api/auth/authenticate", {
         email: email,
         password,
-    },
-    {
-        headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuaWNrbmFtZSI6Im1hdGlqYSIsImlhdCI6MTYxMjYwOTUxNywiZXhwIjoxNjEyNzgyMzE3fQ.rD3n1vwDQVWoA59Gmj292dqyo3MMIxZkamss-_bYR9k`
-        }
     })
-    //return auth.signInWithEmailAndPassword(email, password)
 }
 
 async function silentRefresh() {
-    axios.defaults.withCredentials = true;
+    //axios.defaults.withCredentials = true;
 
-    const response = await axios.post("http://localhost:5012/api/auth/refreshToken", {
-    },
-    {
-        withCredentials: true,
-        xsrfCookieName: 'XSRF-TOKEN',
-        xsrfHeaderName: 'X-XSRF-TOKEN',
-    });
+    const response = await apiWithCredentials.post("http://localhost:5012/api/auth/refreshToken");
+
+    //axios.defaults.withCredentials = false;
 
     if (response.status === 200) {
         return response;
@@ -37,6 +38,8 @@ async function silentRefresh() {
 
     return Promise.reject(response);
 }
+
+
 
 export {
     login,
