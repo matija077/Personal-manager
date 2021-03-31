@@ -39,7 +39,19 @@ async function silentRefresh() {
     return Promise.reject(response);
 }
 
+async function logout() {
+    //axios.defaults.withCredentials = true;
 
+    const response = await apiWithCredentials.post("http://localhost:5012/api/auth/logout", {
+    },
+    {
+        withCredentials: true,
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN',
+    });
+
+    //axios.defaults.withCredentials = false;
+}
 
 export {
     login,
