@@ -3,6 +3,7 @@ const router = express.Router();
 import { returnCodes } from '../../config/utils';
 import { handleRefreshTokenMiddleware } from '../../middlewares/handleToken.middleware';
 import { authenticate } from '../../services/auth.service';
+import { nextTick } from 'process';
 import {
     createAccessToken,
     createRefreshToken,
@@ -108,6 +109,20 @@ router
         } catch(error: any) {
             next(error);
         }
+    })
+
+    /**
+     * async await seems like a wrong idea here. we do nto want to wait, we jsut want it done whne NodeJS can.
+     */
+    .post("/logout", handleRefreshTokenMiddleware,async (req: express.Request, res: express.Response, next: NextFunction) => {
+        const { jti }: refreshTokenPayload = res.locals.payload;
+
+        nextTick(() => {
+            revokeRefreshToken(jti);
+        })
+
+        createAndSetCookie(REFRESH_TOKEN, "", {maxAge: 0}, res);
+        res.sendStatus(returnCodes.noContent);
     })
 
 export default router;

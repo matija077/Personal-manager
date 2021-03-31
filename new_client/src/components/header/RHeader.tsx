@@ -8,6 +8,7 @@ import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import Header from './Header';
 import { usePersistedStorage, useSilentRefresh, useInitialSilentRefresh } from '../../utility/hooks/customHooks.utils';
 import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
+import { logout as axiosLogout } from '../../redux/utils';
 
 type Props = {
 
@@ -125,6 +126,7 @@ function HeaderContainer(props: any) {
 
     function logout(event: React.SyntheticEvent<typeof Header>) {
         dispatch(logoutRedux());
+        axiosLogout();
     }
 
     useEffect(() => {

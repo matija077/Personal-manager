@@ -55,5 +55,6 @@ async function logout() {
 
 export {
     login,
-    silentRefresh
+    silentRefresh,
+    logout
 };
