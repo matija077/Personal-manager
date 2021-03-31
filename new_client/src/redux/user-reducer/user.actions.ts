@@ -22,10 +22,10 @@ export function logout() {
     }
 }
 
-export function silentLogin({ expiresIn, token }: userPayloadActionTypeSilentLoginType):
+export function silentLogin({ expiresIn, token, nickname }: userPayloadActionTypeSilentLoginType):
     actionReturnType<typeof userActionTypes, userPayloadActionTypeSilentLoginType > {
     return {
             type: userActionTypes.SILENT_LOGIN,
-            payload: {token, expiresIn}
+            payload: {token, expiresIn, nickname}
         }
 }

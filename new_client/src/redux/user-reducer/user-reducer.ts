@@ -42,7 +42,8 @@ const userReducerActionMap : userReducerActionMapType = {
         return {
             ...state,
             token: payload.token,
-            expiresIn: payload.expiresIn
+            expiresIn: payload.expiresIn,
+            nickname: payload.nickname
         };
     }
 }

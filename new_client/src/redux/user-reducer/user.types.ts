@@ -12,10 +12,7 @@ export type userPayloadActionTypeLoginType = {
     expiresIn: string
 }
 
-export type userPayloadActionTypeSilentLoginType = {
-    token: string,
-    expiresIn: string
-}
+export type userPayloadActionTypeSilentLoginType = Omit<userPayloadActionTypeLoginType, "email">;
 
 export type userPayloadType =
     userPayloadActionTypeLoginType |
