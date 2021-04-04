@@ -36,3 +36,10 @@ export function silentRefreshStart():
         type: userActionTypes.SILENT_REFRESH_START
     }
 }
+
+export function silentRefreshEnd():
+    actionReturnType<typeof userActionTypes, undefined> {
+    return {
+        type: userActionTypes.SILENT_REFRESH_END
+    }
+}

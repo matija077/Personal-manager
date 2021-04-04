@@ -1,3 +1,5 @@
+import { ValueOf } from "../../utility/types/typescript.utils";
+
 export type userStateType = {
     nickname: string,
     email: string,
@@ -20,7 +22,7 @@ export type userPayloadType =
 
 // TODO move this to a redux types file
 export type actionReturnType<T, payloadType> = {
-    type:  T[keyof T],
+    type:  ValueOf<T>,
     payload?: payloadType
 }
 
@@ -33,7 +35,8 @@ const userActionTypes = {
     "LOGIN": "LOGIN",
     "LOGOUT": "LOGOUT",
     "SILENT_LOGIN": "SILENT_LOGIN",
-    "SILENT_REFRESH_START": "SILENT_REFRESH_START"
+    "SILENT_REFRESH_START": "SILENT_REFRESH_START",
+    "SILENT_REFRESH_END": "SILENT_REFRESH_END"
 }
 
 export default userActionTypes;

@@ -52,6 +52,12 @@ const userReducerActionMap : userReducerActionMapType = {
             ...state,
             refreshInProcess: true
         }
+    },
+    [userActionTypes.SILENT_REFRESH_END]: function reducerSilentRefreshEnd(state) {
+        return {
+            ...state,
+            refreshInProcess: false
+        }
     }
 }
 
