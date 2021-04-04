@@ -2,7 +2,8 @@ export type userStateType = {
     nickname: string,
     email: string,
     token: string,
-    expiresIn: string
+    expiresIn: string,
+    refreshInProcess: boolean
 }
 
 export type userPayloadActionTypeLoginType = {
@@ -11,7 +12,6 @@ export type userPayloadActionTypeLoginType = {
     token: string,
     expiresIn: string
 }
-
 export type userPayloadActionTypeSilentLoginType = Omit<userPayloadActionTypeLoginType, "email">;
 
 export type userPayloadType =
@@ -21,7 +21,7 @@ export type userPayloadType =
 // TODO move this to a redux types file
 export type actionReturnType<T, payloadType> = {
     type:  T[keyof T],
-    payload: payloadType
+    payload?: payloadType
 }
 
 export function isUserPayloadOfActionType(unknownTypePayload: unknown) {
@@ -32,7 +32,8 @@ export function isUserPayloadOfActionType(unknownTypePayload: unknown) {
 const userActionTypes = {
     "LOGIN": "LOGIN",
     "LOGOUT": "LOGOUT",
-    "SILENT_LOGIN": "SILENT_LOGIN"
+    "SILENT_LOGIN": "SILENT_LOGIN",
+    "SILENT_REFRESH_START": "SILENT_REFRESH_START"
 }
 
 export default userActionTypes;

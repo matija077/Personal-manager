@@ -18,7 +18,8 @@ const initialState: userStateType = {
         nickname: "",
         email: "",
         token: "",
-        expiresIn: ""
+        expiresIn: "",
+        refreshInProcess: false
 }
 
 const userReducerActionMap : userReducerActionMapType = {
@@ -45,6 +46,12 @@ const userReducerActionMap : userReducerActionMapType = {
             expiresIn: payload.expiresIn,
             nickname: payload.nickname
         };
+    },
+    [userActionTypes.SILENT_REFRESH_START]: function reducerSilentRefreshStart(state) {
+        return {
+            ...state,
+            refreshInProcess: true
+        }
     }
 }
 

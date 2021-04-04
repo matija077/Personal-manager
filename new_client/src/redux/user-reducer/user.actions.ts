@@ -29,3 +29,10 @@ export function silentLogin({ expiresIn, token, nickname }: userPayloadActionTyp
             payload: {token, expiresIn, nickname}
         }
 }
+
+export function silentRefreshStart():
+    actionReturnType<typeof userActionTypes, undefined> {
+    return {
+        type: userActionTypes.SILENT_REFRESH_START
+    }
+}

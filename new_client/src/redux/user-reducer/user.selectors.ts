@@ -8,3 +8,7 @@ export function getUser(state: RootState) {
 export function getExpiresIn(state: RootState) {
     return getUser(state).expiresIn;
 }
+
+export function isRefreshInProcess(state: RootState) {
+    return getUser(state).refreshInProcess
+}
