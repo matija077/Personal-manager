@@ -6,9 +6,10 @@ import { getTestState, getUseless } from '../../redux/test-reducer/test-reducer.
 import { getUser, getExpiresIn } from '../../redux/user-reducer/user.selectors';
 import { logout as logoutRedux } from '../../redux/user-reducer/user.actions';
 import Header from './Header';
-import { usePersistedStorage, useSilentRefresh, useInitialSilentRefresh } from '../../utility/hooks/customHooks.utils';
+import { usePersistedStorage } from '../../utility/hooks/customHooks.utils';
+import { useSilentRefresh, useInitialSilentRefresh } from "../../utility/hooks/customAuthHooks";
 import { getCurrentUser, signOut, FirebaseUserType,  getToken} from '../../redux/utils.firebase';
-import { logout as axiosLogout } from '../../redux/utils';
+import { logout as axiosLogout } from "../../utility/hooks/customAuthHooks";
 
 type Props = {
 

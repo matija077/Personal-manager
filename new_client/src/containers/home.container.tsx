@@ -6,7 +6,8 @@ import { getTasks } from '../redux/task-reducer/task-reducer.selectors';
 
 import { queries, mutations } from '../graphQL/resolvers';
 import { contextDataType, contextType, quotesType } from '../graphQL/types';
-import { useConsoleLogQueries, useQueryContainer } from '../utility/hooks/customHooks.utils';
+import { useConsoleLogQueries } from '../utility/hooks/customHooks.utils';
+import { useQueryContainer } from "../utility/hooks/customAuthHooks";
 
 type withHomePagePropsType = {
     //currentProp: String

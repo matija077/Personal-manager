@@ -1,18 +1,10 @@
-import React, { useState, useEffect, useMemo, useLayoutEffect, useRef, Dispatch } from 'react';
+import React, { useState, useEffect, useMemo, useLayoutEffect, useRef } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { logout, silentLogin} from '../../redux/user-reducer/user.actions';
+import { useSelector } from 'react-redux';
 import { getExpiresIn } from '../../redux/user-reducer/user.selectors';
-import { silentRefresh } from '../../redux/utils';
 
 import { ApolloError,
-    DocumentNode,
-    useMutation,
-    useQuery,
-    QueryResult
-} from '@apollo/client';
-import { GraphQLError } from 'graphql';
-import { AxiosError, AxiosResponse } from 'axios';
+    useMutation} from '@apollo/client';
 
 type storageType = typeof localStorage | typeof sessionStorage;
 
@@ -104,84 +96,10 @@ function useConsoleLogQueries(
     }, [loading, data, error, name])
 }
 
-// currently only docuemntNode allowed
-type QueryType = DocumentNode
-type returnErrorType = {
-    message: string,
-    status: number | undefined
-}
-function useQueryContainer<DataType>(query: QueryType) {
-    //const { loading, error, data, networkStatus }:
-    const {
-        loading, data, error
-    } : QueryResult = useQuery(query);
-    //const result = useQuery(query)
-
-    let unAuthOrForbiddenError = false;
-    const dispatch = useDispatch();
-
-    error?.graphQLErrors && error.graphQLErrors.forEach(
-        (error: GraphQLError | returnErrorType) => {
-            const customError = error as returnErrorType;
-            if (customError.status !== undefined) {
-                // TODO AUTH handle this differently
-                if (customError.status === 401) {
-                    silentRefresh().
-                        then(function resolved(result: AxiosResponse) {
-                            dispatch(silentLogin({...result.data}))
-                            // retry3
-                        }).catch(function rejected(error: AxiosError) {
-                            dispatch(logout());
-                        });
-                }
-            } else {
-                error as GraphQLError;
-                // TODO ERROR - check GraphQLError later
-            }
-        }
-    )
-}
-
-function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>){
-    useEffect(() => {
-        if (!expiresIn) {
-            return;
-        }
-
-        const silentRefreshTimeoutId = setTimeout(() => {
-            silentRefresh().
-                then(function resolved(result: AxiosResponse) {
-                    dispatch(silentLogin({...result.data}))
-                }).catch(function rejected(error: AxiosError) {
-                    dispatch(logout());
-                });
-        }, expiresIn*1000);
-
-        return () => {
-            clearTimeout(silentRefreshTimeoutId);
-        }
-    })
-}
-
-function useInitialSilentRefresh(dispatch: Dispatch<any>) {
-    useEffect(() => {
-        console.log("intiial");
-        silentRefresh().
-        then(function resolved(result: AxiosResponse) {
-            dispatch(silentLogin({...result.data}))
-        }).catch(function rejected(error: AxiosError) {
-            // go to login one day
-        });
-    }, [])
-}
-
 export {
     usePersistedStorage,
     useError,
     useLogger,
     useUseQueryHook,
-    useConsoleLogQueries,
-    useQueryContainer,
-    useSilentRefresh,
-    useInitialSilentRefresh
+    useConsoleLogQueries
 }

@@ -9,7 +9,7 @@ import FailedAuthPopup from '../successful-login-popup/non-successfull-login-pop
 import { useHistory } from 'react-router';
 
 import { singInWithGoogle } from '../../redux/utils.firebase';
-import { login } from '../../redux/utils';
+import { login } from "../../utility/hooks/customAuthHooks";
 import { useError } from '../../utility/hooks/customHooks.utils';
 import { AxiosResponse } from 'axios';
 import { useDispatch } from 'react-redux';
