@@ -1,7 +1,13 @@
-import { useEffect, Dispatch } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, Dispatch, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { logout as reduxLogout, silentLogin } from '../../redux/user-reducer/user.actions';
+import {
+    logout as reduxLogout,
+    silentLogin,
+    silentRefreshStart,
+    silentRefreshEnd
+} from '../../redux/user-reducer/user.actions';
+import { isRefreshInProcess } from '../../redux/user-reducer/user.selectors';
 import {
     DocumentNode, useQuery,
     QueryResult
@@ -53,6 +59,27 @@ async function logout() {
     //axios.defaults.withCredentials = false;
 }
 
+function useIsSilentRefreshInProgress(): [boolean, () => void] {
+    const [debounceTimer, setDebounceTimer] = useState<number>(0);
+    const debounceTimerRef = useRef<boolean>(false);
+    const firstTime = useRef<boolean>(true);
+
+    useEffect(() => {
+        function startDebounceTimer() {
+            if (!firstTime && !debounceTimerRef) {
+                setTimeout(() => {
+                    debounceTimerRef
+                }, 2000)
+            }
+        }
+    }, [debounceTimerRef.current])
+
+    const isSilentRefreshInProgress = useSelector(isRefreshInProcess);
+    const isInProgress = debounceTimerRef.current || isSilentRefreshInProgress;
+
+    return [isInProgress, startDebounceTimer];
+}
+
 
 // currently only docuemntNode allowed
 type QueryType = DocumentNode;
@@ -68,19 +95,24 @@ function useQueryContainer<DataType>(query: QueryType) {
     //const result = useQuery(query)
     let unAuthOrForbiddenError = false;
     const dispatch = useDispatch();
+    const [silentRefreshInProgress, startSilentRefreshDebounce] = useIsSilentRefreshInProgress();
 
     error?.graphQLErrors && error.graphQLErrors.forEach(
         (error: GraphQLError | returnErrorType) => {
             const customError = error as returnErrorType;
             if (customError.status !== undefined) {
                 // TODO AUTH handle this differently
-                if (customError.status === 401) {
+                if (customError.status === 401 && !silentRefreshInProgress) {
+                    startSilentRefreshDebounce();
                     silentRefresh().
                         then(function resolved(result: AxiosResponse) {
                             dispatch(silentLogin({ ...result.data }));
                             // retry3
                         }).catch(function rejected(error: AxiosError) {
                             dispatch(reduxLogout());
+                        })
+                        .finally(function() {
+                            dispatch(silentRefreshEnd());
                         });
                 }
             } else {
@@ -91,18 +123,27 @@ function useQueryContainer<DataType>(query: QueryType) {
     );
 }
 function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>) {
+    const [silentRefreshInProgress, startSilentRefreshDebounce] = useIsSilentRefreshInProgress();
+
     useEffect(() => {
-        if (!expiresIn) {
+        console.log(silentRefreshInProgress);
+        if (!expiresIn || silentRefreshInProgress) {
             return;
         }
 
         const silentRefreshTimeoutId = setTimeout(() => {
+            startSilentRefreshDebounce();
             silentRefresh().
                 then(function resolved(result: AxiosResponse) {
                     dispatch(silentLogin({ ...result.data }));
                 }).catch(function rejected(error: AxiosError) {
                     dispatch(reduxLogout());
+                })
+                .finally(function() {
+                    dispatch(silentRefreshEnd());
                 });
+
+                dispatch(silentRefreshStart());
         }, expiresIn * 1000);
 
         return () => {
@@ -111,14 +152,26 @@ function useSilentRefresh(expiresIn: number, dispatch: Dispatch<any>) {
     });
 }
 function useInitialSilentRefresh(dispatch: Dispatch<any>) {
+    const [silentRefreshInProgress, startSilentRefreshDebounce] = useIsSilentRefreshInProgress();
+
     useEffect(() => {
+        if (silentRefreshInProgress) {
+            return;
+        }
+
         console.log("intiial");
+        startSilentRefreshDebounce();
         silentRefresh().
             then(function resolved(result: AxiosResponse) {
                 dispatch(silentLogin({ ...result.data }));
             }).catch(function rejected(error: AxiosError) {
                 // go to login one day
+            })
+            .finally(function() {
+                dispatch(silentRefreshEnd());
             });
+
+        dispatch(silentRefreshStart());
     }, []);
 }
 
