@@ -5,15 +5,19 @@ type MainStylesBoxPropsType = {
     minWidth?: string,
     minHeight?: string,
     height?: string
+    maxHeight?: string,
+    maxWidth?: string
 };
 
 
 const MainStylesBox = styled.div<MainStylesBoxPropsType>`
     padding: 1em;
-    width: ${props => (props.width && props.theme.size(props.width)) ?? "fit-content"};
-    height: ${props => props.height ?? "fit-content"};
-    min-width: ${props => props.minWidth ?? "fit-content"};
-    min-height: ${props => props.minHeight ?? "fit-content"};
+    width: ${props => props.theme.size(props.width)};
+    height: ${props => props.theme.size(props.height)};
+    min-width: ${props => props.minWidth};
+    min-height: ${props => props.minHeight};
+    max-width: ${props => props.maxHeight};
+    max-height: ${props => props.maxWidth};
 `;
 
 export default MainStylesBox;
