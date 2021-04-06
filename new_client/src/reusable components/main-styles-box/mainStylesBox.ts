@@ -12,7 +12,10 @@ type MainStylesBoxPropsType = {
 
 const MainStylesBox = styled.div<MainStylesBoxPropsType>`
     padding: 1em;
-    width: ${props => props.theme.size(props.width)};
+    width: ${props => {
+            return props.theme.size(props.width);
+        }
+    };
     height: ${props => props.theme.size(props.height)};
     min-width: ${props => props.minWidth};
     min-height: ${props => props.minHeight};

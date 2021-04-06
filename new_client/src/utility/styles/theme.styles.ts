@@ -1,3 +1,26 @@
+import { DefaultTheme } from "styled-components";
+
+type SizeType = {
+    size?: number,
+    unit?: string
+}
+
+function convertSizeStringToSizeNumber(size: string): SizeType {
+    const resultValue: SizeType = {
+        size: undefined,
+        unit: undefined
+    }
+
+    const sizeNumber = Number(size);
+    if (isNaN(sizeNumber)) {
+        //console.log(size.match(/(\d*)/));
+    }
+
+    resultValue.size = Number(size);
+
+    return resultValue;
+}
+
 const theme = {
     colors: {
         primary: {
@@ -25,20 +48,22 @@ const theme = {
     },
     spacingFactor: 0.5,
     spacing: (spacing = 1) => spacing * theme.spacingFactor,
-    size: ( size?: number, unit?: string) => {
-        var resultValue: string | undefined;
+    size: (sizeString: string) => {
+        let resultValue: string | undefined;
+        let { size, unit } = convertSizeStringToSizeNumber(sizeString);
 
         if (!size) {
             resultValue = "fit-content"
         } else {
-            resultValue = size?.toString(); 
+            resultValue = size?.toString();
 
-            unit ?? (resultValue += unit)
+            unit = unit ? unit : "px";
+            resultValue += unit;
         }
 
         console.log(resultValue);
 
-        return resultValue;
+         return resultValue;
     }
 }
 
